@@ -1,0 +1,38 @@
+PREFIX sp: <tag:stardog:api:property:>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+
+SELECT DISTINCT ?term ?termLabel ?parentTerm ?parentLabel ?rootClass ?rootLabel
+FROM <http://www.pitt.edu/obc/ide/apollo-sv>
+FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+FROM <http://www.pitt.edu/obc/ide/article-instances>
+WHERE {
+    ?class rdfs:subClassOf* ?rootClass .
+    ?rootClass <http://www.pitt.edu/obc/IDE_0000000024> ?isRoot .
+  	?rootClass rdfs:label ?rootLabel .
+    ?class rdfs:label ?classLabel .
+  	?rootClass <http://www.pitt.edu/obc/IDE_0000001000> rdfs:subClassOf .
+
+
+  	{
+    	?article obo:IAO_0000136 ?term .
+    } UNION {
+    	?article obo:IAO_0000136 [
+        	rdf:type/rdfs:subClassOf* ?term ] .
+    }
+
+  	?article rdf:type ?articleClass .
+    ?articleClass rdfs:subClassOf+ <http://www.pitt.edu/obc/IDE_0000000025> .
+    ?term rdfs:label ?termLabel ;
+        rdf:type ?class .
+
+  	OPTIONAL {
+        ?term rdf:type*/rdfs:subClassOf* ?parentTerm .
+  		?parentTerm rdfs:label ?parentLabel .
+
+  		?parentTerm rdfs:subClassOf+ ?rootClass
+
+     }
+
+    FILTER(?isRoot)
+} ORDER BY ?parentTerm
