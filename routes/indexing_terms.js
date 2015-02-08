@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var harness = require('../queries/query_harness')
+var harness = require('../sparql_queries/query_harness')
 
-/* GET roots. */
+/* GET tree of indexing terms. */
 router.get('/', function(req, res, next) {
-    //get list of indexing terms
     harness.indexing_terms(function(data) {
         res.json(data);
     })

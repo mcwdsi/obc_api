@@ -7,7 +7,6 @@ var indexing_terms_harness = new function() {
         con.setEndpoint('http://localhost:5820');
         con.setCredentials('admin', 'admin');
 
-        //get first subset of indexing terms
         fs.readFile(__dirname + '/indexing_terms_queries/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
                     database: 'DEV',
@@ -44,6 +43,7 @@ function convertToTree(resultList){
             var rootLabel = results[j].rootLabel.value;
             var termURI = results[j].term.value;
             var termLabel = results[j].termLabel.value;
+            var hieProp = results[j].hieProp.value
 
             //optional columns
             var parentTermURI = undefined;
@@ -74,17 +74,19 @@ function convertToTree(resultList){
                 tree[rootURI] = {};
                 tree[rootURI].uri = rootURI;
                 tree[rootURI].label = rootLabel;
+                tree[rootURI].hierarchy = hieProp;
                 tree[rootURI].children = {};
             }
 
             //if no parent specified, it belongs directly under the root
             if(parentTermURI == undefined){
-                //if this doesn't already exist there
+                //if this doesn't already exist under root
                 if(tree[rootURI].children[termURI] == undefined) {
                     console.log('adding term ' + termLabel + ' directly below root')
                     var term = {};
                     term.uri = termURI;
                     term.label = termLabel;
+                    term.hierarchy = hieProp;
                     term.children = {};
                     tree[rootURI].children[termURI] = term;
                 }
@@ -138,6 +140,7 @@ function convertToTree(resultList){
                 parent = {};
                 parent.uri = parentTermURI;
                 parent.label = parentLabel;
+                parent.hierarchy = hieProp;
                 parent.children = {};
                 tree[rootURI].children[parentTermURI] = parent;
             }
@@ -149,6 +152,7 @@ function convertToTree(resultList){
                 term = {};
                 term.uri = termURI;
                 term.label = termLabel;
+                term.hierarchy = hieProp;
                 term.children = {};
                 parent.children[termURI] = term;
             } else {

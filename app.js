@@ -4,12 +4,21 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var indexing_terms = require('./routes/indexing_terms')
+var indexing_terms = require('./routes/indexing_terms');
+var publications = require('./routes/publications');
+var datasets = require('./routes/datasets');
+var models = require('./routes/models');
+var reports = require('./routes/reports');
+var software = require('./routes/software');
+
 
 var app = express();
+//enabling cors
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/indexing_terms', indexing_terms);
+app.use('/publications', publications);
+app.use('/datasets', datasets);
+app.use('/models', models);
+app.use('/reports', reports);
+app.use('/software', software);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,31 @@
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+
+SELECT DISTINCT ?information ?label ?title ?linkout ?date ?dateIndexed ?type ?sourceOrganization ?authors ?pmid ?journal ?country ?version
+FROM <http://www.pitt.edu/obc/ide/apollo-sv>
+FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+FROM <http://www.pitt.edu/obc/ide/article-instances>
+WHERE {
+ ?information rdfs:label ?label .
+ ?information rdf:type ?type .
+ ?type rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000088> .
+ ?type rdfs:label ?typeLabel .
+ OPTIONAL { ?information <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
+ OPTIONAL { ?information dc:title ?title } .
+ OPTIONAL { ?information <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+ OPTIONAL { ?information <http://purl.org/dc/elements/1.1/date> ?date } .
+ OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+ OPTIONAL { ?information <http://www.pitt.edu/obc/AUTHORS_1> ?authors } .
+ OPTIONAL { ?information <http://purl.obolibrary.org/obo/OBI_0001617> ?pmid } .
+ OPTIONAL {
+  ?information <http://purl.obolibrary.org/obo/BFO_0000137> ?journalUri .
+  ?journalUri dc:title ?journal .
+ } .
+ OPTIONAL { ?information <http://purl.org/dc/elements/1.1/coverage> ?country } .
+ OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_version> ?version } .
+}
