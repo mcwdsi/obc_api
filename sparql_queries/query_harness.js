@@ -8,28 +8,28 @@ var software_harness = require('./software_harness')
 
 var harness = new function() {
 
-    this.indexing_terms = function(callback){
-        indexing_terms_harness.query(callback);
+    this.indexing_terms = function(terms, callback){
+        indexing_terms_harness.query(terms, callback);
     }
 
-    this.publications = function(callback){
-        publications_harness.query(callback);
+    this.publications = function(terms, callback){
+        publications_harness.query(terms, callback);
     }
 
-    this.datasets = function(callback){
-        datasets_harness.query(callback);
+    this.datasets = function(terms, callback){
+        datasets_harness.query(terms, callback);
     }
 
-    this.models = function(callback){
-        models_harness.query(callback);
+    this.models = function(terms, callback){
+        models_harness.query(terms, callback);
     }
 
-    this.reports = function(callback){
-        reports_harness.query(callback);
+    this.reports = function(terms, callback){
+        reports_harness.query(terms, callback);
     }
 
-    this.software = function(callback){
-        software_harness.query(callback);
+    this.software = function(terms, callback){
+        software_harness.query(terms, callback);
     }
 
 

@@ -6,8 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
 var indexing_terms = require('./routes/indexing_terms');
 var publications = require('./routes/publications');
 var datasets = require('./routes/datasets');
@@ -32,8 +30,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
 app.use('/indexing_terms', indexing_terms);
 app.use('/publications', publications);
 app.use('/datasets', datasets);
