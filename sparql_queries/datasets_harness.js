@@ -12,7 +12,7 @@ var datasets_harness = new function() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                    database: 'DEV',
+                    database: 'PROD',
                     query: all_datasets_query_file.toString().replace("##ABOUT##", filters)
                 },
                 function (datasets_results) {

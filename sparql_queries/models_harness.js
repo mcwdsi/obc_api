@@ -12,7 +12,7 @@ var models_harness = new function() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                    database: 'DEV',
+                    database: 'PROD',
                     query: all_models_query_file.toString().replace("##ABOUT##", filters)
                 },
                 function (models_results) {

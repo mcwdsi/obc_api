@@ -19,7 +19,10 @@ WHERE {
     } UNION {
     	?article obo:IAO_0000136 [
         	<http://purl.obolibrary.org/obo/BFO_0000137>+ ?term ] .
-    }
+    } UNION {
+    	?article obo:IAO_0000136 [
+          <http://www.obofoundry.org/ro/ro.owl#has_participant>*/<http://purl.obolibrary.org/obo/BFO_0000137>*/<http://www.obofoundry.org/ro/ro.owl#located_in> ?term ] .
+    } 
 
   	?article rdf:type ?articleClass .
     ?articleClass rdfs:subClassOf+ <http://www.pitt.edu/obc/IDE_0000000025> .

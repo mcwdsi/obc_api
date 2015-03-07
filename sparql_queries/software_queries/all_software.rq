@@ -29,5 +29,6 @@ WHERE {
     OPTIONAL { ?information <http://purl.org/dc/elements/1.1/coverage> ?country } .
     OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_version> ?version } .
 
-
+    #used for string interpolation to filter based on search terms
+    ##ABOUT##
 }

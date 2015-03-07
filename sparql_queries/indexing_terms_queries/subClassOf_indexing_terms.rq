@@ -13,12 +13,14 @@ WHERE {
     ?class rdfs:label ?classLabel .
   	?rootClass <http://www.pitt.edu/obc/IDE_0000001000> rdfs:subClassOf .
 
-
   	{
     	?article obo:IAO_0000136 ?term .
     } UNION {
     	?article obo:IAO_0000136 [
         	rdf:type/rdfs:subClassOf* ?term ] .
+    } UNION {
+        ?article obo:IAO_0000136 [
+            <http://www.obofoundry.org/ro/ro.owl#has_participant>*/rdf:type/rdfs:subClassOf* ?term ] .
     }
 
   	?article rdf:type ?articleClass .

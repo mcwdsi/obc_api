@@ -13,7 +13,7 @@ var reports_harness = new function() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                    database: 'DEV',
+                    database: 'PROD',
                     query: all_reports_query_file.toString().replace("##ABOUT##", filters)
                 },
                 function (reports_results) {

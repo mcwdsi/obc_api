@@ -11,8 +11,10 @@ var publications_harness = new function() {
         fs.readFile(__dirname + '/publications_queries/all_publications.rq', function (err, all_publications_query_file) {
 
             var filters = utils.buildFilters(terms);
+            console.log(all_publications_query_file.toString().replace("##ABOUT##", filters))
+
             con.query({
-                    database: 'DEV',
+                    database: 'PROD',
                     query: all_publications_query_file.toString().replace("##ABOUT##", filters)
                 },
                 function (publications_results) {

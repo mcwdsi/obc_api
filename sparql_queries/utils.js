@@ -1,6 +1,13 @@
 var validURL = require('valid-url');
 
 var utils = new function() {
+
+    var ecosystemURIs = [
+        'http://purl.obolibrary.org/obo/APOLLO_SV_00000100',
+        'http://purl.obolibrary.org/obo/APOLLO_SV_00000104',
+        'http://purl.obolibrary.org/obo/APOLLO_SV_00000097'
+    ]
+
     this.transformToJSON = function(publications_results){
         var returned_results = publications_results.results.bindings;
         var transformed_results = [];
@@ -19,14 +26,30 @@ var utils = new function() {
     this.buildFilters = function(terms){
         var filters = '';
         for(i in terms){
-            var uri = terms[i];
-            var filter = "\t{ ?information <http://purl.obolibrary.org/obo/IAO_0000136> <" + uri + "> } UNION {\n" +
-                "\t?information <http://purl.obolibrary.org/obo/IAO_0000136> [ rdf:type/rdfs:subClassOf* <" + uri + ">] } .\n";
 
-            filters = filters + "\n" +  filter
+            var uri = terms[i];
+
+            var filter = ""
+
+            //kludge for ecosystem queries until we work out the representation issues
+            if(ecosystemURIs.indexOf(uri) >= 0){
+                filter += "\t{ ?information obo:IAO_0000136 <" + uri + "> } UNION {\n" +
+                "\t?information obo:IAO_0000136 [ obo:BFO_0000137*/rdf:type <" + uri + ">] } UNION {\n" +
+                "\t?information obo:IAO_0000136 [ " +
+                "\t\tro:has_participant/obo:BFO_0000137*/ro:located_in/obo:BFO_0000137*/^ro:located_in/^obo:BFO_0000137* <" + uri + "> ] .\n}";
+            } else {
+                filter += "\t{ ?information obo:IAO_0000136 <" + uri + "> } UNION {\n" +
+                "\t?information obo:IAO_0000136 [ rdf:type/rdfs:subClassOf* <" + uri + ">] } UNION {\n" +
+                "\t?information obo:IAO_0000136 [ " +
+                "\t\tro:has_participant*/obo:BFO_0000137*/ro:located_in* <" + uri + "> ] .\n}";
+            }
+
+
+
+            filters = filters + "\n" + filter
         }
         return filters;
     }
-}
+};
 
 module.exports = utils;

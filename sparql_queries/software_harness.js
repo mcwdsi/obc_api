@@ -13,7 +13,7 @@ var software_harness = new function() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                    database: 'DEV',
+                    database: 'PROD',
                     query: all_software_query_file.toString().replace("##ABOUT##", filters)
                 },
                 function (software_results) {

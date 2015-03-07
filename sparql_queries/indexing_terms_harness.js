@@ -9,18 +9,27 @@ var indexing_terms_harness = new function() {
 
         fs.readFile(__dirname + '/indexing_terms_queries/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
-                    database: 'DEV',
+                    database: 'PROD',
                     query: partOf_query_file.toString()
                 },
                 function (partOf_terms) {
                     //get second subset of indexing terms
                     fs.readFile(__dirname + '/indexing_terms_queries/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                         con.query({
-                                database: 'DEV',
+                                database: 'PROD',
                                 query: subClassOf_query_file.toString()
                             },
                             function (subClassOf_terms) {
-                                callback(convertToTree([ partOf_terms, subClassOf_terms ]));
+                                fs.readFile(__dirname + '/indexing_terms_queries/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
+                                    con.query({
+                                            database: 'PROD',
+                                            query: ecosystem_query_file.toString()
+                                        },
+                                        function (ecosystem_terms) {
+                                            callback(convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]));
+                                        })
+
+                                });
                             }
                         );
                     });
@@ -63,11 +72,6 @@ function convertToTree(resultList){
 
             termParents[termURI][parentTermURI] = true;
 
-            //can't be your own parent in the tree!  may be able to solve more elegantly in SPARQL
-            if(parentTermURI == termURI){
-                continue;
-            }
-
             //if the root doesn't exist, add it to the top level
             if(tree[rootURI] == undefined){
                 console.log('adding new root ' + rootLabel)
@@ -79,7 +83,8 @@ function convertToTree(resultList){
             }
 
             //if no parent specified, it belongs directly under the root
-            if(parentTermURI == undefined){
+            // also, can't be your own parent in the tree!  may be able to solve more elegantly in SPARQL
+            if(parentTermURI == undefined || parentTermURI == termURI){
                 //if this doesn't already exist under root
                 if(tree[rootURI].children[termURI] == undefined) {
                     console.log('adding term ' + termLabel + ' directly below root')
