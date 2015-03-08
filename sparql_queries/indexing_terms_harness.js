@@ -100,7 +100,6 @@ function convertToTree(resultList){
                     term.children = {};
                     tree[rootURI].children[termURI] = term;
                 }
-                continue;
             }
 
             //*******************************************************************************************
