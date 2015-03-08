@@ -2,41 +2,48 @@ var fs = require('fs');
 var stardog = require('stardog');
 
 var indexing_terms_harness = new function() {
+    var cachedResults = undefined;
+
     this.query = function(callback) {
         var con = new stardog.Connection();
         con.setEndpoint('http://localhost:5820');
         con.setCredentials('admin', 'admin');
 
-        fs.readFile(__dirname + '/indexing_terms_queries/partOf_indexing_terms.rq', function (err, partOf_query_file) {
-            con.query({
-                    database: 'PROD',
-                    query: partOf_query_file.toString()
-                },
-                function (partOf_terms) {
-                    //get second subset of indexing terms
-                    fs.readFile(__dirname + '/indexing_terms_queries/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
-                        con.query({
-                                database: 'PROD',
-                                query: subClassOf_query_file.toString()
-                            },
-                            function (subClassOf_terms) {
-                                fs.readFile(__dirname + '/indexing_terms_queries/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
-                                    con.query({
-                                            database: 'PROD',
-                                            query: ecosystem_query_file.toString()
-                                        },
-                                        function (ecosystem_terms) {
-                                            callback(convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]));
-                                        })
+        if(typeof cachedResults !== 'undefined'){
+            callback(cachedResults);
+        } else {
+            fs.readFile(__dirname + '/indexing_terms_queries/partOf_indexing_terms.rq', function (err, partOf_query_file) {
+                con.query({
+                        database: 'PROD',
+                        query: partOf_query_file.toString()
+                    },
+                    function (partOf_terms) {
+                        //get second subset of indexing terms
+                        fs.readFile(__dirname + '/indexing_terms_queries/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
+                            con.query({
+                                    database: 'PROD',
+                                    query: subClassOf_query_file.toString()
+                                },
+                                function (subClassOf_terms) {
+                                    fs.readFile(__dirname + '/indexing_terms_queries/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
+                                        con.query({
+                                                database: 'PROD',
+                                                query: ecosystem_query_file.toString()
+                                            },
+                                            function (ecosystem_terms) {
+                                                cachedResults = convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]);
+                                                callback(cachedResults);
+                                            })
 
-                                });
-                            }
-                        );
-                    });
-                }
-            )
+                                    });
+                                }
+                            );
+                        });
+                    }
+                )
 
-        })
+            })
+        }
     };
 };
 
@@ -74,7 +81,6 @@ function convertToTree(resultList){
 
             //if the root doesn't exist, add it to the top level
             if(tree[rootURI] == undefined){
-                console.log('adding new root ' + rootLabel)
                 tree[rootURI] = {};
                 tree[rootURI].uri = rootURI;
                 tree[rootURI].label = rootLabel;
@@ -87,7 +93,6 @@ function convertToTree(resultList){
             if(parentTermURI == undefined || parentTermURI == termURI){
                 //if this doesn't already exist under root
                 if(tree[rootURI].children[termURI] == undefined) {
-                    console.log('adding term ' + termLabel + ' directly below root')
                     var term = {};
                     term.uri = termURI;
                     term.label = termLabel;
@@ -117,12 +122,10 @@ function convertToTree(resultList){
                 //since breadth first, the last found should be the deepest
                 if (node.uri in termParents[termURI]) {
                     //found parent!
-                    console.log('found existing parent ' + parentLabel);
                     parent = node;
                 }
                 if (termURI in node.children){
                     //found term!
-                    console.log('found existing term ' + termLabel);
                     term = node.children[termURI];
 
                     //removing from node, replaced at deepest parent later
@@ -141,7 +144,6 @@ function convertToTree(resultList){
 
             if(parent == null){
                 //didn't find it in tree, so adding parent to root
-                console.log('adding parent ' + parentLabel)
                 parent = {};
                 parent.uri = parentTermURI;
                 parent.label = parentLabel;
@@ -153,7 +155,6 @@ function convertToTree(resultList){
 
             if(term == null) {
                 //didn't find term in tree, so adding as child to parent
-                console.log('adding term ' + termLabel)
                 term = {};
                 term.uri = termURI;
                 term.label = termLabel;
