@@ -1,6 +1,6 @@
 var validURL = require('valid-url');
 
-var utils = new function() {
+function Utils() {
     this.validateTerms = function(terms) {
         var validTerms = [];
         if (typeof terms !== 'undefined') {
@@ -20,4 +20,4 @@ var utils = new function() {
     }
 }
 
-module.exports = utils;
+module.exports = new Utils;

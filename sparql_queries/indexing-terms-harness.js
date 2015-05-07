@@ -1,7 +1,7 @@
 var fs = require('fs');
 var stardog = require('stardog');
 
-var indexing_terms_harness = new function() {
+var IndexingTermsHarness = new function(){
     var cachedResults = undefined;
 
     this.query = function(callback) {
@@ -173,4 +173,4 @@ function convertToTree(resultList){
     return tree;
 }
 
-module.exports = indexing_terms_harness;
+module.exports = IndexingTermsHarness;

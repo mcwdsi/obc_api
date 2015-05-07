@@ -1,15 +1,15 @@
 var validURL = require('valid-url');
 
-var utils = new function() {
+var Utils = new function() {
 
     var ecosystemURIs = [
         'http://purl.obolibrary.org/obo/APOLLO_SV_00000100',
         'http://purl.obolibrary.org/obo/APOLLO_SV_00000104',
         'http://purl.obolibrary.org/obo/APOLLO_SV_00000097'
-    ]
+    ];
 
-    this.transformToJSON = function(publications_results){
-        var returned_results = publications_results.results.bindings;
+    this.transformToJSON = function(sparql_results){
+        var returned_results = sparql_results.results.bindings;
         var transformed_results = [];
         for(var i in returned_results) {
             var result_row = {};
@@ -25,11 +25,11 @@ var utils = new function() {
 
     this.buildFilters = function(terms){
         var filters = '';
-        for(i in terms){
+        for(var i in terms){
 
             var uri = terms[i];
 
-            var filter = ""
+            var filter = "";
 
             //kludge for ecosystem queries until we work out the representation issues
             if(ecosystemURIs.indexOf(uri) >= 0){
@@ -46,10 +46,10 @@ var utils = new function() {
 
 
 
-            filters = filters + "\n" + filter
+            filters = filters + "\n" + filter;
         }
         return filters;
     }
 };
 
-module.exports = utils;
+module.exports = Utils;

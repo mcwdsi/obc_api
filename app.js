@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 
-var indexing_terms = require('./routes/indexing_terms');
+var indexing_terms = require('./routes/indexing-terms');
 var publications = require('./routes/publications');
 var datasets = require('./routes/datasets');
 var models = require('./routes/models');

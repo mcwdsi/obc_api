@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var harness = require('../sparql_queries/query_harness')
+var harness = require('../sparql_queries/query-harness')
 var utils = require('./utils');
 
 /* GET list of software. */

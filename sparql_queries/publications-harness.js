@@ -2,7 +2,7 @@ var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils')
 
-var publications_harness = new function() {
+var PublicationsHarness = new function() {
     this.query = function (terms, callback) {
         var con = new stardog.Connection();
         con.setEndpoint('http://localhost:5820');
@@ -28,4 +28,4 @@ var publications_harness = new function() {
 
 
 
-module.exports = publications_harness;
+module.exports = PublicationsHarness;
