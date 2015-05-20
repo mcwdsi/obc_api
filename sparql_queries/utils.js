@@ -1,6 +1,6 @@
 var validURL = require('valid-url');
 
-var Utils = new function() {
+function Utils() {
 
     var ecosystemURIs = [
         'http://purl.obolibrary.org/obo/APOLLO_SV_00000100',
@@ -52,4 +52,4 @@ var Utils = new function() {
     }
 };
 
-module.exports = Utils;
+module.exports = new Utils;

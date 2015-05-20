@@ -13,6 +13,8 @@ var models = require('./routes/models');
 var reports = require('./routes/reports');
 var software = require('./routes/software');
 
+var sessions = require('./routes/sessions');
+
 
 var app = express();
 //enabling cors
@@ -36,6 +38,7 @@ app.use('/datasets', datasets);
 app.use('/models', models);
 app.use('/reports', reports);
 app.use('/software', software);
+app.use('/sessions', sessions)
 
 
 // catch 404 and forward to error handler

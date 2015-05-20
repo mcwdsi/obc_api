@@ -1,0 +1,19 @@
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+
+SELECT ?user ?usernameData ?passData
+FROM <http://ide.obc.io/auth>
+WHERE {
+  ?username a <http://purl.obolibrary.org/obo/OMRSE_00000067> .
+  ?password a <http://purl.obolibrary.org/obo/OMRSE_00000069> .
+  ?user a <http://purl.obolibrary.org/obo/OMRSE_00000066> .
+  ?username <http://purl.obolibrary.org/obo/IAO_0020012> ?user .
+  ?user <http://purl.obolibrary.org/obo/OMRSE_00000075> ?password .
+  ?password <http://purl.obolibrary.org/obo/OMRSE_00000074> ?passData .
+  ?username <http://purl.obolibrary.org/obo/OMRSE_00000074> ?usernameData .
+}

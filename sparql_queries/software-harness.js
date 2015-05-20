@@ -2,7 +2,7 @@ var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils')
 
-var SoftwareHarness = new function() {
+function SoftwareHarness() {
     this.query = function (terms, callback) {
         var con = new stardog.Connection();
         con.setEndpoint('http://localhost:5820');
@@ -26,4 +26,4 @@ var SoftwareHarness = new function() {
 
 };
 
-module.exports = SoftwareHarness;
+module.exports = new SoftwareHarness;

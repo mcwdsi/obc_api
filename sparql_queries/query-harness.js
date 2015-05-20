@@ -6,7 +6,7 @@ var reportsHarness = require('./reports-harness')
 var softwareHarness = require('./software-harness')
 
 
-var Harness = new function() {
+function Harness() {
 
     this.indexing_terms = function(terms, callback){
         indexingTermsHarness.query(terms, callback);
@@ -35,4 +35,4 @@ var Harness = new function() {
 
 };
 
-module.exports = Harness;
+module.exports = new Harness;
