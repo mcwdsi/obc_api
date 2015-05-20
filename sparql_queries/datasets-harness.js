@@ -8,20 +8,29 @@ function DatasetsHarness() {
         con.setEndpoint('http://localhost:5820');
         con.setCredentials('admin', 'admin');
 
-        fs.readFile(__dirname + '/datasets_queries/all_datasets.rq', function (err, all_datasets_query_file) {
+        fs.readFile(__dirname + '/datasets_queries/all_datasets.rq', function (err, allDatasetsQueryFile) {
             var filters = utils.buildFilters(terms);
 
             con.query({
                     database: 'PROD',
-                    query: all_datasets_query_file.toString().replace("##ABOUT##", filters)
+                    query: allDatasetsQueryFile.toString().replace("##ABOUT##", filters)
                 },
                 function (datasets_results) {
-                    callback(utils.transformToJSON(datasets_results))
+                    callback(utils.transformToJSON(datasets_results));
                 }
-            )
-        })
+            );
+        });
 
-    }
+    };
+    
+    this.queryString = function(terms, callback) {
+        fs.readFile(__dirname + '/datasets_queries/all_datasets.rq', function (err, allDatasetsQueryFile) {
+            var filters = utils.buildFilters(terms);
+            var queryString = allDatasetsQueryFile.toString().replace("##ABOUT##", filters);
+            
+            callback({query: queryString});
+        });  
+    };
 
 };
 

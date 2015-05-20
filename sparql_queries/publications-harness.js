@@ -8,22 +8,30 @@ function PublicationsHarness() {
         con.setEndpoint('http://localhost:5820');
         con.setCredentials('admin', 'admin');
 
-        fs.readFile(__dirname + '/publications_queries/all_publications.rq', function (err, all_publications_query_file) {
+        fs.readFile(__dirname + '/publications_queries/all_publications.rq', function (err, allPublicationsQueryFile) {
 
             var filters = utils.buildFilters(terms);
-            console.log(all_publications_query_file.toString().replace("##ABOUT##", filters))
 
             con.query({
                     database: 'PROD',
-                    query: all_publications_query_file.toString().replace("##ABOUT##", filters)
+                    query: allPublicationsQueryFile.toString().replace("##ABOUT##", filters)
                 },
                 function (publications_results) {
-                    callback(utils.transformToJSON(publications_results))
+                    callback(utils.transformToJSON(publications_results));
                 }
-            )
-        })
+            );
+        });
 
-    }
+    };
+    
+    this.queryString = function(terms, callback) {
+        fs.readFile(__dirname + '/publications_queries/all_publications.rq', function (err, allPublicationsQueryFile) {
+            var filters = utils.buildFilters(terms);
+            var queryString = allPublicationsQueryFile.toString().replace("##ABOUT##", filters);
+            
+            callback({query: queryString});
+        });  
+    };
 };
 
 

@@ -13,7 +13,9 @@ var models = require('./routes/models');
 var reports = require('./routes/reports');
 var software = require('./routes/software');
 
-var sessions = require('./routes/sessions');
+var tokens = require('./routes/tokens');
+var users = require('./routes/users');
+var db = require('./routes/database');
 
 
 var app = express();
@@ -38,7 +40,9 @@ app.use('/datasets', datasets);
 app.use('/models', models);
 app.use('/reports', reports);
 app.use('/software', software);
-app.use('/sessions', sessions)
+app.use('/tokens', tokens);
+app.use('/users', users);
+app.use('/database', db);
 
 
 // catch 404 and forward to error handler

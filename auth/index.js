@@ -1,40 +1,87 @@
 var stardog = require('stardog');
+var fs = require('fs');
 var bcrypt = require('bcrypt');
 var uuid = require('node-uuid');
+var q = require('q');
+var jwt = require('jsonwebtoken');
+
+var secret = "asdflkjasdf";
 
 function Auth() {
-    this.getNewSessionID = function(user, pass) {
-		var dbPass = this.getPassFromDB(user);
+    this.getNewToken = function (user, pass) {
 		
-		if(dbPass === undefined){
-			return {'error': true, 'msg': 'User not found.'};
-		} else if(bcrypt.compareSync(pass, dbPass)){
-			return this.generateNewSessionID(user);
-		} else {
-			return {'error': true, 'msg': 'Password incorrect.'};
-		}
-
+		//stupid JS 'this' binding nonsense requires me to do this to access the correct 'this' in the promise
+		var self = this;
+		
+		var dbPassPromise = this._getPassFromDB(user);
+		
+		return dbPassPromise.then(function(dbPass){
+			if (dbPass === undefined) {
+				return { 'error': true, 'msg': 'Incorrect username.' };
+			} else if (bcrypt.compareSync(pass, dbPass)) {
+				return self._generateNewToken(user);
+			} else {
+				return { 'error': true, 'msg': 'Incorrect password.' };
+			}
+		});
+		
 	};
-	
-	this.isValidSession = function(sessionID) {
-		if(sessionID === '12345'){
+
+	this.isValidToken = function (token) {
+		try{
+			//if we can decrypt without errors, it's valid
+			jwt.verify(token, secret);
 			return true;
-		} else {
+		} catch (e) {
+			//if we can't verify, it's not valid
+			console.log(e)
 			return false;
 		}
 	};
 	
-	this.getPassFromDB = function(user){
-		if(user === 'test'){
-			return bcrypt.hashSync('pass', 10);
-		} else {
+	this.getUserFromToken = function (token) {
+		try{
+			return jwt.verify(token, secret);
+		} catch (e) {
 			return undefined;
 		}
 	};
+
+	this._getPassFromDB = function (user) {
+		
+		var con = new stardog.Connection();
+		con.setEndpoint('http://localhost:5820');
+        con.setCredentials('admin', 'admin');
+		
+		var deferred = q.defer();
+		
+		fs.readFile(__dirname + '/sparql/read-password.rq', function (err, passwordFile) {
+			
+			con.query({
+                    database: 'PROD',
+                    query: passwordFile.toString().replace(/##USERNAME##/g, user)
+                },
+                function (passwordResults) {
+					if(passwordResults.results.bindings.length > 0){
+						var dbPass = passwordResults.results.bindings[0].passData.value;
+						deferred.resolve(dbPass);
+					} else {
+						deferred.resolve(undefined); 
+					}
+                }
+            );
+
+		});
+		
+		return deferred.promise;
 	
-	this.generateNewSession = function(user) {
-		var session = uuid.v4();
-		return session;
+	};
+
+	this._generateNewToken = function (user) {
+		 var token = jwt.sign(user, secret, {
+          expiresInMinutes: 1440 // expires in 24 hours
+        });
+		return token;
 	};
 };
 

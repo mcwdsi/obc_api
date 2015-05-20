@@ -18,7 +18,9 @@ function Utils() {
                     result_row[key] = returned_results[i][key].value;
                 }
             }
-            transformed_results.push(result_row);
+            if(Object.keys(result_row).length !== 0){
+                transformed_results.push(result_row);
+            }
         }
         return transformed_results;
     }
@@ -33,15 +35,15 @@ function Utils() {
 
             //kludge for ecosystem queries until we work out the representation issues
             if(ecosystemURIs.indexOf(uri) >= 0){
-                filter += "\t{ ?information obo:IAO_0000136 <" + uri + "> } UNION {\n" +
-                "\t?information obo:IAO_0000136 [ obo:BFO_0000137*/rdf:type <" + uri + ">] } UNION {\n" +
-                "\t?information obo:IAO_0000136 [ " +
-                "\t\tro:has_participant/obo:BFO_0000137*/ro:located_in/obo:BFO_0000137*/^ro:located_in/^obo:BFO_0000137* <" + uri + "> ] .\n}";
+                filter += "    {\n        ?information obo:IAO_0000136 <" + uri + ">\n    } UNION {\n" +
+                "        ?information obo:IAO_0000136 [ obo:BFO_0000137*/rdf:type <" + uri + ">] \n    } UNION {\n" +
+                "        ?information obo:IAO_0000136 [ \n" +
+                "            ro:has_participant/obo:BFO_0000137*/ro:located_in/obo:BFO_0000137*/^ro:located_in/^obo:BFO_0000137* <" + uri + "> ] .\n    }";
             } else {
-                filter += "\t{ ?information obo:IAO_0000136 <" + uri + "> } UNION {\n" +
-                "\t?information obo:IAO_0000136 [ rdf:type/rdfs:subClassOf* <" + uri + ">] } UNION {\n" +
-                "\t?information obo:IAO_0000136 [ " +
-                "\t\tro:has_participant*/obo:BFO_0000137*/ro:located_in* <" + uri + "> ] .\n}";
+                filter += "    {\n        ?information obo:IAO_0000136 <" + uri + "> \n    } UNION {\n" +
+                "        ?information obo:IAO_0000136 [ rdf:type/rdfs:subClassOf* <" + uri + ">] \n    } UNION {\n" +
+                "        ?information obo:IAO_0000136 [ \n" +
+                "            ro:has_participant*/obo:BFO_0000137*/ro:located_in* <" + uri + "> ] .\n    }";
             }
 
 
