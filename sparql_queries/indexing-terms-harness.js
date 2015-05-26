@@ -2,47 +2,84 @@ var fs = require('fs');
 var stardog = require('stardog');
 
 function IndexingTermsHarness() {
-    var cachedResults = undefined;
+    var indexingCachedResults = undefined;
+    var retrievalCachedResults = undefined;
 
-    this.query = function (callback) {
+    this.indexingQuery = function (callback) {
         var con = new stardog.Connection();
         con.setEndpoint('http://localhost:5820');
         con.setCredentials('admin', 'admin');
 
-        if (typeof cachedResults !== 'undefined') {
-            callback(cachedResults);
+        if (typeof indexingCachedResults !== 'undefined') {
+            callback(indexingCachedResults);
         } else {
-            fs.readFile(__dirname + '/indexing_terms_queries/partOf_indexing_terms.rq', function (err, partOf_query_file) {
+            fs.readFile(__dirname + '/indexing_terms_queries/indexing/partOf_indexing_terms.rq', function (err, partOf_query_file) {
                 con.query({
                     database: 'PROD',
                     query: partOf_query_file.toString()
                 },
                     function (partOf_terms) {
                         //get second subset of indexing terms
-                        fs.readFile(__dirname + '/indexing_terms_queries/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
+                        fs.readFile(__dirname + '/indexing_terms_queries/indexing/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                             con.query({
                                 database: 'PROD',
                                 query: subClassOf_query_file.toString()
                             },
                                 function (subClassOf_terms) {
-                                    fs.readFile(__dirname + '/indexing_terms_queries/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
+                                    fs.readFile(__dirname + '/indexing_terms_queries/indexing/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
                                         con.query({
                                             database: 'PROD',
                                             query: ecosystem_query_file.toString()
                                         },
                                             function (ecosystem_terms) {
-                                                cachedResults = convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]);
-                                                callback(cachedResults);
+                                                indexingCachedResults = convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]);
+                                                callback(indexingCachedResults);
+                                            });
+
+                                    });
+                                });
+                        });
+                    });
+            });
+        }
+    };
+
+    this.retrievalQuery = function (callback) {
+        var con = new stardog.Connection();
+        con.setEndpoint('http://localhost:5820');
+        con.setCredentials('admin', 'admin');
+
+        if (typeof retrievalCachedResults !== 'undefined') {
+            callback(retrievalCachedResults);
+        } else {
+            fs.readFile(__dirname + '/indexing_terms_queries/retrieval/partOf_indexing_terms.rq', function (err, partOf_query_file) {
+                con.query({
+                    database: 'PROD',
+                    query: partOf_query_file.toString()
+                },
+                    function (partOf_terms) {
+                        //get second subset of indexing terms
+                        fs.readFile(__dirname + '/indexing_terms_queries/retrieval/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
+                            con.query({
+                                database: 'PROD',
+                                query: subClassOf_query_file.toString()
+                            },
+                                function (subClassOf_terms) {
+                                    fs.readFile(__dirname + '/indexing_terms_queries/retrieval/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
+                                        con.query({
+                                            database: 'PROD',
+                                            query: ecosystem_query_file.toString()
+                                        },
+                                            function (ecosystem_terms) {
+                                                retrievalCachedResults = convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]);
+                                                callback(retrievalCachedResults);
                                             })
 
                                     });
-                                }
-                                );
+                                });
                         });
-                    }
-                    )
-
-            })
+                    });
+            });
         }
     };
 };

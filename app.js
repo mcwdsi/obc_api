@@ -12,6 +12,7 @@ var datasets = require('./routes/datasets');
 var models = require('./routes/models');
 var reports = require('./routes/reports');
 var software = require('./routes/software');
+var artifacts = require('./routes/artifacts');
 
 var tokens = require('./routes/tokens');
 var users = require('./routes/users');
@@ -43,6 +44,7 @@ app.use('/software', software);
 app.use('/tokens', tokens);
 app.use('/users', users);
 app.use('/database', db);
+app.use('/artifacts', artifacts);
 
 
 // catch 404 and forward to error handler

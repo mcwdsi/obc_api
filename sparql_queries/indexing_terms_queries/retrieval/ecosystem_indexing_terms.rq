@@ -1,0 +1,15 @@
+PREFIX sp: <tag:stardog:api:property:>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+
+SELECT DISTINCT ?term ?termLabel ?parentTerm ?parentLabel (<http://www.pitt.edu/obc/IDE_0000000029> as ?rootClass) ?rootLabel (<http://purl.obolibrary.org/obo/BFO_0000137> as ?hieProp)
+FROM <http://www.pitt.edu/obc/ide/apollo-sv>
+FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+FROM <http://www.pitt.edu/obc/ide/article-instances>
+WHERE {
+    ?term rdfs:subClassOf <http://www.pitt.edu/obc/IDE_0000000029> .
+  	<http://www.pitt.edu/obc/IDE_0000000029> rdfs:label ?rootLabel .
+    ?term rdfs:label ?termLabel .
+
+
+} ORDER BY ?parentTerm

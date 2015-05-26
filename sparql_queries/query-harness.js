@@ -1,15 +1,20 @@
 var indexingTermsHarness = require('./indexing-terms-harness');
-var publicationsHarness = require('./publications-harness')
-var datasetsHarness = require('./datasets-harness')
-var modelsHarness = require('./models-harness')
-var reportsHarness = require('./reports-harness')
-var softwareHarness = require('./software-harness')
+var publicationsHarness = require('./publications-harness');
+var datasetsHarness = require('./datasets-harness');
+var modelsHarness = require('./models-harness');
+var reportsHarness = require('./reports-harness');
+var softwareHarness = require('./software-harness');
+var artifactsHarness = require('./artifacts-harness');
 
 
 function Harness() {
 
-    this.indexing_terms = function(terms, callback){
-        indexingTermsHarness.query(terms, callback);
+    this.retrievalTerms = function(terms, callback){
+        indexingTermsHarness.retrievalQuery(terms, callback);
+    };
+    
+    this.indexingTerms = function(terms, callback){
+        indexingTermsHarness.indexingQuery(terms, callback);
     };
 
     this.publications = function(terms, callback){
@@ -30,6 +35,10 @@ function Harness() {
 
     this.software = function(terms, callback){
         softwareHarness.query(terms, callback);
+    };
+    
+    this.artifactAbouts = function(artifact, callback){
+        artifactsHarness.abouts(artifact, callback);
     };
     
     this.publicationsQuery = function(terms, callback){

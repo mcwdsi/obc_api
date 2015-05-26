@@ -1,0 +1,28 @@
+var fs = require('fs');
+var stardog = require('stardog');
+var utils = require('./utils')
+
+function ArtifactsHarness() {
+    this.abouts = function (artifact, callback) {
+        var con = new stardog.Connection();
+        con.setEndpoint('http://localhost:5820');
+        con.setCredentials('admin', 'admin');
+        
+        
+
+        fs.readFile(__dirname + '/artifact_queries/artifact_abouts.rq', function (err, artifactAboutsQueryFile) {
+            con.query({
+                    database: 'PROD',
+                    query: artifactAboutsQueryFile.toString().replace("##ARTIFACT##", artifact)
+                },
+                function (artifactAbouts) {
+                    console.log(artifactAboutsQueryFile.toString().replace("##ARTIFACT##", artifact));
+                    callback(utils.transformToJSON(artifactAbouts));
+                }
+            );
+        });
+
+    };
+};
+
+module.exports = new ArtifactsHarness;
