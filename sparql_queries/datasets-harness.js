@@ -1,12 +1,13 @@
 var fs = require('fs');
 var stardog = require('stardog');
-var utils = require('./utils')
+var utils = require('./utils');
+var config = require('../config');
 
 function DatasetsHarness() {
     this.query = function (terms, callback) {
         var con = new stardog.Connection();
-        con.setEndpoint('http://localhost:5820');
-        con.setCredentials('admin', 'admin');
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
 
         fs.readFile(__dirname + '/datasets_queries/all_datasets.rq', function (err, allDatasetsQueryFile) {
             var filters = utils.buildFilters(terms);

@@ -1,12 +1,13 @@
 var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils')
+var config = require('../config');
 
 function ArtifactsHarness() {
     this.abouts = function (artifact, callback) {
         var con = new stardog.Connection();
-        con.setEndpoint('http://localhost:5820');
-        con.setCredentials('admin', 'admin');
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
         
         
 

@@ -1,5 +1,6 @@
 var fs = require('fs');
 var stardog = require('stardog');
+var config = require('../config');
 
 function IndexingTermsHarness() {
     var indexingCachedResults = undefined;
@@ -7,8 +8,8 @@ function IndexingTermsHarness() {
 
     this.indexingQuery = function (callback) {
         var con = new stardog.Connection();
-        con.setEndpoint('http://localhost:5820');
-        con.setCredentials('admin', 'admin');
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
 
         if (typeof indexingCachedResults !== 'undefined') {
             callback(indexingCachedResults);
