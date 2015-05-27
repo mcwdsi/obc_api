@@ -1,0 +1,50 @@
+
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+
+DELETE {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
+        <##PUBLICATION##> dc:title ?title .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##PUBLICATION##> <http://www.pitt.edu/obc/AUTHORS_1> ?authors .
+        <##PUBLICATION##> <http://purl.org/dc/elements/1.1/date> ?date . 
+        <##PUBLICATION##> obo:IAO_0000136 ?about .
+        <##PUBLICATION##> rdf:type ?types .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/OBI_0001617> ?pmid .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal .
+    }
+} INSERT {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
+        <##PUBLICATION##> dc:title "##TITLE##" .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/ERO_0000480> "##LINKOUT##" .
+        <##PUBLICATION##> <http://www.pitt.edu/obc/AUTHORS_1> "##AUTHORS##" .
+        <##PUBLICATION##> <http://purl.org/dc/elements/1.1/date> "##DATE##" . 
+        <##PUBLICATION##> rdf:type <##TYPE##> .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/OBI_0001617> "##PMID##" .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?newJournal .
+        ##ABOUTS##
+    } 
+} 
+USING <http://www.pitt.edu/obc/ide/apollo-sv>
+USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+USING <http://www.pitt.edu/obc/ide/article-instances>
+
+WHERE {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
+        <##PUBLICATION##> dc:title ?title .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##PUBLICATION##> <http://www.pitt.edu/obc/AUTHORS_1> ?authors .
+        <##PUBLICATION##> <http://purl.org/dc/elements/1.1/date> ?date . 
+        <##PUBLICATION##> obo:IAO_0000136 ?about .
+        <##PUBLICATION##> rdf:type ?types .
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/OBI_0001617> ?pmid .
+        
+        <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal .
+        ?newJournal dc:title "##JOURNAL##" .
+    }
+}

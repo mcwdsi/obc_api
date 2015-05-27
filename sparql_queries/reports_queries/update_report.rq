@@ -1,0 +1,42 @@
+
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+
+DELETE {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
+        <##REPORT##> dc:title ?title .
+        <##REPORT##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##REPORT##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
+        <##REPORT##> <http://purl.org/dc/elements/1.1/date> ?date . 
+        <##REPORT##> obo:IAO_0000136 ?about .
+        <##REPORT##> rdf:type ?types .
+    }
+} INSERT {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
+        <##REPORT##> dc:title "##TITLE##" .
+        <##REPORT##> <http://purl.obolibrary.org/obo/ERO_0000480> "##LINKOUT##" .
+        <##REPORT##> <http://www.pitt.edu/obc/IDE_source_organization> "##SOURCE##" .
+        <##REPORT##> <http://purl.org/dc/elements/1.1/date> "##DATE##" . 
+        <##REPORT##> rdf:type <##TYPE##> .
+        ##ABOUTS##
+    } 
+} 
+USING <http://www.pitt.edu/obc/ide/apollo-sv>
+USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+USING <http://www.pitt.edu/obc/ide/article-instances>
+
+WHERE {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
+        <##REPORT##> dc:title ?title .
+        <##REPORT##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##REPORT##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
+        <##REPORT##> <http://purl.org/dc/elements/1.1/date> ?date . 
+        <##REPORT##> obo:IAO_0000136 ?about .
+        <##REPORT##> rdf:type ?types .
+    }
+}

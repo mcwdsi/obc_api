@@ -51,7 +51,18 @@ function Utils() {
             filters = filters + "\n" + filter;
         }
         return filters;
-    }
+    };
+    
+    this.lookupTypeURI = function(artifactType) {
+        var types = 
+        {'data set': 'http://purl.obolibrary.org/obo/IAO_0000100',
+         'publication': 'http://purl.obolibrary.org/obo/IAO_0000311',
+         'model': 'http://purl.obolibrary.org/obo/APOLLO_SV_00000001',
+         'report': 'http://purl.obolibrary.org/obo/IAO_0000088',
+         'software': 'http://purl.obolibrary.org/obo/IAO_0000010'};
+         
+         return types[artifactType];
+    };
 };
 
 module.exports = new Utils;

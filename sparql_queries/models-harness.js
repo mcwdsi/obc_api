@@ -31,6 +31,38 @@ function ModelsHarness() {
             callback({query: queryString});
         });  
     };
+    
+    this.update = function (modelData, callback) {
+        var con = new stardog.Connection();
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
+        
+        fs.readFile(__dirname + '/models_queries/update_model.rq', function (err, updateModelsQueryFile) {
+   
+            var aboutsUpdate = '';        
+            for(var i in modelData.abouts){
+                aboutsUpdate += '<' + modelData.uri + '> obo:IAO_0000136 <' + modelData.abouts[i].uri + '> .\n        '; 
+            }
+            
+            var queryString = updateModelsQueryFile.toString()
+                .replace(/##MODEL##/g, modelData.uri)
+                .replace(/##TITLE##/g, modelData.title)
+                .replace(/##LINKOUT##/g, modelData.linkout)
+                .replace(/##SOURCE##/g, modelData.authors)
+                .replace(/##DATE##/g, modelData.date)
+                .replace(/##TYPE##/g, utils.lookupTypeURI(modelData.artifactType))
+                .replace(/##VERSION##/g, modelData.version)
+                .replace(/##ABOUTS##/g, aboutsUpdate);
+
+            con.query({
+                    database: 'PROD',
+                    query: queryString
+            },
+            function (results) {
+                callback();
+            });
+        });
+    };
 };
 
 module.exports = new ModelsHarness;

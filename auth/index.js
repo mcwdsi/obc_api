@@ -50,8 +50,8 @@ function Auth() {
 	this._getPassFromDB = function (user) {
 		
 		var con = new stardog.Connection();
-		con.setEndpoint('http://localhost:5820');
-        con.setCredentials('admin', 'admin');
+		con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
 		
 		var deferred = q.defer();
 		

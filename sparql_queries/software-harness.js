@@ -14,23 +14,55 @@ function SoftwareHarness() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                    database: 'PROD',
-                    query: allSoftwareQueryFile.toString().replace("##ABOUT##", filters)
-                },
+                database: 'PROD',
+                query: allSoftwareQueryFile.toString().replace("##ABOUT##", filters)
+            },
                 function (software_results) {
                     callback(utils.transformToJSON(software_results))
                 });
         });
 
     };
-    
-    this.queryString = function(terms, callback) {
+
+    this.queryString = function (terms, callback) {
         fs.readFile(__dirname + '/software_queries/all_software.rq', function (err, allSoftwareQueryFile) {
             var filters = utils.buildFilters(terms);
             var queryString = allSoftwareQueryFile.toString().replace("##ABOUT##", filters);
-            
-            callback({query: queryString});
-        });  
+
+            callback({ query: queryString });
+        });
+    };
+
+    this.update = function (softwareData, callback) {
+        var con = new stardog.Connection();
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
+
+        fs.readFile(__dirname + '/software_queries/update_software.rq', function (err, updateSoftwareQueryFile) {
+
+            var aboutsUpdate = '';
+            for (var i in softwareData.abouts) {
+                aboutsUpdate += '<' + softwareData.uri + '> obo:IAO_0000136 <' + softwareData.abouts[i].uri + '> .\n        ';
+            }
+
+            var queryString = updateSoftwareQueryFile.toString()
+                .replace(/##SOFTWARE##/g, softwareData.uri)
+                .replace(/##TITLE##/g, softwareData.title)
+                .replace(/##LINKOUT##/g, softwareData.linkout)
+                .replace(/##SOURCE##/g, softwareData.authors)
+                .replace(/##DATE##/g, softwareData.date)
+                .replace(/##TYPE##/g, utils.lookupTypeURI(softwareData.artifactType))
+                .replace(/##VERSION##/g, softwareData.version)
+                .replace(/##ABOUTS##/g, aboutsUpdate);
+
+            con.query({
+                database: 'PROD',
+                query: queryString
+            },
+                function (results) {
+                    callback();
+                });
+        });
     };
 
 };

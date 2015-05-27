@@ -47,8 +47,8 @@ function IndexingTermsHarness() {
 
     this.retrievalQuery = function (callback) {
         var con = new stardog.Connection();
-        con.setEndpoint('http://localhost:5820');
-        con.setCredentials('admin', 'admin');
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
 
         if (typeof retrievalCachedResults !== 'undefined') {
             callback(retrievalCachedResults);
@@ -97,7 +97,7 @@ function convertToTree(resultList) {
             var rootLabel = results[j].rootLabel.value;
             var termURI = results[j].term.value;
             var termLabel = results[j].termLabel.value;
-            var hieProp = results[j].hieProp.value
+            var hieProp = results[j].hieProp.value;
 
             //optional columns
             var parentTermURI = undefined;
@@ -106,7 +106,7 @@ function convertToTree(resultList) {
             if (results[j].parentTerm != undefined) {
                 parentTermURI = results[j].parentTerm.value;
                 parentLabel = results[j].parentLabel.value;
-            }
+            } 
 
             //storing term parents to help find deepest parent
             if (termParents[termURI] == undefined) {

@@ -26,4 +26,9 @@ WHERE {
      }
 
     FILTER(?isRoot)
+    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000088> } #don't want the reports 
+    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000311> } #don't want the publications 
+    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000100> } #don't want the datasets 
+    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000010> } #don't want the software 
+    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/APOLLO_SV_00000001> } #don't want the models 
 } ORDER BY ?parentTerm

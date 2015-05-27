@@ -1,0 +1,45 @@
+
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+
+DELETE {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
+        <##SOFTWARE##> dc:title ?title .
+        <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
+        <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> ?date . 
+        <##SOFTWARE##> obo:IAO_0000136 ?about .
+        <##SOFTWARE##> rdf:type ?types .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version .
+    }
+} INSERT {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
+        <##SOFTWARE##> dc:title "##TITLE##" .
+        <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> "##LINKOUT##" .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> "##SOURCE##" .
+        <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> "##DATE##" . 
+        <##SOFTWARE##> rdf:type <##TYPE##> .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> "##VERSION##" .
+        ##ABOUTS##
+    } 
+} 
+USING <http://www.pitt.edu/obc/ide/apollo-sv>
+USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+USING <http://www.pitt.edu/obc/ide/article-instances>
+
+WHERE {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
+        <##SOFTWARE##> dc:title ?title .
+        <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
+        <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> ?date . 
+        <##SOFTWARE##> obo:IAO_0000136 ?about .
+        <##SOFTWARE##> rdf:type ?types .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version .
+    }
+}
