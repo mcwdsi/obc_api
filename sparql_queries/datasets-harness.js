@@ -1,3 +1,4 @@
+/* global __dirname */
 var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils');

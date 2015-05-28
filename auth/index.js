@@ -1,9 +1,11 @@
+/* global __dirname */
 var stardog = require('stardog');
 var fs = require('fs');
 var bcrypt = require('bcrypt');
 var uuid = require('node-uuid');
 var q = require('q');
 var jwt = require('jsonwebtoken');
+var config = require('../config');
 
 var secret = "asdflkjasdf";
 
@@ -34,7 +36,7 @@ function Auth() {
 			return true;
 		} catch (e) {
 			//if we can't verify, it's not valid
-			console.log(e)
+			console.log(e);
 			return false;
 		}
 	};

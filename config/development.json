@@ -1,5 +1,6 @@
 {
 	"stardogURL": "http://localhost:5820",
 	"stardogUser": "admin",
-	"stardogPass": "admin"
+	"stardogPass": "admin",
+	"contactEmail": "joshhanna@ufl.edu"
 }

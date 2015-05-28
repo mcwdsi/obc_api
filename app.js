@@ -17,6 +17,7 @@ var artifacts = require('./routes/artifacts');
 var tokens = require('./routes/tokens');
 var users = require('./routes/users');
 var db = require('./routes/database');
+var contacts = require('./routes/contacts');
 
 
 var app = express();
@@ -45,6 +46,7 @@ app.use('/tokens', tokens);
 app.use('/users', users);
 app.use('/database', db);
 app.use('/artifacts', artifacts);
+app.use('/contacts', contacts);
 
 
 // catch 404 and forward to error handler
