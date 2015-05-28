@@ -17,6 +17,7 @@ DELETE {
         <##PUBLICATION##> rdf:type ?types .
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/OBI_0001617> ?pmid .
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal .
+        <##PUBLICATION##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
     }
 } INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
@@ -27,6 +28,7 @@ DELETE {
         <##PUBLICATION##> rdf:type <##TYPE##> .
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/OBI_0001617> "##PMID##" .
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?newJournal .
+        <##PUBLICATION##> <http://www.pitt.edu/obc/IDE_0000000040> "##DOI##" .
         ##ABOUTS##
     } 
 } 
@@ -43,6 +45,7 @@ WHERE {
         <##PUBLICATION##> obo:IAO_0000136 ?about .
         <##PUBLICATION##> rdf:type ?types .
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/OBI_0001617> ?pmid .
+        <##PUBLICATION##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
         
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal .
         ?newJournal dc:title "##JOURNAL##" .

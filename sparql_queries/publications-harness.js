@@ -55,6 +55,7 @@ function PublicationsHarness() {
                 .replace(/##TYPE##/g, utils.lookupTypeURI(publicationData.artifactType))
                 .replace(/##PMID##/g, publicationData.pmid)
                 .replace(/##JOURNAL##/g, publicationData.journal)
+                .replace(/##DOI##/g, publicationData.doi)                
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

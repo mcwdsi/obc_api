@@ -60,8 +60,6 @@ function IndexingTermsHarness() {
     };
 
     this.retrievalQuery = function (callback) {
-
-
         if (typeof retrievalCachedResults !== 'undefined') {
             callback(retrievalCachedResults);
             this._updateRetrievalCache(function (data) {
@@ -75,8 +73,9 @@ function IndexingTermsHarness() {
 
     this._updateRetrievalCache = function (callback) {
         var con = new stardog.Connection();
-        con.setEndpoint(config.stardogURL);
+        con.setEndpoint(config.stardogURL); 
         con.setCredentials(config.stardogUser, config.stardogPass);
+
         fs.readFile(__dirname + '/indexing_terms_queries/retrieval/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
                 database: 'PROD',

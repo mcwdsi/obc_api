@@ -16,6 +16,7 @@ DELETE {
         <##SOFTWARE##> obo:IAO_0000136 ?about .
         <##SOFTWARE##> rdf:type ?types .
         <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
     }
 } INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
@@ -25,6 +26,7 @@ DELETE {
         <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> "##DATE##" . 
         <##SOFTWARE##> rdf:type <##TYPE##> .
         <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> "##VERSION##" .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> "##DOI##" .
         ##ABOUTS##
     } 
 } 
@@ -41,5 +43,6 @@ WHERE {
         <##SOFTWARE##> obo:IAO_0000136 ?about .
         <##SOFTWARE##> rdf:type ?types .
         <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
     }
 }

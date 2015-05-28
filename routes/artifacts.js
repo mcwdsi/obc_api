@@ -24,8 +24,6 @@ router.put('/:uri', function (req, res, next) {
         res.sendStatus(401);
     }
 
-
-
     if (uri !== artifact.uri) {
         res.sendStatus(406, 'URI of payload does not match PUT URL');
     }

@@ -53,6 +53,7 @@ function SoftwareHarness() {
                 .replace(/##DATE##/g, softwareData.date)
                 .replace(/##TYPE##/g, utils.lookupTypeURI(softwareData.artifactType))
                 .replace(/##VERSION##/g, softwareData.version)
+                .replace(/##DOI##/g, softwareData.doi)
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

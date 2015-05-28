@@ -7,7 +7,7 @@ PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 
 
-SELECT DISTINCT ?information ?label ?title ?linkout ?date ?dateIndexed ?type ?typeLabel ?sourceOrganization ?authors ?pmid ?journal ?country ?version (group_concat(DISTINCT ?aboutLabel ; separator = " :: ") as ?abouts)
+SELECT DISTINCT ?information ?label ?title ?linkout ?date ?dateIndexed ?type ?typeLabel ?sourceOrganization ?authors ?pmid ?journal ?country ?version (group_concat(DISTINCT ?aboutLabel ; separator = " :: ") as ?abouts) ?doi
 FROM <http://www.pitt.edu/obc/ide/apollo-sv>
 FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 FROM <http://www.pitt.edu/obc/ide/article-instances>
@@ -29,10 +29,12 @@ WHERE {
     } .
     OPTIONAL { ?information <http://purl.org/dc/elements/1.1/coverage> ?country } .
     OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_version> ?version } .
+    
+    OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
 
     ?information obo:IAO_0000136 ?about .
     ?about rdfs:label ?aboutLabel .
 
     #used for string interpolation to filter based on search terms
     ##ABOUT##
-} GROUP BY ?information ?label ?title ?linkout ?date ?dateIndexed ?type ?typeLabel ?sourceOrganization ?authors ?pmid ?journal ?country ?version
+} GROUP BY ?information ?label ?title ?linkout ?date ?dateIndexed ?type ?typeLabel ?sourceOrganization ?authors ?pmid ?journal ?country ?version ?doi

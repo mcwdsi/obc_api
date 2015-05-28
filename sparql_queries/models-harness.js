@@ -52,6 +52,7 @@ function ModelsHarness() {
                 .replace(/##DATE##/g, modelData.date)
                 .replace(/##TYPE##/g, utils.lookupTypeURI(modelData.artifactType))
                 .replace(/##VERSION##/g, modelData.version)
+                .replace(/##DOI##/g, modelData.doi)                
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

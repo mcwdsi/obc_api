@@ -52,6 +52,7 @@ function ReportsHarness() {
                 .replace(/##SOURCE##/g, reportData.authors)
                 .replace(/##DATE##/g, reportData.date)
                 .replace(/##TYPE##/g, utils.lookupTypeURI(reportData.artifactType))
+                 .replace(/##DOI##/g, reportData.doi)
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
@@ -59,8 +60,6 @@ function ReportsHarness() {
                 query: queryString
             },
                 function (results) {
-                    console.log(queryString);
-                    console.log(results);
                     callback();
                 });
         });

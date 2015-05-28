@@ -52,6 +52,7 @@ function DatasetsHarness() {
                 .replace(/##SOURCE##/g, datasetData.authors)
                 .replace(/##DATE##/g, datasetData.date)
                 .replace(/##TYPE##/g, utils.lookupTypeURI(datasetData.artifactType))
+                .replace(/##DOI##/g, datasetData.doi)                
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
