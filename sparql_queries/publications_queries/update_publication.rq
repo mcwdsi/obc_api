@@ -48,7 +48,7 @@ WHERE {
         OPTIONAL { <##PUBLICATION##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
         
         OPTIONAL { 
-            ?newJournal rdf:type obo:FBcv_0000787 .
+            ?oldJournal rdf:type obo:FBcv_0000787 .
             <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal 
         } .
         
