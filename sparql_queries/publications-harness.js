@@ -57,8 +57,6 @@ function PublicationsHarness() {
                 .replace(/##JOURNAL##/g, publicationData.journal !== undefined ? publicationData.journal : "")
                 .replace(/##DOI##/g, publicationData.doi !== undefined ? publicationData.doi : "")                
                 .replace(/##ABOUTS##/g, aboutsUpdate);
-                
-                console.log(queryString);
 
             con.query({
                 database: 'PROD',
