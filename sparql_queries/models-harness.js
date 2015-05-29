@@ -1,3 +1,4 @@
+/* global __dirname */
 var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils');
@@ -46,13 +47,13 @@ function ModelsHarness() {
             
             var queryString = updateModelsQueryFile.toString()
                 .replace(/##MODEL##/g, modelData.uri)
-                .replace(/##TITLE##/g, modelData.title)
-                .replace(/##LINKOUT##/g, modelData.linkout)
-                .replace(/##SOURCE##/g, modelData.authors)
-                .replace(/##DATE##/g, modelData.date)
+                .replace(/##TITLE##/g, modelData.title !== undefined ? modelData.title : "")
+                .replace(/##LINKOUT##/g, modelData.linkout !== undefined ? modelData.linkout : "")
+                .replace(/##SOURCE##/g, modelData.authors !== undefined ? modelData.authors : "")
+                .replace(/##DATE##/g, modelData.date !== undefined ? modelData.date : "")
                 .replace(/##TYPE##/g, utils.lookupTypeURI(modelData.artifactType))
-                .replace(/##VERSION##/g, modelData.version)
-                .replace(/##DOI##/g, modelData.doi)                
+                .replace(/##VERSION##/g, modelData.version !== undefined ? modelData.version : "")
+                .replace(/##DOI##/g, modelData.doi !== undefined ? modelData.doi : "")                
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

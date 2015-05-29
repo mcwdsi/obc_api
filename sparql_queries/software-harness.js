@@ -47,13 +47,13 @@ function SoftwareHarness() {
 
             var queryString = updateSoftwareQueryFile.toString()
                 .replace(/##SOFTWARE##/g, softwareData.uri)
-                .replace(/##TITLE##/g, softwareData.title)
-                .replace(/##LINKOUT##/g, softwareData.linkout)
-                .replace(/##SOURCE##/g, softwareData.authors)
-                .replace(/##DATE##/g, softwareData.date)
+                .replace(/##TITLE##/g, softwareData.title !== undefined ? softwareData.title : "")
+                .replace(/##LINKOUT##/g, softwareData.linkout !== undefined ? softwareData.linkout : "")
+                .replace(/##SOURCE##/g, softwareData.authors !== undefined ? softwareData.authors : "")
+                .replace(/##DATE##/g, softwareData.date !== undefined ? softwareData.date : "")
                 .replace(/##TYPE##/g, utils.lookupTypeURI(softwareData.artifactType))
-                .replace(/##VERSION##/g, softwareData.version)
-                .replace(/##DOI##/g, softwareData.doi)
+                .replace(/##VERSION##/g, softwareData.version !== undefined ? softwareData.version : "")
+                .replace(/##DOI##/g, softwareData.doi !== undefined ? softwareData.doi : "")
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

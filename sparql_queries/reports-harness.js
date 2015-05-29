@@ -47,15 +47,13 @@ function ReportsHarness() {
 
             var queryString = updateReportsQueryFile.toString()
                 .replace(/##REPORT##/g, reportData.uri)
-                .replace(/##TITLE##/g, reportData.title)
-                .replace(/##LINKOUT##/g, reportData.linkout)
-                .replace(/##SOURCE##/g, reportData.authors)
-                .replace(/##DATE##/g, reportData.date)
+                .replace(/##TITLE##/g, reportData.title !== undefined ? reportData.title : "")
+                .replace(/##LINKOUT##/g, reportData.linkout !== undefined ? reportData.linkout : "")
+                .replace(/##SOURCE##/g, reportData.authors !== undefined ? reportData.authors : "")
+                .replace(/##DATE##/g, reportData.date !== undefined ? reportData.date : "")
                 .replace(/##TYPE##/g, utils.lookupTypeURI(reportData.artifactType))
-                .replace(/##DOI##/g, reportData.doi)
+                .replace(/##DOI##/g, reportData.doi !== undefined ? reportData.doi : "")
                 .replace(/##ABOUTS##/g, aboutsUpdate);
-                
-                console.log(queryString);
 
             con.query({
                 database: 'PROD',

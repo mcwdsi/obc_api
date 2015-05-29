@@ -47,12 +47,12 @@ function DatasetsHarness() {
 
             var queryString = updateDatasetsQueryFile.toString()
                 .replace(/##DATASET##/g, datasetData.uri)
-                .replace(/##TITLE##/g, datasetData.title)
-                .replace(/##LINKOUT##/g, datasetData.linkout)
-                .replace(/##SOURCE##/g, datasetData.authors)
-                .replace(/##DATE##/g, datasetData.date)
+                .replace(/##TITLE##/g, datasetData.title !== undefined ? datasetData.title : "")
+                .replace(/##LINKOUT##/g, datasetData.linkout !== undefined ? datasetData.linkout : "")
+                .replace(/##SOURCE##/g, datasetData.authors !== undefined ? datasetData.authors : "")
+                .replace(/##DATE##/g, datasetData.date !== undefined ? datasetData.date : "")
+                .replace(/##DOI##/g, datasetData.doi !== undefined ? datasetData.doi : "") 
                 .replace(/##TYPE##/g, utils.lookupTypeURI(datasetData.artifactType))
-                .replace(/##DOI##/g, datasetData.doi)                
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

@@ -48,14 +48,14 @@ function PublicationsHarness() {
 
             var queryString = updatePublicationsQueryFile.toString()
                 .replace(/##PUBLICATION##/g, publicationData.uri)
-                .replace(/##TITLE##/g, publicationData.title)
-                .replace(/##LINKOUT##/g, publicationData.linkout)
-                .replace(/##AUTHORS##/g, publicationData.authors)
-                .replace(/##DATE##/g, publicationData.date)
+                .replace(/##TITLE##/g, publicationData.title !== undefined ? publicationData.title : "")
+                .replace(/##LINKOUT##/g, publicationData.linkout !== undefined ? publicationData.linkout : "")
+                .replace(/##AUTHORS##/g, publicationData.authors !== undefined ? publicationData.authors : "")
+                .replace(/##DATE##/g, publicationData.date !== undefined ? publicationData.date : "")
                 .replace(/##TYPE##/g, utils.lookupTypeURI(publicationData.artifactType))
-                .replace(/##PMID##/g, publicationData.pmid)
-                .replace(/##JOURNAL##/g, publicationData.journal)
-                .replace(/##DOI##/g, publicationData.doi)                
+                .replace(/##PMID##/g, publicationData.pmid !== undefined ? publicationData.pmid : "")
+                .replace(/##JOURNAL##/g, publicationData.journal !== undefined ? publicationData.journal : "")
+                .replace(/##DOI##/g, publicationData.doi !== undefined ? publicationData.doi : "")                
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
