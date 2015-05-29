@@ -47,7 +47,18 @@ WHERE {
         OPTIONAL { <##PUBLICATION##> <http://purl.obolibrary.org/obo/OBI_0001617> ?pmid } .
         OPTIONAL { <##PUBLICATION##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
         
-        <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal } .
-        ?newJournal dc:title "##JOURNAL##" .
+        OPTIONAL { 
+            ?newJournal rdf:type obo:FBcv_0000787 .
+            <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal 
+        } .
+        
+        OPTIONAL { 
+            ?newJournal rdf:type obo:FBcv_0000787 .
+            {
+                ?newJournal dc:title "##JOURNAL##"^^<http://www.w3.org/2001/XMLSchema#string> 
+            } UNION {
+                ?newJournal dc:title "##JOURNAL##"
+            }    
+        } .
     }
 }
