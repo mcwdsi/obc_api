@@ -36,13 +36,13 @@ USING <http://www.pitt.edu/obc/ide/article-instances>
 
 WHERE {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
-        <##SOFTWARE##> dc:title ?title .
-        <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
-        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
-        <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> ?date . 
-        <##SOFTWARE##> obo:IAO_0000136 ?about .
-        <##SOFTWARE##> rdf:type ?types .
-        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version .
-        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
+        OPTIONAL { <##SOFTWARE##> dc:title ?title } .
+        OPTIONAL { <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+        OPTIONAL { <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+        OPTIONAL { <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> ?date } . 
+        OPTIONAL { <##SOFTWARE##> obo:IAO_0000136 ?about } .
+        OPTIONAL { <##SOFTWARE##> rdf:type ?types } .
+        OPTIONAL { <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version } .
+        OPTIONAL { <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
     }
 }

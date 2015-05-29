@@ -34,12 +34,12 @@ USING <http://www.pitt.edu/obc/ide/article-instances>
 
 WHERE {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
-        <##DATASET##> dc:title ?title .
-        <##DATASET##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
-        <##DATASET##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
-        <##DATASET##> <http://purl.org/dc/elements/1.1/date> ?date . 
-        <##DATASET##> obo:IAO_0000136 ?about .
-        <##DATASET##> rdf:type ?types .
-        <##DATASET##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
+        OPTIONAL { <##DATASET##> dc:title ?title } .
+        OPTIONAL { <##DATASET##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+        OPTIONAL { <##DATASET##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+        OPTIONAL { <##DATASET##> <http://purl.org/dc/elements/1.1/date> ?date } . 
+        OPTIONAL { <##DATASET##> obo:IAO_0000136 ?about } .
+        OPTIONAL { <##DATASET##> rdf:type ?types } .
+        OPTIONAL { <##DATASET##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
     }
 }

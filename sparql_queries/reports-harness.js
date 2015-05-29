@@ -52,8 +52,10 @@ function ReportsHarness() {
                 .replace(/##SOURCE##/g, reportData.authors)
                 .replace(/##DATE##/g, reportData.date)
                 .replace(/##TYPE##/g, utils.lookupTypeURI(reportData.artifactType))
-                 .replace(/##DOI##/g, reportData.doi)
+                .replace(/##DOI##/g, reportData.doi)
                 .replace(/##ABOUTS##/g, aboutsUpdate);
+                
+                console.log(queryString);
 
             con.query({
                 database: 'PROD',

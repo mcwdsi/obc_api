@@ -36,13 +36,13 @@ USING <http://www.pitt.edu/obc/ide/article-instances>
 
 WHERE {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
-        <##MODEL##> dc:title ?title .
-        <##MODEL##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
-        <##MODEL##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
-        <##MODEL##> <http://purl.org/dc/elements/1.1/date> ?date . 
-        <##MODEL##> obo:IAO_0000136 ?about .
-        <##MODEL##> rdf:type ?types .
-        <##MODEL##> <http://www.pitt.edu/obc/IDE_version> ?version .
-        <##MODEL##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
+        OPTIONAL { <##MODEL##> dc:title ?title } .
+        OPTIONAL { <##MODEL##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+        OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+        OPTIONAL { <##MODEL##> <http://purl.org/dc/elements/1.1/date> ?date } . 
+        OPTIONAL { <##MODEL##> obo:IAO_0000136 ?about } .
+        OPTIONAL { <##MODEL##> rdf:type ?types } .
+        OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_version> ?version } .
+        OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
     }
 }
