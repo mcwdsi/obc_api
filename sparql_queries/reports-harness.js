@@ -53,6 +53,7 @@ function ReportsHarness() {
                 .replace(/##DATE##/g, reportData.date !== undefined ? reportData.date : "")
                 .replace(/##TYPE##/g, utils.lookupTypeURI(reportData.artifactType))
                 .replace(/##DOI##/g, reportData.doi !== undefined ? reportData.doi : "")
+                .replace(/##DATEINDEXED##/g, reportData.dateIndexed !== undefined ? reportData.dateIndexed : new Date().toISOString())
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

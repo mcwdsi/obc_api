@@ -10,9 +10,7 @@ function ArtifactsHarness() {
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
 
-
-
-        fs.readFile(__dirname + '/artifact_queries/artifact_abouts.rq', function (err, artifactAboutsQueryFile) {
+        fs.readFile(__dirname + '/artifacts_queries/artifact_abouts.rq', function (err, artifactAboutsQueryFile) {
             con.query({
                 database: 'PROD',
                 query: artifactAboutsQueryFile.toString().replace("##ARTIFACT##", artifact)
@@ -23,6 +21,28 @@ function ArtifactsHarness() {
                 );
         });
 
+    };
+    
+    this.delete = function (artifact, callback) {
+        var con = new stardog.Connection();
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
+        
+        fs.readFile(__dirname + '/artifacts_queries/delete_artifact.rq', function (err, deleteQueryFile) {
+
+            var queryString = deleteQueryFile.toString()
+                .replace(/##ARTIFACT##/g, artifact);
+            
+            console.log(queryString);
+
+            con.query({
+                database: 'PROD',
+                query: queryString
+            },
+                function (results) {
+                    callback();
+                });
+        });
     };
 };
 

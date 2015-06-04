@@ -53,8 +53,11 @@ function ModelsHarness() {
                 .replace(/##DATE##/g, modelData.date !== undefined ? modelData.date : "")
                 .replace(/##TYPE##/g, utils.lookupTypeURI(modelData.artifactType))
                 .replace(/##VERSION##/g, modelData.version !== undefined ? modelData.version : "")
-                .replace(/##DOI##/g, modelData.doi !== undefined ? modelData.doi : "")                
+                .replace(/##DOI##/g, modelData.doi !== undefined ? modelData.doi : "")    
+                .replace(/##DATEINDEXED##/g, modelData.dateIndexed !== undefined ? modelData.dateIndexed : new Date().toISOString())            
                 .replace(/##ABOUTS##/g, aboutsUpdate);
+
+            console.log(queryString); 
 
             con.query({
                     database: 'PROD',

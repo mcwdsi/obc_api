@@ -12,10 +12,17 @@ FROM <http://www.pitt.edu/obc/ide/apollo-sv>
 FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 FROM <http://www.pitt.edu/obc/ide/article-instances>
 WHERE {
-    ?information rdfs:label ?label .
     ?information rdf:type ?type .
     ?type rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000010> .
     ?type rdfs:label ?typeLabel .
+    
+    ?information obo:IAO_0000136 ?about .
+    ?about rdfs:label ?aboutLabel .
+
+    #used for string interpolation to filter based on search terms
+    ##ABOUT##
+    
+    OPTIONAL { ?information rdfs:label ?label } .
     OPTIONAL { ?information <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
     OPTIONAL { ?information dc:title ?title } .
     OPTIONAL { ?information <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
@@ -31,10 +38,5 @@ WHERE {
     OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_version> ?version } .
     
     OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
-    
-    ?information obo:IAO_0000136 ?about .
-    ?about rdfs:label ?aboutLabel .
-
-    #used for string interpolation to filter based on search terms
-    ##ABOUT##
+      
 } GROUP BY ?information ?label ?title ?linkout ?date ?dateIndexed ?type ?typeLabel ?sourceOrganization ?authors ?pmid ?journal ?country ?version ?doi

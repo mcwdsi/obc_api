@@ -53,6 +53,7 @@ function DatasetsHarness() {
                 .replace(/##DATE##/g, datasetData.date !== undefined ? datasetData.date : "")
                 .replace(/##DOI##/g, datasetData.doi !== undefined ? datasetData.doi : "") 
                 .replace(/##TYPE##/g, utils.lookupTypeURI(datasetData.artifactType))
+                .replace(/##DATEINDEXED##/g, datasetData.dateIndexed !== undefined ? datasetData.dateIndexed : new Date().toISOString())
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({

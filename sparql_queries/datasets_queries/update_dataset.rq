@@ -16,6 +16,7 @@ DELETE {
         <##DATASET##> obo:IAO_0000136 ?about .
         <##DATASET##> rdf:type ?types .
         <##DATASET##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
+        <##DATASET##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed .
     }
 } INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
@@ -25,6 +26,7 @@ DELETE {
         <##DATASET##> <http://purl.org/dc/elements/1.1/date> "##DATE##" . 
         <##DATASET##> rdf:type <##TYPE##> .
         <##DATASET##> <http://www.pitt.edu/obc/IDE_0000000040> "##DOI##" .
+        <##DATASET##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> "##DATEINDEXED##" .
         ##ABOUTS##
     } 
 } 
@@ -33,13 +35,12 @@ USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 USING <http://www.pitt.edu/obc/ide/article-instances>
 
 WHERE {
-    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
-        OPTIONAL { <##DATASET##> dc:title ?title } .
-        OPTIONAL { <##DATASET##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
-        OPTIONAL { <##DATASET##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
-        OPTIONAL { <##DATASET##> <http://purl.org/dc/elements/1.1/date> ?date } . 
-        OPTIONAL { <##DATASET##> obo:IAO_0000136 ?about } .
-        OPTIONAL { <##DATASET##> rdf:type ?types } .
-        OPTIONAL { <##DATASET##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
-    }
+    OPTIONAL { <##DATASET##> dc:title ?title } .
+    OPTIONAL { <##DATASET##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+    OPTIONAL { <##DATASET##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+    OPTIONAL { <##DATASET##> <http://purl.org/dc/elements/1.1/date> ?date } . 
+    OPTIONAL { <##DATASET##> obo:IAO_0000136 ?about } .
+    OPTIONAL { <##DATASET##> rdf:type ?types } .
+    OPTIONAL { <##DATASET##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
+    OPTIONAL { <##DATASET##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
 }

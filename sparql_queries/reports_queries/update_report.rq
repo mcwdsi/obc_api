@@ -16,6 +16,7 @@ DELETE {
         <##REPORT##> obo:IAO_0000136 ?about .
         <##REPORT##> rdf:type ?types .
         <##REPORT##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
+        <##REPORT##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed .
     }
 } INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
@@ -25,6 +26,7 @@ DELETE {
         <##REPORT##> <http://purl.org/dc/elements/1.1/date> "##DATE##" . 
         <##REPORT##> rdf:type <##TYPE##> .
         <##REPORT##> <http://www.pitt.edu/obc/IDE_0000000040> "##DOI##" .
+        <##REPORT##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> "##DATEINDEXED##".
         ##ABOUTS##
     } 
 } 
@@ -33,13 +35,12 @@ USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 USING <http://www.pitt.edu/obc/ide/article-instances>
 
 WHERE {
-    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
-        OPTIONAL { <##REPORT##> dc:title ?title } .
-        OPTIONAL { <##REPORT##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
-        OPTIONAL { <##REPORT##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
-        OPTIONAL { <##REPORT##> <http://purl.org/dc/elements/1.1/date> ?date } . 
-        OPTIONAL { <##REPORT##> obo:IAO_0000136 ?about } .
-        OPTIONAL { <##REPORT##> rdf:type ?types } .
-        OPTIONAL { <##REPORT##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
-    }
+    OPTIONAL { <##REPORT##> dc:title ?title } .
+    OPTIONAL { <##REPORT##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+    OPTIONAL { <##REPORT##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+    OPTIONAL { <##REPORT##> <http://purl.org/dc/elements/1.1/date> ?date } . 
+    OPTIONAL { <##REPORT##> obo:IAO_0000136 ?about } .
+    OPTIONAL { <##REPORT##> rdf:type ?types } .
+    OPTIONAL { <##REPORT##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
+    OPTIONAL { <##REPORT##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
 }

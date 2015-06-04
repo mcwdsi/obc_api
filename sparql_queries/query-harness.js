@@ -5,23 +5,10 @@ var modelsHarness = require('./models-harness');
 var reportsHarness = require('./reports-harness');
 var softwareHarness = require('./software-harness');
 var artifactsHarness = require('./artifacts-harness');
+var utils = require('./utils');
 
 
 function Harness() {
-
-    this.update = function (data, callback) {
-        if (data.artifactType === 'data set') {
-            this.updateDataset(data, callback);
-        } else if (data.artifactType === 'publication') {
-            this.updatePublication(data, callback);
-        } else if (data.artifactType === 'report') {
-            this.updateReport(data, callback);
-        } else if (data.artifactType === 'model') {
-            this.updateModel(data, callback);
-        } else if (data.artifactType === 'software') {
-            this.updateSoftware(data, callback);
-        }
-    };
     
     //INDEXING TERMS
 
@@ -107,6 +94,33 @@ function Harness() {
 
     this.artifactAbouts = function (artifact, callback) {
         artifactsHarness.abouts(artifact, callback);
+    };
+
+    this.update = function (data, callback) {
+        if (data.artifactType === 'data set') {
+            this.updateDataset(data, callback);
+        } else if (data.artifactType === 'publication') {
+            this.updatePublication(data, callback);
+        } else if (data.artifactType === 'report') {
+            this.updateReport(data, callback);
+        } else if (data.artifactType === 'epidemic model') {
+            this.updateModel(data, callback);
+        } else if (data.artifactType === 'software') {
+            this.updateSoftware(data, callback);
+        }
+    };
+    
+    this.delete = function (data, callback) {
+        artifactsHarness.delete(data, callback);
+    };
+
+    this.saveNew = function (data, callback) {
+        var self = this;
+         utils.getNewURI().then(function (uri) {
+                data.uri = uri;
+                console.log(uri);
+                self.update(data, callback);
+         });
     };
 };
 

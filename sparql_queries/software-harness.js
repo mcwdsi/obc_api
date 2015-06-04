@@ -54,7 +54,10 @@ function SoftwareHarness() {
                 .replace(/##TYPE##/g, utils.lookupTypeURI(softwareData.artifactType))
                 .replace(/##VERSION##/g, softwareData.version !== undefined ? softwareData.version : "")
                 .replace(/##DOI##/g, softwareData.doi !== undefined ? softwareData.doi : "")
+                .replace(/##DATEINDEXED##/g, softwareData.dateIndexed !== undefined ? softwareData.dateIndexed : new Date().toISOString())
                 .replace(/##ABOUTS##/g, aboutsUpdate);
+                
+                console.log(queryString);
 
             con.query({
                 database: 'PROD',

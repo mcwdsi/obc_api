@@ -1,0 +1,13 @@
+
+SELECT DISTINCT ?uri    
+FROM <http://www.pitt.edu/obc/ide/article-instances>
+WHERE {
+    {
+        ?uri ?p ?o .
+    } UNION {
+        ?s ?uri ?oo .
+    } UNION {
+        ?ss ?pp ?uri .
+    }
+    FILTER(STRSTARTS(STR(?uri), "http://www.pitt.edu/obc/IDE_ARTICLE_"))  
+} ORDER BY DESC(?uri) LIMIT 1

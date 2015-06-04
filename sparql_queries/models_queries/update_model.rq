@@ -17,6 +17,7 @@ DELETE {
         <##MODEL##> rdf:type ?types .
         <##MODEL##> <http://www.pitt.edu/obc/IDE_version> ?version .
         <##MODEL##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
+        <##MODEL##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed .
     }
 } INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
@@ -27,6 +28,7 @@ DELETE {
         <##MODEL##> rdf:type <##TYPE##> .
         <##MODEL##> <http://www.pitt.edu/obc/IDE_version> "##VERSION##" .
         <##MODEL##> <http://www.pitt.edu/obc/IDE_0000000040> "##DOI##" .
+        <##MODEL##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> "##DATEINDEXED##" .
         ##ABOUTS##
     } 
 } 
@@ -35,14 +37,13 @@ USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 USING <http://www.pitt.edu/obc/ide/article-instances>
 
 WHERE {
-    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
-        OPTIONAL { <##MODEL##> dc:title ?title } .
-        OPTIONAL { <##MODEL##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
-        OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
-        OPTIONAL { <##MODEL##> <http://purl.org/dc/elements/1.1/date> ?date } . 
-        OPTIONAL { <##MODEL##> obo:IAO_0000136 ?about } .
-        OPTIONAL { <##MODEL##> rdf:type ?types } .
-        OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_version> ?version } .
-        OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
-    }
+    OPTIONAL { <##MODEL##> dc:title ?title } .
+    OPTIONAL { <##MODEL##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+    OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+    OPTIONAL { <##MODEL##> <http://purl.org/dc/elements/1.1/date> ?date } . 
+    OPTIONAL { <##MODEL##> obo:IAO_0000136 ?about } .
+    OPTIONAL { <##MODEL##> rdf:type ?types } .
+    OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_version> ?version } .
+    OPTIONAL { <##MODEL##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
+    OPTIONAL { <##MODEL##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
 }

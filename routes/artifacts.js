@@ -22,13 +22,43 @@ router.put('/:uri', function (req, res, next) {
 
     if (!auth.isValidToken(token)) {
         res.sendStatus(401);
+        return;
     }
 
     if (uri !== artifact.uri) {
         res.sendStatus(406, 'URI of payload does not match PUT URL');
+        return;
     }
 
     harness.update(artifact, function (data) {
+        res.sendStatus(200);
+    });
+});
+
+router.post('/', function (req, res, next) {
+    var token = req.body.token;
+    var artifact = req.body.artifact;
+
+    if (!auth.isValidToken(token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    harness.saveNew(artifact, function (data) {
+        res.sendStatus(200);
+    });
+});
+
+router.delete('/:uri', function (req, res, next) {
+    var uri = req.params.uri;
+    var token = req.headers.token;
+
+    if (!auth.isValidToken(token)) {
+        res.sendStatus(401);
+        return;
+    }
+
+    harness.delete(uri, function (data) {
         res.sendStatus(200);
     });
 });

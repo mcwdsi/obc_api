@@ -2,6 +2,7 @@
 var fs = require('fs');
 var stardog = require('stardog');
 var config = require('../config');
+var utils = require('./utils');
 
 function IndexingTermsHarness() {
     var indexingCachedResults = undefined;
@@ -60,6 +61,8 @@ function IndexingTermsHarness() {
     };
 
     this.retrievalQuery = function (callback) {
+        
+        utils.getNewURI();
         if (typeof retrievalCachedResults !== 'undefined') {
             callback(retrievalCachedResults);
             this._updateRetrievalCache(function (data) {

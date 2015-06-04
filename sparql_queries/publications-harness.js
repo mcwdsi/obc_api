@@ -55,7 +55,8 @@ function PublicationsHarness() {
                 .replace(/##TYPE##/g, utils.lookupTypeURI(publicationData.artifactType))
                 .replace(/##PMID##/g, publicationData.pmid !== undefined ? publicationData.pmid : "")
                 .replace(/##JOURNAL##/g, publicationData.journal !== undefined ? publicationData.journal : "")
-                .replace(/##DOI##/g, publicationData.doi !== undefined ? publicationData.doi : "")                
+                .replace(/##DOI##/g, publicationData.doi !== undefined ? publicationData.doi : "")    
+                .replace(/##DATEINDEXED##/g, publicationData.dateIndexed !== undefined ? publicationData.dateIndexed : new Date().toISOString())            
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
