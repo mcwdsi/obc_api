@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var utils = require('./utils');
 var auth = require('../auth')
+var config = require('../config');
 
 /* GET relevant DB info if logged in. */
 router.get('/', function(req, res, next) {
@@ -9,7 +10,7 @@ router.get('/', function(req, res, next) {
     
     if(auth.isValidToken(token)){
         //todo: make configurable
-        res.json({dbName: 'DEV'});
+        res.json({dbName: config.stardogDB});
     } else {
 		res.sendStatus(401);
     }
