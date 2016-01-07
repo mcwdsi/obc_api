@@ -1,6 +1,6 @@
 {
 	"stardogURL": "http://stardog.obc.io:5820",
-    "stardogDB": "DEV",
+	"stardogDB": "PROD",
 	"stardogUser": "admin",
 	"stardogPass": "admin",
 	"contactEmail": "joshhanna@ufl.edu"
