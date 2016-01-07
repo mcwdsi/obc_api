@@ -31,20 +31,20 @@ function IndexingTermsHarness() {
 
         fs.readFile(__dirname + '/indexing_terms_queries/indexing/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
-                database: 'DEV',
+                database: config.stardogDB,
                 query: partOf_query_file.toString()
             },
                 function (partOf_terms) {
                     //get second subset of indexing terms
                     fs.readFile(__dirname + '/indexing_terms_queries/indexing/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                         con.query({
-                            database: 'DEV',
+                            database: config.stardogDB,
                             query: subClassOf_query_file.toString()
                         },
                             function (subClassOf_terms) {
                                 fs.readFile(__dirname + '/indexing_terms_queries/indexing/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
                                     con.query({
-                                        database: 'DEV',
+                                        database: config.stardogDB,
                                         query: ecosystem_query_file.toString()
                                     },
                                         function (ecosystem_terms) {
@@ -81,20 +81,20 @@ function IndexingTermsHarness() {
 
         fs.readFile(__dirname + '/indexing_terms_queries/retrieval/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
-                database: 'DEV',
+                database: config.stardogDB,
                 query: partOf_query_file.toString()
             },
                 function (partOf_terms) {
                     //get second subset of indexing terms
                     fs.readFile(__dirname + '/indexing_terms_queries/retrieval/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                         con.query({
-                            database: 'DEV',
+                            database: config.stardogDB,
                             query: subClassOf_query_file.toString()
                         },
                             function (subClassOf_terms) {
                                 fs.readFile(__dirname + '/indexing_terms_queries/retrieval/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
                                     con.query({
-                                        database: 'DEV',
+                                        database: config.stardogDB,
                                         query: ecosystem_query_file.toString()
                                     },
                                         function (ecosystem_terms) {

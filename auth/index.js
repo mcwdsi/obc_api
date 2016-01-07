@@ -60,7 +60,7 @@ function Auth() {
 		fs.readFile(__dirname + '/sparql/read-password.rq', function (err, passwordFile) {
 			
 			con.query({
-                    database: 'DEV',
+                    database: config.stardogDB,
                     query: passwordFile.toString().replace(/##USERNAME##/g, user)
                 },
                 function (passwordResults) {

@@ -14,7 +14,7 @@ function DatasetsHarness() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                database: 'DEV',
+                database: config.stardogDB,
                 query: allDatasetsQueryFile.toString().replace("##ABOUT##", filters)
             },
                 function (datasets_results) {
@@ -57,7 +57,7 @@ function DatasetsHarness() {
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
-                database: 'DEV',
+                database: config.stardogDB,
                 query: queryString
             },
                 function (results) {
