@@ -14,7 +14,7 @@ function PublicationsHarness() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: allPublicationsQueryFile.toString().replace("##ABOUT##", filters)
             },
                 function (publications_results) {
@@ -60,7 +60,7 @@ function PublicationsHarness() {
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: queryString
             },
                 function (results) {

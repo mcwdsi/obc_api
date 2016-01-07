@@ -1,3 +1,4 @@
+▽
 PREFIX sp: <tag:stardog:api:property:>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 
@@ -7,28 +8,22 @@ FROM <http://www.pitt.edu/obc/ide/apollo-sv>
 FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 FROM <http://www.pitt.edu/obc/ide/article-instances>
 WHERE {
-    ?class rdfs:subClassOf* ?rootClass .
-    ?rootClass <http://www.pitt.edu/obc/IDE_0000000024> ?isRoot .
-  	?rootClass rdfs:label ?rootLabel .
-    ?class rdfs:label ?classLabel .
-  	?rootClass <http://www.pitt.edu/obc/IDE_0000001000> rdfs:subClassOf .
+        ?class rdfs:subClassOf* ?rootClass .
+        ?rootClass <http://www.pitt.edu/obc/IDE_0000000024> ?isRoot .
+        ?rootClass rdfs:label ?rootLabel .
+        ?class rdfs:label ?classLabel .
+        ?rootClass <http://www.pitt.edu/obc/IDE_0000001000> rdfs:subClassOf .
 
-  
-    ?term rdfs:label ?termLabel ;
-        rdf:type ?class .
+        ?term rdf:type ?class .
 
-  	OPTIONAL {
-        ?term rdf:type*/rdfs:subClassOf* ?parentTerm .
-  		?parentTerm rdfs:label ?parentLabel .
-
-  		?parentTerm rdfs:subClassOf+ ?rootClass
-
+        OPTIONAL {
+                ?term rdfs:label ?termLabel .
+                ?term rdf:type*/rdfs:subClassOf* ?parentTerm .
+                ?parentTerm rdfs:label ?parentLabel .
+                ?parentTerm rdfs:subClassOf+ ?rootClass
      }
 
     FILTER(?isRoot)
-    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000088> } #don't want the reports 
-    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000311> } #don't want the publications 
-    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000100> } #don't want the datasets 
-    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000010> } #don't want the software 
-    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/APOLLO_SV_00000001> } #don't want the models 
+    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000088> } #don't want the reports
+    MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000311> } #don't want the publications
 } ORDER BY ?parentTerm

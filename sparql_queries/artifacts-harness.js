@@ -12,7 +12,7 @@ function ArtifactsHarness() {
 
         fs.readFile(__dirname + '/artifacts_queries/artifact_abouts.rq', function (err, artifactAboutsQueryFile) {
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: artifactAboutsQueryFile.toString().replace("##ARTIFACT##", artifact)
             },
                 function (artifactAbouts) {
@@ -36,7 +36,7 @@ function ArtifactsHarness() {
             console.log(queryString);
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: queryString
             },
                 function (results) {

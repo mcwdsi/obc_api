@@ -31,20 +31,20 @@ function IndexingTermsHarness() {
 
         fs.readFile(__dirname + '/indexing_terms_queries/indexing/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: partOf_query_file.toString()
             },
                 function (partOf_terms) {
                     //get second subset of indexing terms
                     fs.readFile(__dirname + '/indexing_terms_queries/indexing/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                         con.query({
-                            database: 'PROD',
+                            database: 'DEV',
                             query: subClassOf_query_file.toString()
                         },
                             function (subClassOf_terms) {
                                 fs.readFile(__dirname + '/indexing_terms_queries/indexing/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
                                     con.query({
-                                        database: 'PROD',
+                                        database: 'DEV',
                                         query: ecosystem_query_file.toString()
                                     },
                                         function (ecosystem_terms) {
@@ -81,20 +81,20 @@ function IndexingTermsHarness() {
 
         fs.readFile(__dirname + '/indexing_terms_queries/retrieval/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: partOf_query_file.toString()
             },
                 function (partOf_terms) {
                     //get second subset of indexing terms
                     fs.readFile(__dirname + '/indexing_terms_queries/retrieval/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                         con.query({
-                            database: 'PROD',
+                            database: 'DEV',
                             query: subClassOf_query_file.toString()
                         },
                             function (subClassOf_terms) {
                                 fs.readFile(__dirname + '/indexing_terms_queries/retrieval/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
                                     con.query({
-                                        database: 'PROD',
+                                        database: 'DEV',
                                         query: ecosystem_query_file.toString()
                                     },
                                         function (ecosystem_terms) {
@@ -123,9 +123,15 @@ function convertToTree(resultList) {
             var rootURI = results[j].rootClass.value;
             var rootLabel = results[j].rootLabel.value;
             var termURI = results[j].term.value;
-            var termLabel = results[j].termLabel.value;
-            var hieProp = results[j].hieProp.value;
 
+            var termLabel
+            if(results[j].termLabel) {
+                termLabel = results[j].termLabel.value;
+            } else {
+                termLabel = ""
+            }
+            var hieProp = results[j].hieProp.value;
+            
             //optional columns
             var parentTermURI = undefined;
             var parentLabel = undefined;
@@ -148,7 +154,7 @@ function convertToTree(resultList) {
             if (tree[rootURI] == undefined) {
                 tree[rootURI] = {};
                 tree[rootURI].uri = rootURI;
-                tree[rootURI].label = rootLabel;
+                tree[rootURI].label = rootLabel || null;
                 tree[rootURI].hierarchy = hieProp;
                 tree[rootURI].children = {};
             }
@@ -210,7 +216,7 @@ function convertToTree(resultList) {
                 //didn't find it in tree, so adding parent to root
                 parent = {};
                 parent.uri = parentTermURI;
-                parent.label = parentLabel;
+                parent.label = parentLabel || null;
                 parent.hierarchy = hieProp;
                 parent.children = {};
                 tree[rootURI].children[parentTermURI] = parent;
@@ -221,7 +227,7 @@ function convertToTree(resultList) {
                 //didn't find term in tree, so adding as child to parent
                 term = {};
                 term.uri = termURI;
-                term.label = termLabel;
+                term.label = termLabel || null;
                 term.hierarchy = hieProp;
                 term.children = {};
                 parent.children[termURI] = term;

@@ -14,7 +14,7 @@ function DatasetsHarness() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: allDatasetsQueryFile.toString().replace("##ABOUT##", filters)
             },
                 function (datasets_results) {
@@ -57,7 +57,7 @@ function DatasetsHarness() {
                 .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: queryString
             },
                 function (results) {

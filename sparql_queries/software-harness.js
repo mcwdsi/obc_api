@@ -14,7 +14,7 @@ function SoftwareHarness() {
             var filters = utils.buildFilters(terms);
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: allSoftwareQueryFile.toString().replace("##ABOUT##", filters)
             },
                 function (software_results) {
@@ -60,7 +60,7 @@ function SoftwareHarness() {
                 console.log(queryString);
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: queryString
             },
                 function (results) {

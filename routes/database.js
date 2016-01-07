@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     
     if(auth.isValidToken(token)){
         //todo: make configurable
-        res.json({dbName: 'PROD'});
+        res.json({dbName: 'DEV'});
     } else {
 		res.sendStatus(401);
     }

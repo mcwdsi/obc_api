@@ -1,5 +1,5 @@
 {
-	"stardogURL": "http://localhost:5820",
+	"stardogURL": "http://stardog.obc.io:5820",
 	"stardogUser": "admin",
 	"stardogPass": "admin",
 	"contactEmail": "joshhanna@ufl.edu"

@@ -23,7 +23,7 @@ function Utils() {
         fs.readFile(__dirname + '/uris_queries/uris.rq', function (err, urisQueryFile) {
 
             con.query({
-                database: 'PROD',
+                database: 'DEV',
                 query: urisQueryFile.toString()
             },
                 function (results) {

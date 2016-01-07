@@ -60,7 +60,7 @@ function Auth() {
 		fs.readFile(__dirname + '/sparql/read-password.rq', function (err, passwordFile) {
 			
 			con.query({
-                    database: 'PROD',
+                    database: 'DEV',
                     query: passwordFile.toString().replace(/##USERNAME##/g, user)
                 },
                 function (passwordResults) {
