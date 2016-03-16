@@ -2,8 +2,11 @@ var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils');
 var config = require('../config');
+var http = require('http');
 
 function SoftwareHarness() {
+    var agent = new http.Agent({ maxSockets: 15 });
+        
     this.query = function (terms, callback) {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
@@ -15,7 +18,8 @@ function SoftwareHarness() {
 
             con.query({
                 database: config.stardogDB,
-                query: allSoftwareQueryFile.toString().replace("##ABOUT##", filters)
+                query: allSoftwareQueryFile.toString().replace("##ABOUT##", filters),
+                agent: agent
             },
                 function (software_results) {
                     callback(utils.transformToJSON(software_results))
@@ -61,7 +65,8 @@ function SoftwareHarness() {
 
             con.query({
                 database: config.stardogDB,
-                query: queryString
+                query: queryString,
+                agent: agent
             },
                 function (results) {
                     callback();

@@ -3,8 +3,11 @@ var fs = require('fs');
 var stardog = require('stardog');
 var config = require('../config');
 var utils = require('./utils');
+var http = require('http');
 
 function IndexingTermsHarness() {
+    var agent = new http.Agent({ maxSockets: 15 });
+        
     var indexingCachedResults = undefined;
     var retrievalCachedResults = undefined;
 
@@ -32,20 +35,23 @@ function IndexingTermsHarness() {
         fs.readFile(__dirname + '/indexing_terms_queries/indexing/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
                 database: config.stardogDB,
-                query: partOf_query_file.toString()
+                query: partOf_query_file.toString(),
+                agent: agent
             },
                 function (partOf_terms) {
                     //get second subset of indexing terms
                     fs.readFile(__dirname + '/indexing_terms_queries/indexing/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                         con.query({
                             database: config.stardogDB,
-                            query: subClassOf_query_file.toString()
+                            query: subClassOf_query_file.toString(),
+                            agent: agent
                         },
                             function (subClassOf_terms) {
                                 fs.readFile(__dirname + '/indexing_terms_queries/indexing/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
                                     con.query({
                                         database: config.stardogDB,
-                                        query: ecosystem_query_file.toString()
+                                        query: ecosystem_query_file.toString(),
+                                        agent: agent
                                     },
                                         function (ecosystem_terms) {
                                             indexingCachedResults = convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]);
@@ -82,20 +88,23 @@ function IndexingTermsHarness() {
         fs.readFile(__dirname + '/indexing_terms_queries/retrieval/partOf_indexing_terms.rq', function (err, partOf_query_file) {
             con.query({
                 database: config.stardogDB,
-                query: partOf_query_file.toString()
+                query: partOf_query_file.toString(),
+                agent: agent
             },
                 function (partOf_terms) {
                     //get second subset of indexing terms
                     fs.readFile(__dirname + '/indexing_terms_queries/retrieval/subClassOf_indexing_terms.rq', function (err, subClassOf_query_file) {
                         con.query({
                             database: config.stardogDB,
-                            query: subClassOf_query_file.toString()
+                            query: subClassOf_query_file.toString(),
+                            agent: agent
                         },
                             function (subClassOf_terms) {
                                 fs.readFile(__dirname + '/indexing_terms_queries/retrieval/ecosystem_indexing_terms.rq', function (err, ecosystem_query_file) {
                                     con.query({
                                         database: config.stardogDB,
-                                        query: ecosystem_query_file.toString()
+                                        query: ecosystem_query_file.toString(),
+                                        agent: agent
                                     },
                                         function (ecosystem_terms) {
                                             retrievalCachedResults = convertToTree([partOf_terms, subClassOf_terms, ecosystem_terms]);
