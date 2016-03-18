@@ -3,8 +3,11 @@ var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils')
 var config = require('../config');
+var http = require('http'); 
 
 function ArtifactsHarness() {
+    var agent = new http.Agent({ maxSockets: 15 });    
+        
     this.abouts = function (artifact, callback) {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
@@ -13,7 +16,8 @@ function ArtifactsHarness() {
         fs.readFile(__dirname + '/artifacts_queries/artifact_abouts.rq', function (err, artifactAboutsQueryFile) {
             con.query({
                 database: config.stardogDB,
-                query: artifactAboutsQueryFile.toString().replace("##ARTIFACT##", artifact)
+                query: artifactAboutsQueryFile.toString().replace("##ARTIFACT##", artifact),
+                agent: agent
             },
                 function (artifactAbouts) {
                     callback(utils.transformToJSON(artifactAbouts));
@@ -37,7 +41,8 @@ function ArtifactsHarness() {
 
             con.query({
                 database: config.stardogDB,
-                query: queryString
+                query: queryString,
+                agent: agent
             },
                 function (results) {
                     callback();

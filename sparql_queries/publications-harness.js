@@ -2,20 +2,25 @@ var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils');
 var config = require('../config');
+var http = require('http');
 
 function PublicationsHarness() {
+    
+    var agent = new http.Agent({ maxSockets: 15 });    
+    
     this.query = function (terms, callback) {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
-
+        
         fs.readFile(__dirname + '/publications_queries/all_publications.rq', function (err, allPublicationsQueryFile) {
 
             var filters = utils.buildFilters(terms);
 
             con.query({
                 database: config.stardogDB,
-                query: allPublicationsQueryFile.toString().replace("##ABOUT##", filters)
+                query: allPublicationsQueryFile.toString().replace("##ABOUT##", filters),
+                agent: agent
             },
                 function (publications_results) {
                     callback(utils.transformToJSON(publications_results));
@@ -61,7 +66,8 @@ function PublicationsHarness() {
 
             con.query({
                 database: config.stardogDB,
-                query: queryString
+                query: queryString,
+                agent: agent
             },
                 function (results) {
                     callback();

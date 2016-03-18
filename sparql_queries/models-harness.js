@@ -3,8 +3,11 @@ var fs = require('fs');
 var stardog = require('stardog');
 var utils = require('./utils');
 var config = require('../config');
+var http = require('http');
 
 function ModelsHarness() {
+    var agent = new http.Agent({ maxSockets: 15 });
+       
     this.query = function (terms, callback) {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
@@ -15,7 +18,8 @@ function ModelsHarness() {
 
             con.query({
                 database: config.stardogDB,
-                query: allModelsQueryFile.toString().replace("##ABOUT##", filters)
+                query: allModelsQueryFile.toString().replace("##ABOUT##", filters),
+                agent: agent
             },
                 function (models_results) {
                     callback(utils.transformToJSON(models_results))
@@ -61,7 +65,8 @@ function ModelsHarness() {
 
             con.query({
                     database: config.stardogDB,
-                    query: queryString
+                    query: queryString,
+                    agent: agent
             },
             function (results) {
                 callback();
