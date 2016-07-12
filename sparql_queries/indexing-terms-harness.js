@@ -136,9 +136,14 @@ function convertToTree(resultList) {
             var termLabel
             if(results[j].termLabel) {
                 termLabel = results[j].termLabel.value;
+            } else if(results[j].termPreferredLabel){
+                termLabel = results[j].termPreferredLabel.value
+            } else if(results[j].termTitle){
+                termLabel = results[j].termTitle.value
             } else {
                 termLabel = ""
             }
+
             var hieProp = results[j].hieProp.value;
             
             //optional columns
