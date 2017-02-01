@@ -14,6 +14,7 @@ var models = require('./routes/models');
 var reports = require('./routes/reports');
 var software = require('./routes/software');
 var artifacts = require('./routes/artifacts');
+var grant = require('./routes/grant');
 
 var tokens = require('./routes/tokens');
 var users = require('./routes/users');
@@ -40,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/indexing_terms', indexing_terms);
 app.use('/publications', publications);
 app.use('/datasets', datasets);
-app.use('/models', models);
+app.use('/models', models); 
 app.use('/reports', reports);
 app.use('/software', software);
 app.use('/tokens', tokens);
@@ -48,6 +49,7 @@ app.use('/users', users);
 app.use('/database', db);
 app.use('/artifacts', artifacts);
 app.use('/contacts', contacts);
+app.use('/grant', grant);
 
 
 // catch 404 and forward to error handler

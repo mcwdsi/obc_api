@@ -15,7 +15,6 @@ function ModelsHarness() {
 
         fs.readFile(__dirname + '/models_queries/all_models.rq', function (err, allModelsQueryFile) {
             var filters = utils.buildFilters(terms);
-
             con.query({
                 database: config.stardogDB,
                 query: allModelsQueryFile.toString().replace("##ABOUT##", filters),
@@ -23,7 +22,9 @@ function ModelsHarness() {
             },
                 function (models_results) {
                     callback(utils.transformToJSON(models_results))
+
                 });
+               
         });
 
     };
@@ -32,7 +33,6 @@ function ModelsHarness() {
         fs.readFile(__dirname + '/models_queries/all_models.rq', function (err, allModelsQueryFile) {
             var filters = utils.buildFilters(terms);
             var queryString = allModelsQueryFile.toString().replace("##ABOUT##", filters);
-            
             callback({query: queryString});
         });  
     };

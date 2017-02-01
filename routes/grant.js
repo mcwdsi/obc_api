@@ -4,31 +4,30 @@ var harness = require('../sparql_queries/query-harness')
 var utils = require('./utils');
 var auth = require('../auth');
 
-/* GET list of models. */
+/* GET list of grants. */
 router.get('/', function(req, res, next) {
     //pass through only valid URLs
     var validTerms = utils.validateTerms(req.query.term);
-    //get list of models
-    harness.models(validTerms, function(data) {
+    //get list of grants
+    harness.grant(validTerms, function(data) {
         res.json(data);
     });
 });
 
-router.get('/query', function(req, res, next) {
+router.get('/query', function(req, res, next){
     var token = req.query.token;
     
     if(auth.isValidToken(token)){
         //pass through only valid URLs
         var validTerms = utils.validateTerms(req.query.term);
 
-        //get models query
-        harness.modelsQuery(validTerms, function(data) {
+        //get grants query
+        harness.grantQuery(validTerms, function(data) {
             res.json(data);
         });
     } else {
         res.sendStatus(401);
     }
-    
 });
 
 module.exports = router;

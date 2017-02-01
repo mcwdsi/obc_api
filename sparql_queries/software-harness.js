@@ -22,6 +22,8 @@ function SoftwareHarness() {
                 agent: agent
             },
                 function (software_results) {
+                    console.log("AT SOFTWARE");
+                    console.log(software_results);
                     callback(utils.transformToJSON(software_results))
                 });
         });

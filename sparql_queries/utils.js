@@ -91,7 +91,9 @@ function Utils() {
          'publication': 'http://purl.obolibrary.org/obo/IAO_0000311',
          'epidemic model': 'http://purl.obolibrary.org/obo/APOLLO_SV_00000001',
          'report': 'http://purl.obolibrary.org/obo/IAO_0000088',
-         'software': 'http://purl.obolibrary.org/obo/IAO_0000010'};
+         'software': 'http://purl.obolibrary.org/obo/IAO_0000010',
+         'grant': 'http://purl.obolibrary.org/obo/OBI_0001636'
+     };
          
          return types[artifactType];
     };

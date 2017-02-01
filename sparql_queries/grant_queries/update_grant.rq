@@ -1,0 +1,49 @@
+
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+
+DELETE {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
+        <##SOFTWARE##> dc:title ?title .
+        <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization .
+        <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> ?date . 
+        <##SOFTWARE##> obo:IAO_0000136 ?about .
+        <##SOFTWARE##> rdf:type ?types .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
+        <##SOFTWARE##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed .
+    }
+} INSERT {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
+        <##SOFTWARE##> dc:title "##TITLE##" .
+        <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> "##LINKOUT##" .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> "##SOURCE##" .
+        <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> "##DATE##" . 
+        <##SOFTWARE##> rdf:type <##TYPE##> .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> "##VERSION##" .
+        <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> "##DOI##" .
+        <##SOFTWARE##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> "##DATEINDEXED##" .
+        ##ABOUTS##
+    } 
+} 
+USING <http://www.pitt.edu/obc/ide/apollo-sv>
+USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+USING <http://www.pitt.edu/obc/ide/article-instances>
+
+WHERE {
+    OPTIONAL { <##SOFTWARE##> dc:title ?title } .
+    OPTIONAL { <##SOFTWARE##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+    OPTIONAL { <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+    OPTIONAL { <##SOFTWARE##> <http://purl.org/dc/elements/1.1/date> ?date } . 
+    OPTIONAL { <##SOFTWARE##> obo:IAO_0000136 ?about } .
+    OPTIONAL { <##SOFTWARE##> rdf:type ?types } .
+    OPTIONAL { <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_version> ?version } .
+    OPTIONAL { <##SOFTWARE##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
+    OPTIONAL { <##SOFTWARE##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed }.
+}

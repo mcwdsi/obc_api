@@ -5,6 +5,7 @@ var modelsHarness = require('./models-harness');
 var reportsHarness = require('./reports-harness');
 var softwareHarness = require('./software-harness');
 var artifactsHarness = require('./artifacts-harness');
+var grantHarness = require('./grant-harness');
 var utils = require('./utils');
 
 
@@ -90,6 +91,19 @@ function Harness() {
         softwareHarness.queryString(terms, callback);
     };
 
+    //GRANT
+    this.grant = function (terms, callback) {
+        grantHarness.query(terms, callback);
+    };
+
+    // this.updateGrant = function (data, callback) {
+    //     grantHarness.update(data, callback);
+    // };
+
+    this.grantQuery = function (terms, callback) {
+        grantHarness.queryString(terms, callback);
+    };
+
     //GENERAL
 
     this.artifactAbouts = function (artifact, callback) {
@@ -108,6 +122,10 @@ function Harness() {
         } else if (data.artifactType === 'software') {
             this.updateSoftware(data, callback);
         }
+        //TODO: once we have the update query
+        // } else if (data.artifactType === 'grant') {
+        //     this.updateGrant(data, callback);
+        // }
     };
     
     this.delete = function (data, callback) {
