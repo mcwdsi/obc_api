@@ -6,7 +6,7 @@ PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 
-SELECT DISTINCT ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?linkout ?date ?sourceOrganization ?authors ?journal
+SELECT DISTINCT ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?linkout ?date ?sourceOrganization ?authors ?journal ?typelabel
     (group_concat(DISTINCT ?aboutLabel ; separator = " :: ") as ?abouts)
 FROM <http://www.pitt.edu/obc/ide/apollo-sv>
 FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
@@ -14,6 +14,8 @@ FROM <http://www.pitt.edu/obc/ide/article-instances>
 WHERE {
   
     ?grant rdf:type obo:OBI_0001636 .
+    ?grant rdf:type ?type .
+    ?type rdfs:label ?typelabel .
     ?grant dc:title ?title .
     ?grant obo:IDE_0000000174 ?awardee .
     ?grant obo:IDE_0000000172 ?foa .
@@ -39,4 +41,4 @@ WHERE {
     #used for string interpolation to filter based on search terms
     ##ABOUT##
     
-} GROUP BY ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?linkout ?date ?sourceOrganization ?authors ?journal
+} GROUP BY ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?linkout ?date ?sourceOrganization ?authors ?journal ?typelabel
