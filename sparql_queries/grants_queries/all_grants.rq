@@ -25,9 +25,9 @@ WHERE {
     ?grant obo:IDE_0000000170 ?end . 
     ?grantid obo:IAO_0000219 ?grant .
     ?grantid rdfs:label ?grantidlabel .
-    ?grant obo:BFO_0000051 ?os . 
-    ?os ^obo:OBI_0000417 ?pp .
-    OPTIONAL { ?pp ^obo:IAO_0000136 ?pub } .  
+    OPTIONAL { ?grant obo:BFO_0000051 ?os . 
+                ?os ^obo:OBI_0000417 ?pp  .
+                ?pp ^obo:IAO_0000136 ?pub } .  
     OPTIONAL { ?pub dc:title ?title } .
     OPTIONAL { ?pub <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
     OPTIONAL { ?pub <http://purl.org/dc/elements/1.1/date> ?date } .

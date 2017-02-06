@@ -74,6 +74,46 @@ function PublicationsHarness() {
                 });
         });
     };
+
+    this.insert = function (publicationData, callback) {
+        var con = new stardog.Connection();
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
+
+        fs.readFile(__dirname + '/publications_queries/insert_publication.rq', function (err, insertPublicationsQueryFile) {
+
+            var aboutsInsert = '';
+            for (var i in publicationData.abouts) {
+                aboutsInsert += '<' + publicationData.uri + '> obo:IAO_0000136 <' + publicationData.abouts[i].uri + '> .\n        ';
+            }
+
+            var queryString = insertPublicationsQueryFile.toString()
+                .replace(/##PUBLICATION##/g, publicationData.uri)
+                .replace(/##TITLE##/g, publicationData.title !== undefined ? publicationData.title : "")
+                .replace(/##LINKOUT##/g, publicationData.linkout !== undefined ? publicationData.linkout : "")
+                .replace(/##AUTHORS##/g, publicationData.authors !== undefined ? publicationData.authors : "")
+                .replace(/##DATE##/g, publicationData.date !== undefined ? publicationData.date : "")
+                .replace(/##TYPE##/g, utils.lookupTypeURI(publicationData.artifactType))
+                .replace(/##PMID##/g, publicationData.pmid !== undefined ? publicationData.pmid : "")
+                .replace(/##JOURNAL##/g, publicationData.journal !== undefined ? publicationData.journal : "")
+                .replace(/##DOI##/g, publicationData.doi !== undefined ? publicationData.doi : "")    
+                .replace(/##DATEINDEXED##/g, publicationData.dateIndexed !== undefined ? publicationData.dateIndexed : new Date().toISOString())            
+                .replace(/##ABOUTS##/g, aboutsUpdate)
+                .replace(/##GRANT##/g, publicationData.grant !== undefined ? publicationData.grant : "")
+                .replace(/##OS##/g, utils.getNewURI())
+                .replace(/##PP##/g, utils.getNewURI());
+
+            con.query({
+                database: config.stardogDB,
+                query: queryString,
+                agent: agent
+            },
+                function (results) {
+                    callback();
+                });
+        });
+    };
+
 };
 
 

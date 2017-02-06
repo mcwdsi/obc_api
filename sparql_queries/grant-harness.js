@@ -12,7 +12,7 @@ function grantHarness() {
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
 
-        fs.readFile(__dirname + '/grant_queries/all_grant.rq', function (err, allGrantQueryFile) {
+        fs.readFile(__dirname + '/grants_queries/all_grants.rq', function (err, allGrantQueryFile) {
 
             var filters = utils.buildFilters(terms);
             con.query({
@@ -27,7 +27,7 @@ function grantHarness() {
     };
 
     this.queryString = function (terms, callback) {
-        fs.readFile(__dirname + '/grant_queries/all_grant.rq', function (err, allGrantQueryFile) {
+        fs.readFile(__dirname + '/grants_queries/all_grants.rq', function (err, allGrantQueryFile) {
             var filters = utils.buildFilters(terms);
             var queryString = allGrantQueryFile.toString().replace("##ABOUT##", filters);
             callback({ query: queryString });

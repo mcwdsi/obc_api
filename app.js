@@ -14,7 +14,7 @@ var models = require('./routes/models');
 var reports = require('./routes/reports');
 var software = require('./routes/software');
 var artifacts = require('./routes/artifacts');
-var grant = require('./routes/grant');
+var grants = require('./routes/grants');
 
 var tokens = require('./routes/tokens');
 var users = require('./routes/users');
@@ -49,7 +49,7 @@ app.use('/users', users);
 app.use('/database', db);
 app.use('/artifacts', artifacts);
 app.use('/contacts', contacts);
-app.use('/grant', grant);
+app.use('/grants', grants);
 
 
 // catch 404 and forward to error handler
