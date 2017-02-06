@@ -1,11 +1,3 @@
-
-PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
-PREFIX obo: <http://purl.obolibrary.org/obo/>
-PREFIX dc: <http://purl.org/dc/elements/1.1/>
-
 SELECT DISTINCT ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?linkout ?date ?sourceOrganization ?authors ?journal ?typelabel
     (group_concat(DISTINCT ?aboutLabel ; separator = " :: ") as ?abouts)
 FROM <http://www.pitt.edu/obc/ide/apollo-sv>
@@ -26,15 +18,39 @@ WHERE {
     ?grantid obo:IAO_0000219 ?grant .
     ?grantid rdfs:label ?grantidlabel .
     OPTIONAL { ?grant obo:BFO_0000051 ?os . 
-                ?os ^obo:OBI_0000417 ?pp  .
-                ?pp ^obo:IAO_0000136 ?pub } .  
-    OPTIONAL { ?pub dc:title ?title } .
-    OPTIONAL { ?pub <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
-    OPTIONAL { ?pub <http://purl.org/dc/elements/1.1/date> ?date } .
-    OPTIONAL { ?pub <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
-    OPTIONAL { ?pub <http://www.pitt.edu/obc/AUTHORS_1> ?authors } .
+                ?pp obo:OBI_0000417 ?os  .
+                ?pub obo:IAO_0000136 ?pp } .  
+  
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+                ?pp obo:OBI_0000417 ?os  .
+                ?pub obo:IAO_0000136 ?pp. 
+                ?pub dc:title ?title } .
+  
+    OPTIONAL { ?grant obo:BFO_0000051 ?os . 
+                ?pp obo:OBI_0000417 ?os  .
+                ?pub obo:IAO_0000136 ?pp .
+                ?pub <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
+  
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+                ?pp obo:OBI_0000417 ?os  .
+                ?pub obo:IAO_0000136 ?pp .
+                ?pub <http://purl.org/dc/elements/1.1/date> ?date } .
+  
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+                ?pp obo:OBI_0000417 ?os  .
+                ?pub obo:IAO_0000136 ?pp .
+                ?pub <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
+  
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+                ?pp obo:OBI_0000417 ?os  .
+                ?pub obo:IAO_0000136 ?pp .
+                ?pub <http://www.pitt.edu/obc/AUTHORS_1> ?authors } .
+  
     OPTIONAL {
-        ?pub <http://purl.obolibrary.org/obo/BFO_0000137> ?journalUri .
+                ?grant obo:BFO_0000051 ?os . 
+                ?pp obo:OBI_0000417 ?os  .
+                ?pub obo:IAO_0000136 ?pp .
+                ?pub <http://purl.obolibrary.org/obo/BFO_0000137> ?journalUri .
         ?journalUri dc:title ?journal .
     } .
     
