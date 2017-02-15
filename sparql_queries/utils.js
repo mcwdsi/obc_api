@@ -57,6 +57,24 @@ function Utils() {
         return transformed_results;
     };
 
+    this.transformGrantsToJSON = function(sparql_results){
+        var returned_results = sparql_results.results.bindings;
+        var transformed_results = [];
+        for(var i in returned_results) {
+            var result_row = {};
+            for(var key in returned_results[i]) {
+                if (returned_results[i][key] !== undefined && returned_results[i][key].value !== '') {
+                    result_row[key] = returned_results[i][key].value;
+                }
+            }
+            if(Object.keys(result_row).length !== 0){
+                transformed_results.push(result_row);
+            }
+        }
+        
+        return eliminateDuplicates(transformed_results);
+    };
+
     this.buildFilters = function(terms){
         var filters = '';
         for(var i in terms){
@@ -104,5 +122,42 @@ function pad(n, width, z) {
   n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
+
+function eliminateDuplicates(data){
+    var titleList = {};
+    var result = []
+    var pis = []
+     for (var i in data) {
+      var title = data[i].title
+      //eliminate any duplicated pi
+        if (!(title in titleList)){
+          titleList[title] = data[i]
+          pis.push(data[i].pi);
+          titleList[title].pi = pis;
+        }
+        else {
+            var found = false;
+            for (var x in titleList[title].pi){
+                var piSaved = titleList[title].pi[x]
+                if ((data[i].pi) === piSaved){
+                    found = true
+                }
+            }
+            if (found != true){
+                titleList[title].pi.push(data[i].pi)
+            }
+        }
+        pis = []
+      }
+      for (var key in titleList){
+        result.push(titleList[key]);
+      }
+      console.log(result.length)
+     return result;
+  }
+
+
+
+
 
 module.exports = new Utils;
