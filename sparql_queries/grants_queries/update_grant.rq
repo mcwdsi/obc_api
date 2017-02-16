@@ -19,7 +19,7 @@ DELETE {
         <##GRANT##> obo:IDE_0000000174 ?awardee .
         <##GRANT##> obo:BFO_0000051 ?os .
         ?os rdf:type obo:IAO_0000005 .
-        ?os obo:OBI_0000417 ?pp .
+        ?pp obo:OBI_0000417 ?os .
         ?pp rdf:type obo:IAO_0000011 .
     }
 } 
@@ -35,7 +35,7 @@ INSERT {
         <##GRANTS##> obo:IDE_0000000174 '##AWARDEE##' .
         <##GRANTS##> obo:BFO_0000051 ?os .
         ?os rdf:type obo:IAO_0000005 .
-        ?os obo:OBI_0000417 ?pp .
+        ?pp obo:OBI_0000417 ?os .
         ?pp rdf:type obo:IAO_0000011 .
     } 
 }
