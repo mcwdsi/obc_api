@@ -39,7 +39,7 @@ function grantHarness() {
     //     con.setEndpoint(config.stardogURL);
     //     con.setCredentials(config.stardogUser, config.stardogPass);
 
-    //     fs.readFile(__dirname + '/grant_queries/update_grant.rq', function (err, updategrantQueryFile) {
+    //     fs.readFile(__dirname + '/grants_queries/update_grant.rq', function (err, updategrantQueryFile) {
 
     //         var aboutsUpdate = '';
     //         for (var i in grantData.abouts) {
