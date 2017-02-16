@@ -20,11 +20,12 @@ function grantHarness() {
                 query: allGrantQueryFile.toString().replace("##ABOUT##", filters),
                 agent: agent
             }, function (grant_results) {
-                    callback(utils.transformToJSON(grant_results))
+                    callback(utils.transformGrantsToJSON(grant_results))
                 });
         });
 
     };
+
 
     this.queryString = function (terms, callback) {
         fs.readFile(__dirname + '/grants_queries/all_grants.rq', function (err, allGrantQueryFile) {
@@ -72,5 +73,37 @@ function grantHarness() {
     // };
 
 };
+
+function eliminateDuplicates(data){
+    console.log(data.bindings)
+    var titleList = {};
+    var result = []
+     // for (var i in data) {
+     //  var title = data[i].title
+     //    if (!(title in titleList)){
+     //      titleList[title] = data[i]
+     //    }
+     //    else {
+     //      var authorSaved = titleList[title].pi;
+     //      if ( !(authorSaved.includes(data[i].pi)) ){
+     //        titleList[title].pi = titleList[title].pi + ", " + data[i].pi;
+     //      }
+     //    }
+     //  }
+     //  for (var key in titleList){
+     //    result.push(titleList[key]);
+     //  }
+      console.log("RESU")
+      console.log(result)
+     return result;
+  }
+
+
+
+
+
+
+
+
 
 module.exports = new grantHarness;

@@ -4,7 +4,7 @@ FROM <http://www.pitt.edu/obc/ide/apollo-sv>
 FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 FROM <http://www.pitt.edu/obc/ide/article-instances>
 WHERE {
-  
+ 
     ?grant rdf:type obo:OBI_0001636 .
     ?grant rdf:type ?type .
     ?type rdfs:label ?typeLabel .
@@ -14,53 +14,54 @@ WHERE {
     ?grant obo:IDE_0000000173 ?agency .
     ?grant obo:IDE_0000000171 ?pi .
     ?grant obo:IDE_0000000169 ?start .
-    ?grant obo:IDE_0000000170 ?end . 
+    ?grant obo:IDE_0000000170 ?end .
     ?grantid obo:IAO_0000219 ?grant .
     ?grantid rdfs:label ?grantidlabel .
+
     OPTIONAL {  ?grant <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
-    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
-                ?pub obo:IAO_0000136 ?pp } .  
+                ?pub obo:IAO_0000136 ?pp } . 
   
-    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp .
                 ?pub dc:title ?pubName } .
-  
-    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+ 
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
-                ?pub obo:IAO_0000136 ?pp. 
+                ?pub obo:IAO_0000136 ?pp.
                 ?pub dc:title ?title } .
-  
-    OPTIONAL { ?grant obo:BFO_0000051 ?os . 
+ 
+    OPTIONAL { ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp .
                 ?pub <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
-  
-    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+ 
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp .
                 ?pub <http://purl.org/dc/elements/1.1/date> ?date } .
-  
-    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+ 
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp .
                 ?pub <http://www.pitt.edu/obc/IDE_source_organization> ?sourceOrganization } .
-  
-    OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
+ 
+    OPTIONAL {  ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp .
                 ?pub <http://www.pitt.edu/obc/AUTHORS_1> ?authors } .
-  
+ 
     OPTIONAL {
-                ?grant obo:BFO_0000051 ?os . 
+                ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp .
                 ?pub <http://purl.obolibrary.org/obo/BFO_0000137> ?journalUri .
         ?journalUri dc:title ?journal .
     } .
-    
+   
     #used for string interpolation to filter based on search terms
     ##ABOUT##
-    
+
 } GROUP BY ?grant ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?pubName ?linkout ?date ?sourceOrganization ?authors ?journal ?typeLabel ?dateIndexed
