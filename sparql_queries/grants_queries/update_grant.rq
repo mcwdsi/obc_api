@@ -25,14 +25,14 @@ DELETE {
 } 
 INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
-        <##GRANTS##> dc:title 'Build the wall' .
+        <##GRANTS##> dc:title '##TITLE##' .
         <##GRANTS##> rdf:type obo:OBI_0001636 .
-        <##GRANTS##> obo:IDE_0000000169 'Jan 20 2017'  .
-        <##GRANTS##> obo:IDE_0000000170 'Jan 20 2017' . 
-        <##GRANTS##> obo:IDE_0000000171 'Donald J Trump' .
-        <##GRANTS##> obo:IDE_0000000173 'DHS' .
-        <##GRANTS##> obo:IDE_0000000172 'MAGA' .
-        <##GRANTS##> obo:IDE_0000000174 'Donald J Trump' .
+        <##GRANTS##> obo:IDE_0000000169 '##START##'  .
+        <##GRANTS##> obo:IDE_0000000170 '##END##' . 
+        <##GRANTS##> obo:IDE_0000000171 '##PI##' .
+        <##GRANTS##> obo:IDE_0000000173 '##AGENCY##' .
+        <##GRANTS##> obo:IDE_0000000172 '##FOA##' .
+        <##GRANTS##> obo:IDE_0000000174 '##AWARDEE##' .
         <##GRANTS##> obo:BFO_0000051 ?os .
         ?os rdf:type obo:IAO_0000005 .
         ?os obo:OBI_0000417 ?pp .

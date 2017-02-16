@@ -1,4 +1,4 @@
-SELECT DISTINCT ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?pubName ?linkout ?date ?sourceOrganization ?authors ?journal ?typelabel
+SELECT DISTINCT ?grant ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?pubName ?linkout ?date ?sourceOrganization ?authors ?journal ?typeLabel ?dateIndexed
     (group_concat(DISTINCT ?aboutLabel ; separator = " :: ") as ?abouts)
 FROM <http://www.pitt.edu/obc/ide/apollo-sv>
 FROM <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
@@ -7,7 +7,7 @@ WHERE {
   
     ?grant rdf:type obo:OBI_0001636 .
     ?grant rdf:type ?type .
-    ?type rdfs:label ?typelabel .
+    ?type rdfs:label ?typeLabel .
     ?grant dc:title ?title .
     ?grant obo:IDE_0000000174 ?awardee .
     ?grant obo:IDE_0000000172 ?foa .
@@ -17,6 +17,7 @@ WHERE {
     ?grant obo:IDE_0000000170 ?end . 
     ?grantid obo:IAO_0000219 ?grant .
     ?grantid rdfs:label ?grantidlabel .
+    OPTIONAL {  ?grant <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
     OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp } .  
@@ -62,4 +63,4 @@ WHERE {
     #used for string interpolation to filter based on search terms
     ##ABOUT##
     
-} GROUP BY ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?pubName ?linkout ?date ?sourceOrganization ?authors ?journal ?typelabel
+} GROUP BY ?grant ?title ?awardee ?foa ?agency ?pi ?grantidlabel ?start ?end ?pub ?pubName ?linkout ?date ?sourceOrganization ?authors ?journal ?typeLabel ?dateIndexed
