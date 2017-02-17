@@ -27,11 +27,6 @@ WHERE {
                 ?pub obo:IAO_0000136 ?pp .
                 ?pub dc:title ?pubName } .
  
-    OPTIONAL {  ?grant obo:BFO_0000051 ?os .
-                ?pp obo:OBI_0000417 ?os  .
-                ?pub obo:IAO_0000136 ?pp.
-                ?pub dc:title ?title } .
- 
     OPTIONAL { ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp .
