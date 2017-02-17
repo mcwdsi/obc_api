@@ -72,7 +72,7 @@ function Utils() {
             }
         }
         
-        return eliminateDuplicates(transformed_results);
+        return eliminateDuplicatesByPub(transformed_results);
     };
 
     this.buildFilters = function(terms){
@@ -123,7 +123,39 @@ function pad(n, width, z) {
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
-function eliminateDuplicates(data){
+function eliminateDuplicatesByPub(data){
+    var titleList = {};
+    var result = []
+    var pis = []
+     for (var i in data) {
+      var title = data[i].pubName
+      //eliminate any duplicated pi
+        if (!(title in titleList)){
+          titleList[title] = data[i]
+          pis.push(data[i].pi);
+          titleList[title].pi = pis;
+        }
+        else {
+            var found = false;
+            for (var x in titleList[title].pi){
+                var piSaved = titleList[title].pi[x]
+                if ((data[i].pi) === piSaved){
+                    found = true
+                }
+            }
+            if (found != true){
+                titleList[title].pi.push(data[i].pi)
+            }
+        }
+        pis = []
+      }
+      for (var key in titleList){
+        result.push(titleList[key]);
+      }
+     return result;
+  }
+
+  function eliminateDuplicatesByGrant(data){
     var titleList = {};
     var result = []
     var pis = []
@@ -152,12 +184,7 @@ function eliminateDuplicates(data){
       for (var key in titleList){
         result.push(titleList[key]);
       }
-      console.log(result.length)
      return result;
   }
-
-
-
-
 
 module.exports = new Utils;

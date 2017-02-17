@@ -74,31 +74,6 @@ function grantHarness() {
 
 };
 
-function eliminateDuplicates(data){
-    console.log(data.bindings)
-    var titleList = {};
-    var result = []
-     // for (var i in data) {
-     //  var title = data[i].title
-     //    if (!(title in titleList)){
-     //      titleList[title] = data[i]
-     //    }
-     //    else {
-     //      var authorSaved = titleList[title].pi;
-     //      if ( !(authorSaved.includes(data[i].pi)) ){
-     //        titleList[title].pi = titleList[title].pi + ", " + data[i].pi;
-     //      }
-     //    }
-     //  }
-     //  for (var key in titleList){
-     //    result.push(titleList[key]);
-     //  }
-      console.log("RESU")
-      console.log(result)
-     return result;
-  }
-
-
 
 
 
