@@ -6,6 +6,7 @@ var reportsHarness = require('./reports-harness');
 var softwareHarness = require('./software-harness');
 var artifactsHarness = require('./artifacts-harness');
 var grantHarness = require('./grant-harness');
+var pubsPageHarness = require('./pubs-page-harness')
 var utils = require('./utils');
 
 
@@ -33,7 +34,11 @@ function Harness() {
 
     this.publicationsQuery = function (terms, callback) {
         publicationsHarness.queryString(terms, callback);
-    };
+    }; 
+
+    this.insertPublication = function (data, callback) {
+        publicationsHarness.insert(data, callback);
+    }
 
     //DATASETS
 
@@ -104,6 +109,19 @@ function Harness() {
         grantHarness.queryString(terms, callback);
     };
 
+    // Pubs Page
+    this.pubsPage = function (terms, callback) {
+        pubsPageHarness.query(terms, callback);
+    };
+
+    // this.updateGrant = function (data, callback) {
+    //     grantHarness.update(data, callback);
+    // };
+
+    this.pubsPageQuery = function (terms, callback) {
+        pubsPageHarness.queryString(terms, callback);
+    };
+
     //GENERAL
 
     this.artifactAbouts = function (artifact, callback) {
@@ -114,7 +132,7 @@ function Harness() {
         if (data.artifactType === 'data set') {
             this.updateDataset(data, callback);
         } else if (data.artifactType === 'publication') {
-            this.updatePublication(data, callback);
+            this.insertPublication(data, callback);
         } else if (data.artifactType === 'report') {
             this.updateReport(data, callback);
         } else if (data.artifactType === 'epidemic model') {
