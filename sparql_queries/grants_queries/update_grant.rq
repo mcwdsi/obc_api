@@ -9,15 +9,16 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 
 DELETE {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
-        <##GRANT##> dc:title ?title .
-        <##GRANT##> rdf:type obo:OBI_0001636 .
-        <##GRANT##> obo:IDE_0000000169 ?start  .
-        <##GRANT##> obo:IDE_0000000170 ?end . 
-        <##GRANT##> obo:IDE_0000000171 ?pi .
-        <##GRANT##> obo:IDE_0000000173 ?agency .
-        <##GRANT##> obo:IDE_0000000172 ?foa .
-        <##GRANT##> obo:IDE_0000000174 ?awardee .
-        <##GRANT##> obo:BFO_0000051 ?os .
+        <##GRANTS##> dc:title ?title .
+        <##GRANTS##> rdf:type obo:OBI_0001636 .
+        <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
+        <##GRANTS##> obo:IDE_0000000169 ?start  .
+        <##GRANTS##> obo:IDE_0000000170 ?end . 
+        <##GRANTS##> obo:IDE_0000000171 ?pi .
+        <##GRANTS##> obo:IDE_0000000173 ?agency .
+        <##GRANTS##> obo:IDE_0000000172 ?foa .
+        <##GRANTS##> obo:IDE_0000000174 ?awardee .
+        <##GRANTS##> obo:BFO_0000051 ?os .
         ?os rdf:type obo:IAO_0000005 .
         ?pp obo:OBI_0000417 ?os .
         ?pp rdf:type obo:IAO_0000011 .
@@ -27,6 +28,7 @@ INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
         <##GRANTS##> dc:title '##TITLE##' .
         <##GRANTS##> rdf:type obo:OBI_0001636 .
+        <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> '##LINKOUT##'' .
         <##GRANTS##> obo:IDE_0000000169 '##START##'  .
         <##GRANTS##> obo:IDE_0000000170 '##END##' . 
         <##GRANTS##> obo:IDE_0000000171 '##PI##' .
@@ -47,6 +49,7 @@ USING <http://www.pitt.edu/obc/ide/article-instances>
 WHERE {
     OPTIONAL { <##GRANTS##> dc:title ?title } .
     OPTIONAL { <##GRANTS##> rdf:type obo:OBI_0001636 } .
+    OPTIONAL { <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
     OPTIONAL { <##GRANTS##> obo:IDE_0000000171 ?pi } .
     OPTIONAL { <##GRANTS##> obo:IDE_0000000174 ?awardee } .
     OPTIONAL { <##GRANTS##> obo:IDE_0000000172 ?foa } .
