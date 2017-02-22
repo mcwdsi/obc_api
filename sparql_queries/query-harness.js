@@ -96,9 +96,9 @@ function Harness() {
         grantHarness.query(terms, callback);
     };
 
-    // this.updateGrant = function (data, callback) {
-    //     grantHarness.update(data, callback);
-    // };
+    this.updateGrant = function (data, callback) {
+        grantHarness.update(data, callback);
+    };
 
     this.grantQuery = function (terms, callback) {
         grantHarness.queryString(terms, callback);
@@ -121,11 +121,9 @@ function Harness() {
             this.updateModel(data, callback);
         } else if (data.artifactType === 'software') {
             this.updateSoftware(data, callback);
+        } else if (data.artifactType === 'grant') {
+            this.updateGrant(data, callback);
         }
-        //TODO: once we have the update query
-        // } else if (data.artifactType === 'grant') {
-        //     this.updateGrant(data, callback);
-        // }
     };
     
     this.delete = function (data, callback) {
@@ -135,8 +133,9 @@ function Harness() {
     this.saveNew = function (data, callback) {
         var self = this;
          utils.getNewURI().then(function (uri) {
-                data.uri = uri;
-                console.log(uri);
+                var prefix = 'http://www.pitt.edu/obc/IDE_ARTICLE_';
+                var completeURI = prefix + (uri)
+                data.uri = completeURI;
                 self.update(data, callback);
          });
     };

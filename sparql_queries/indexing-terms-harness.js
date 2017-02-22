@@ -119,8 +119,6 @@ function IndexingTermsHarness() {
     };
 };
 
-
-
 function convertToTree(resultList) {
     var tree = {};
 
@@ -132,7 +130,23 @@ function convertToTree(resultList) {
             var rootURI = results[j].rootClass.value;
             var rootLabel = results[j].rootLabel.value;
             var termURI = results[j].term.value;
+            var parentTermURI = undefined;
+            var parentLabel = undefined;
 
+        var isRoot = false;
+
+            if (results[j].parentTerm != undefined && results[j].parentTerm.value != termURI) {
+                parentTermURI = results[j].parentTerm.value;
+                parentLabel = results[j].parentLabel.value;
+        isRoot = (parentTermURI == rootURI);
+            } else {
+        parentTermURI = results[j].rootClass.value;
+        parentLabel = results[j].rootLabel.value;
+        isRoot = true;
+        } 
+
+            var hieProp = results[j].hieProp.value;
+            
             var termLabel
             if(results[j].termLabel) {
                 termLabel = results[j].termLabel.value;
@@ -143,119 +157,48 @@ function convertToTree(resultList) {
             } else {
                 termLabel = ""
             }
-
-            var hieProp = results[j].hieProp.value;
             
-            //optional columns
-            var parentTermURI = undefined;
-            var parentLabel = undefined;
 
-            if (results[j].parentTerm != undefined) {
-                parentTermURI = results[j].parentTerm.value;
-                parentLabel = results[j].parentLabel.value;
-            } 
-
-            //storing term parents to help find deepest parent
-            if (termParents[termURI] == undefined) {
-                termParents[termURI] = {};
-                //done using an object instead of array for pretty 'var in list' syntax
-                termParents[termURI][rootURI] = true;
+            //if the term doesn't exist in the tree, then we add it
+            if (tree[termURI] == undefined) {
+                var node = {};
+        node.uri = termURI;
+        node.label = termLabel; 
+        node.hierarchy = hieProp;
+        node.children = {};
+        node.isRoot = false;
+        tree[termURI] = node;
             }
 
-            termParents[termURI][parentTermURI] = true;
-
-            //if the root doesn't exist, add it to the top level
-            if (tree[rootURI] == undefined) {
-                tree[rootURI] = {};
-                tree[rootURI].uri = rootURI;
-                tree[rootURI].label = rootLabel || null;
-                tree[rootURI].hierarchy = hieProp;
-                tree[rootURI].children = {};
+            //if the term's parent doesn't exist in the tree then we add it
+            if (tree[parentTermURI] == undefined) {
+        var node = {};
+        node.uri = parentTermURI;
+        node.label = parentLabel;
+        node.hierarchy = hieProp;
+        node.isRoot = isRoot;
+        node.children = {};
+        tree[parentTermURI] = node;  
             }
 
-            //if no parent specified, it belongs directly under the root
-            // also, can't be your own parent in the tree!  may be able to solve more elegantly in SPARQL
-            if (parentTermURI == undefined || parentTermURI == termURI) {
-                //if this doesn't already exist under root
-                if (tree[rootURI].children[termURI] == undefined) {
-                    var term = {};
-                    term.uri = termURI;
-                    term.label = termLabel;
-                    term.hierarchy = hieProp;
-                    term.children = {};
-                    tree[rootURI].children[termURI] = term;
-                }
-            }
+            //now, if the term and its parent aren't linked in the tree, then we link term to parent
+            if (tree[parentTermURI].children[termURI] == undefined) {
+        tree[parentTermURI].children[termURI] = tree[termURI];
+        }
 
-            //*******************************************************************************************
-            //doing a breadth-first search of tree for existing location of parent and term, if it exists
-            //*******************************************************************************************
-
-            //building initial processing queue out of root elements
-            var processingQueue = [];
-            for (var key in tree) {
-                processingQueue.push(tree[key]);
-            }
-
-            var parent = null;
-            var term = null;
-
-            //hunting for existing elements in tree
-            while (processingQueue.length > 0) {
-                var node = processingQueue.shift();
-                //since breadth first, the last found should be the deepest
-                if (node.uri in termParents[termURI]) {
-                    //found parent!
-                    parent = node;
-                }
-                if (termURI in node.children) {
-                    //found term!
-                    term = node.children[termURI];
-
-                    //removing from node, replaced at deepest parent later
-                    delete node.children[termURI];
-
-                }
-                //add children to processing queue
-                if (Object.keys(node.children).length > 0) {
-                    for (var key in node.children) {
-                        processingQueue.push(node.children[key]);
-                    }
-
-                }
-
-            }
-
-            if (parent == null) {
-                //didn't find it in tree, so adding parent to root
-                parent = {};
-                parent.uri = parentTermURI;
-                parent.label = parentLabel || null;
-                parent.hierarchy = hieProp;
-                parent.children = {};
-                tree[rootURI].children[parentTermURI] = parent;
-            }
-
-
-            if (term == null) {
-                //didn't find term in tree, so adding as child to parent
-                term = {};
-                term.uri = termURI;
-                term.label = termLabel || null;
-                term.hierarchy = hieProp;
-                term.children = {};
-                parent.children[termURI] = term;
-            } else {
-                //found the term in the tree; moving to deepest relevant location
-                parent.children[termURI] = term;
-            }
-
-
+        console.log(termLabel + "," + parentLabel);
         }
 
     }
 
+     for (var key in tree) {
+     if (!tree[key].isRoot) {
+        tree[key] = undefined;
+        }
+    }
+
     return tree;
 }
+
 
 module.exports = new IndexingTermsHarness;
