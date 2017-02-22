@@ -72,6 +72,25 @@ function Utils() {
         }
         
         return eliminateDuplicatesByGrant(transformed_results);
+
+    };
+
+    this.transformGrantsToJSONPubsPage = function(sparql_results){
+        var returned_results = sparql_results.results.bindings;
+        var transformed_results = [];
+        for(var i in returned_results) {
+            var result_row = {};
+            for(var key in returned_results[i]) {
+                if (returned_results[i][key] !== undefined && returned_results[i][key].value !== '') {
+                    result_row[key] = returned_results[i][key].value;
+                }
+            }
+            if(Object.keys(result_row).length !== 0){
+                transformed_results.push(result_row);
+            }
+        }
+        
+        return eliminateDuplicatesByPub(transformed_results);
     };
 
     this.buildFilters = function(terms){
