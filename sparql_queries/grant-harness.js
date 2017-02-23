@@ -34,45 +34,68 @@ function grantHarness() {
             callback({ query: queryString });
         });
     };
-    //TODO: create this query
-    // this.update = function (grantData, callback) {
-    //     var con = new stardog.Connection();
-    //     con.setEndpoint(config.stardogURL);
-    //     con.setCredentials(config.stardogUser, config.stardogPass);
 
-    //     fs.readFile(__dirname + '/grants_queries/update_grant.rq', function (err, updategrantQueryFile) {
+    this.update = function (grantData, callback) {
+        console.log("UPDATING")
+        
+        
 
-    //         var aboutsUpdate = '';
-    //         for (var i in grantData.abouts) {
-    //             aboutsUpdate += '<' + grantData.uri + '> obo:IAO_0000136 <' + grantData.abouts[i].uri + '> .\n        ';
-    //         }
+        fs.readFile(__dirname + '/grants_queries/update_grant.rq', function (err, updategrantQueryFile) {
 
-    //         var queryString = updategrantQueryFile.toString()
-    //             .replace(/##grant##/g, grantData.uri)
-    //             .replace(/##TITLE##/g, grantData.title !== undefined ? grantData.title : "")
-    //             .replace(/##LINKOUT##/g, grantData.linkout !== undefined ? grantData.linkout : "")
-    //             .replace(/##SOURCE##/g, grantData.authors !== undefined ? grantData.authors : "")
-    //             .replace(/##DATE##/g, grantData.date !== undefined ? grantData.date : "")
-    //             .replace(/##TYPE##/g, utils.lookupTypeURI(grantData.artifactType))
-    //             .replace(/##VERSION##/g, grantData.version !== undefined ? grantData.version : "")
-    //             .replace(/##DOI##/g, grantData.doi !== undefined ? grantData.doi : "")
-    //             .replace(/##DATEINDEXED##/g, grantData.dateIndexed !== undefined ? grantData.dateIndexed : new Date().toISOString())
-    //             .replace(/##ABOUTS##/g, aboutsUpdate);
-                
-    //             console.log(queryString);
+            var aboutsUpdate = '';
+            for (var i in grantData.abouts) {
+                aboutsUpdate += '<' + grantData.uri + '> obo:IAO_0000136 <' + grantData.abouts[i].uri + '> .\n        ';
+            }
+            if(grantData.grantid == undefined){
+                utils.getNewURI().then(function (uri) {
+                      var prefix = 'http://www.pitt.edu/obc/IDE_ARTICLE_';
+                      var completeURI = prefix + (++uri)
+                      console.log(completeURI)
+                      grantData.grantid = completeURI 
+                      executeQuery(grantData , updategrantQueryFile);
+                       callback();
+                  });
+            }
+            else {
+                executeQuery(grantData, updategrantQueryFile);
+                 callback();
+            }
+        
+            
+    });
+}
 
-    //         con.query({
-    //             database: config.stardogDB,
-    //             query: queryString,
-    //             agent: agent
-    //         },
-    //             function (results) {
-    //                 callback();
-    //             });
-    //     });
-    // };
+    function executeQuery(grantData , updategrantQueryFile){
+        var con = new stardog.Connection();
+        con.setEndpoint(config.stardogURL);
+        con.setCredentials(config.stardogUser, config.stardogPass);
+        var queryString = updategrantQueryFile.toString()
+                .replace(/##GRANTS##/g, grantData.uri)
+                .replace(/##TITLE##/g, grantData.title !== undefined ? grantData.title : "")
+                .replace(/##LINKOUT##/g, grantData.linkout !== undefined ? grantData.linkout : "")
+                .replace(/##PI##/g, grantData.authors !== undefined ? grantData.authors : "")
+                .replace(/##TYPE##/g, utils.lookupTypeURI(grantData.artifactType))
+                .replace(/##START##/g, grantData.start !== undefined ? grantData.start : "")
+                .replace(/##END##/g, grantData.end !== undefined ? grantData.end : "")
+                .replace(/##AGENCY##/g, grantData.agency !== undefined ? grantData.agency : "")
+                .replace(/##FOA##/g, grantData.foa !== undefined ? grantData.foa : "")
+                .replace(/##AWARDEE##/g, grantData.awardee !== undefined ? grantData.awardee : "")
+                .replace(/##DATEINDEXED##/g, grantData.dateIndexed !== undefined ? grantData.dateIndexed : new Date().toISOString())
+                .replace(/##GRANTID##/g,  grantData.grantid)
+                .replace(/##GRANTIDLABEL##/g, grantData.grantidlabel !== undefined ? grantData.grantidlabel : "");
 
-};
+            con.query({
+                database: config.stardogDB,
+                query: queryString,
+                agent: agent
+            },
+                function (results) {
+                    console.log(results)
+                });
+        };
+
+
+}
 
 
 

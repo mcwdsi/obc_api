@@ -14,6 +14,7 @@ function Utils() {
     ];
     
     this.getNewURI = function(){
+      console.log("CALLED")
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
@@ -29,12 +30,10 @@ function Utils() {
                 function (results) {
                     var prefix = 'http://www.pitt.edu/obc/IDE_ARTICLE_';
                     var uri = results.results.bindings[0].uri.value;
-                    
                     var regex = new RegExp(prefix + '(.*)', 'g');
                     var num = regex.exec(uri)[1];
                     var suffix = pad(++num, 10);
-                    var newURI = prefix + suffix;
-                    deferred.resolve(newURI);
+                    deferred.resolve(suffix);
                 });
         });
         return deferred.promise;
@@ -73,6 +72,7 @@ function Utils() {
         }
         
         return eliminateDuplicatesByGrant(transformed_results);
+
     };
 
     this.transformGrantsToJSONPubsPage = function(sparql_results){
