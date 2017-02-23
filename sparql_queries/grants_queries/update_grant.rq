@@ -10,7 +10,7 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
 DELETE {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
         <##GRANTS##> dc:title ?title .
-        <##GRANTS##> rdf:type obo:OBI_0001636 .
+        <##GRANTS##> rdf:type ?types .
         <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
         <##GRANTS##> obo:IDE_0000000169 ?start  .
         <##GRANTS##> obo:IDE_0000000170 ?end . 
@@ -26,19 +26,17 @@ DELETE {
 } 
 INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
-        <##GRANTS##> dc:title '##TITLE##' .
-        <##GRANTS##> rdf:type obo:OBI_0001636 .
-        <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> '##LINKOUT##'' .
-        <##GRANTS##> obo:IDE_0000000169 '##START##'  .
-        <##GRANTS##> obo:IDE_0000000170 '##END##' . 
-        <##GRANTS##> obo:IDE_0000000171 '##PI##' .
-        <##GRANTS##> obo:IDE_0000000173 '##AGENCY##' .
-        <##GRANTS##> obo:IDE_0000000172 '##FOA##' .
-        <##GRANTS##> obo:IDE_0000000174 '##AWARDEE##' .
+        <##GRANTS##> dc:title "##TITLE##" .
+        <##GRANTS##> rdf:type <##TYPE##> .
+        <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> "##LINKOUT##" .
+        <##GRANTS##> obo:IDE_0000000169 "##START##"  .
+        <##GRANTS##> obo:IDE_0000000170 "##END##" . 
+        <##GRANTS##> obo:IDE_0000000171 "##PI##" .
+        <##GRANTS##> obo:IDE_0000000173 "##AGENCY##" .
+        <##GRANTS##> obo:IDE_0000000172 "##FOA##" .
+        <##GRANTS##> obo:IDE_0000000174 "##AWARDEE##" .
         <##GRANTS##> obo:BFO_0000051 ?os .
-        ?os rdf:type obo:IAO_0000005 .
-        ?pp obo:OBI_0000417 ?os .
-        ?pp rdf:type obo:IAO_0000011 .
+        <##GRANTID##> obo:IAO_0000219 <##GRANTS> 
     } 
 }
 
