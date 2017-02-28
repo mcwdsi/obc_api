@@ -138,7 +138,7 @@ function convertToTree(resultList) {
             if (results[j].parentTerm != undefined && results[j].parentTerm.value != termURI) {
                 parentTermURI = results[j].parentTerm.value;
                 parentLabel = results[j].parentLabel.value;
-        isRoot = (parentTermURI == rootURI);
+        isRoot = parentTermURI==rootURI;
             } else {
         parentTermURI = results[j].rootClass.value;
         parentLabel = results[j].rootLabel.value;

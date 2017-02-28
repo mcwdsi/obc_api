@@ -24,6 +24,14 @@ WHERE {
     ?grant obo:IDE_0000000170 ?end . 
     ?grantid obo:IAO_0000219 ?grant .
     ?grantid rdfs:label ?grantidlabel .
+
+    #TODO UPDATE QUERY ONCE ABOUTS ARE ADDED
+    #?grant obo:IAO_0000136 ?about .
+    #?about rdfs:label ?aboutLabel .
+
+    #used for string interpolation to filter based on search terms
+    ##ABOUT##
+
     OPTIONAL {  ?grant <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
     OPTIONAL {  ?grant obo:BFO_0000051 ?os . 
                 ?pp obo:OBI_0000417 ?os  .

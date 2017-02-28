@@ -10,22 +10,33 @@ WHERE {
         ?class rdfs:subClassOf* ?rootClass .
         ?rootClass <http://www.pitt.edu/obc/IDE_0000000024> ?isRoot .
         ?rootClass rdfs:label ?rootLabel .
-        ?class rdfs:label ?classLabel .
         ?rootClass <http://www.pitt.edu/obc/IDE_0000001000> rdfs:subClassOf .
 
         ?term rdf:type ?class .
 
+        
         OPTIONAL {
-
-                ?term rdf:type*/rdfs:subClassOf* ?parentTerm .
+          ?term rdf:type ?term .
+          ?term rdfs:subClassOf ?rootClass .
+        }
+        OPTIONAL {
+                ?term rdf:type ?term .
+                ?term rdfs:subClassOf ?parentTerm .
+                ?parentTerm rdf:type ?parentTerm .
                 ?parentTerm rdfs:label ?parentLabel .
                 ?parentTerm rdfs:subClassOf+ ?rootClass
         }
+        OPTIONAL {
+            ?term rdf:type ?parentTerm .
+            ?parentTerm rdfs:label ?parentLabel .
+            ?parentTerm rdfs:subClassOf* ?rootClass .
+            
+        }
+
         OPTIONAL { ?term rdfs:label ?termLabel . }
         OPTIONAL { ?term <http://purl.obolibrary.org/obo/IAO_0000111> ?termPreferredLabel . }
-	OPTIONAL { ?term <http://purl.org/dc/elements/1.1/title> ?termTitle . }
 
     FILTER(?isRoot)
     MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000088> } #don't want the reports
     MINUS { ?term rdf:type/rdfs:subClassOf* <http://purl.obolibrary.org/obo/IAO_0000311> } #don't want the publications
-} ORDER BY ?parentTerm
+} ORDER BY ?rootClass ?parentTerm ?term

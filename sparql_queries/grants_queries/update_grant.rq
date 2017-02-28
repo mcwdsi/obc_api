@@ -23,7 +23,7 @@ DELETE {
     }
 }
 INSERT {
-    GRAPH <http://www.pitt.edu/obc/ide/classes-and-indexing-instances> {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
         <##GRANTS##> dc:title "##TITLE##" .
         <##GRANTS##> rdf:type  <##TYPE##> .
         <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> "##LINKOUT##" .

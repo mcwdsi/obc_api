@@ -12,29 +12,26 @@ WHERE {
         ?rootClass <http://www.pitt.edu/obc/IDE_0000001000> rdfs:subClassOf .
 
         ?term rdf:type ?class .
-  ?subClass rdfs:subClassOf* ?class .
-  ?isAboutTerm rdf:type ?subClass .
   
-                ?article obo:IAO_0000136 ?isAboutTerm .
-                ?article rdf:type*/rdfs:subClassOf <http://www.pitt.edu/obc/IDE_0000000025>
-                
-                OPTIONAL {
+        ?article obo:IAO_0000136 ?term .
+        ?article rdf:type*/rdfs:subClassOf <http://www.pitt.edu/obc/IDE_0000000025>
+        
+        OPTIONAL {
           ?term rdf:type ?term .
           ?term rdfs:subClassOf ?rootClass .
         }
-                OPTIONAL {
-                        ?term rdf:type ?term .
-                        ?term rdfs:subClassOf ?parentTerm .
-                        ?parentTerm rdf:type ?parentTerm .
-                        ?parentTerm rdfs:label ?parentLabel .
-                        ?parentTerm rdfs:subClassOf* ?rootClass .
-                  
-        }
-                OPTIONAL {
-                ?term rdf:type ?parentTerm .
+        OPTIONAL {
+                ?term rdf:type ?term .
+                ?term rdfs:subClassOf ?parentTerm .
+                ?parentTerm rdf:type ?parentTerm .
                 ?parentTerm rdfs:label ?parentLabel .
-                ?parentTerm rdfs:subClassOf* ?rootClass .
-               
+                ?parentTerm rdfs:subClassOf+ ?rootClass
+        }
+        OPTIONAL {
+            ?term rdf:type ?parentTerm .
+            ?parentTerm rdfs:label ?parentLabel .
+            ?parentTerm rdfs:subClassOf* ?rootClass .
+            
         }
         
                       

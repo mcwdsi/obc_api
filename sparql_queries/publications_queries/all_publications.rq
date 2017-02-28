@@ -38,10 +38,5 @@ WHERE {
     OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_version> ?version } .
     
     OPTIONAL { ?information <http://www.pitt.edu/obc/IDE_0000000040> ?doi } .
-
-    OPTIONAL { ?information obo:IAO_0000136 ?pp .
-               ?pp obo:OBI_0000417 ?os  .
-               ?grant obo:BFO_0000051 ?os . 
-               ?grant dc:title ?grantTitle } .
     
 } GROUP BY ?information ?label ?title ?linkout ?date ?dateIndexed ?type ?typeLabel ?sourceOrganization ?authors ?pmid ?journal ?country ?version ?doi ?grant ?grantTitle
