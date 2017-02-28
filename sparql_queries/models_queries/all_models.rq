@@ -17,7 +17,7 @@ WHERE {
  ?type rdfs:label ?typeLabel .
 
  ?information obo:IAO_0000136 ?about .
- ?about rdfs:label ?aboutLabel .
+ ?about rdfs:label ?aboutLabel . 
 
  #used for string interpolation to filter based on search terms
  ##ABOUT##
