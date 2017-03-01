@@ -15,6 +15,13 @@ WHERE {
  ?information rdf:type ?type .
  ?type rdfs:subClassOf* <http://purl.obolibrary.org/obo/APOLLO_SV_00000001> .
  ?type rdfs:label ?typeLabel .
+ 
+ ?information obo:IAO_0000136 ?about .
+ ?about rdfs:label ?aboutLabel .
+ 
+ #used for string interpolation to filter based on search terms
+ ##ABOUT##
+
  OPTIONAL { ?information <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
  OPTIONAL { ?information dc:title ?title } .
  OPTIONAL { ?information <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout } .
