@@ -31,6 +31,7 @@ function PublicationsHarness() {
     };
 
     this.queryString = function (terms, callback) {
+        console.log(terms)
         fs.readFile(__dirname + '/publications_queries/all_publications.rq', function (err, allPublicationsQueryFile) {
             var filters = utils.buildFilters(terms);
             var queryString = allPublicationsQueryFile.toString().replace("##ABOUT##", filters);
@@ -40,6 +41,8 @@ function PublicationsHarness() {
     };
 
     this.update = function (publicationData, callback) {
+        console.log("Publication data is")
+        console.log(publicationData)
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
@@ -75,7 +78,7 @@ function PublicationsHarness() {
         });
     };
 
-    this.insert = function (publicationData, callback) {
+    /* this.insert = function (publicationData, callback) {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
@@ -109,7 +112,7 @@ function PublicationsHarness() {
                     callback();
                 });
         });
-    };
+    }; */
 
 };
 

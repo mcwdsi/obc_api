@@ -19,10 +19,6 @@ DELETE {
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?oldJournal .
         <##PUBLICATION##> <http://www.pitt.edu/obc/IDE_0000000040> ?doi .
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed .
-        ?grant obo:BFO_0000051 ?os .
-        ?os rdf:type obo:IAO_0000005 .
-        ?pp obo:OBI_0000417 ?os .
-        ?pp rdf:type obo:IAO_0000011 .
     }
 } INSERT {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
@@ -35,11 +31,6 @@ DELETE {
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/BFO_0000137> ?newJournal .
         <##PUBLICATION##> <http://www.pitt.edu/obc/IDE_0000000040> "##DOI##" .
         <##PUBLICATION##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> "##DATEINDEXED##" .
-        <##GRANT##> obo:BFO_0000051 ?os .
-        ?os rdf:type obo:IAO_0000005 .
-        ?pp obo:OBI_0000417 ?os .
-        ?pp rdf:type obo:IAO_0000011 .
-        <##PUBLICATION##> obo:IAO_0000136 ?pp .
         ##ABOUTS##
     } 
 } 
@@ -70,11 +61,5 @@ WHERE {
         } UNION {
             ?newJournal dc:title "##JOURNAL##"
         }    
-    } .
-
-    OPTIONAL {
-        ?grant obo:BFO_0000051 ?os . 
-        ?os ^obo:OBI_0000417 ?pp .
-        ?pp ^obo:IAO_0000136 ?pub  .
     } .
 }

@@ -36,10 +36,6 @@ function Harness() {
         publicationsHarness.queryString(terms, callback);
     }; 
 
-    this.insertPublication = function (data, callback) {
-        publicationsHarness.insert(data, callback);
-    }
-
     //DATASETS
 
     this.datasets = function (terms, callback) {
@@ -132,7 +128,7 @@ function Harness() {
         if (data.artifactType === 'data set') {
             this.updateDataset(data, callback);
         } else if (data.artifactType === 'publication') {
-            this.insertPublication(data, callback);
+            this.updatePublication(data, callback);
         } else if (data.artifactType === 'report') {
             this.updateReport(data, callback);
         } else if (data.artifactType === 'epidemic model') {
