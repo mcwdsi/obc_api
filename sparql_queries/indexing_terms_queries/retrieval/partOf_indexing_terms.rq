@@ -18,7 +18,7 @@ WHERE {
     	?article obo:IAO_0000136 ?term .
     } UNION {
     	?article obo:IAO_0000136 [
-        	<http://purl.obolibrary.org/obo/BFO_0000137>+ ?term ] .
+        	<http://purl.obolibrary.org/obo/BFO_0000137> ?term ] .
     } UNION {
     	?article obo:IAO_0000136 [
           <http://www.obofoundry.org/ro/ro.owl#has_participant>*/<http://purl.obolibrary.org/obo/BFO_0000137>*/<http://www.obofoundry.org/ro/ro.owl#located_in> ?term ] .
@@ -30,7 +30,7 @@ WHERE {
         rdf:type ?class .
 
   	OPTIONAL {
-        ?term <http://purl.obolibrary.org/obo/BFO_0000137>+ ?parentTerm .
+        ?term <http://purl.obolibrary.org/obo/BFO_0000137> ?parentTerm .
   		?parentTerm rdfs:label ?parentLabel .
 
   		?parentTerm <http://purl.obolibrary.org/obo/BFO_0000137>*/rdf:type/rdfs:subClassOf* ?rootClass

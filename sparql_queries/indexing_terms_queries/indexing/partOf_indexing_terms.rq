@@ -17,7 +17,7 @@ WHERE {
     ?term rdf:type ?class .
 
   	OPTIONAL {
-      ?term <http://purl.obolibrary.org/obo/BFO_0000137>+ ?parentTerm .
+      ?term <http://purl.obolibrary.org/obo/BFO_0000137> ?parentTerm .
   		?parentTerm rdfs:label ?parentLabel .
 
   		?parentTerm <http://purl.obolibrary.org/obo/BFO_0000137>*/rdf:type/rdfs:subClassOf* ?rootClass

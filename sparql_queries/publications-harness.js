@@ -99,9 +99,6 @@ function PublicationsHarness() {
                 .replace(/##DOI##/g, publicationData.doi !== undefined ? publicationData.doi : "")    
                 .replace(/##DATEINDEXED##/g, publicationData.dateIndexed !== undefined ? publicationData.dateIndexed : new Date().toISOString())            
                 .replace(/##ABOUTS##/g, aboutsUpdate)
-                .replace(/##GRANT##/g, publicationData.grant !== undefined ? publicationData.grant : "")
-                .replace(/##OS##/g, utils.getNewURI())
-                .replace(/##PP##/g, utils.getNewURI());
 
             con.query({
                 database: config.stardogDB,
