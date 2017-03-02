@@ -120,6 +120,34 @@ function Utils() {
         }
         return filters;
     };
+
+    this.buildGrantFilters = function(terms){
+        var filters = '';
+        for(var i in terms){
+
+            var uri = terms[i];
+
+            var filter = "";
+
+            //kludge for ecosystem queries until we work out the representation issues
+            if(ecosystemURIs.indexOf(uri) >= 0){
+                filter += "    {\n        ?grant obo:IAO_0000136 <" + uri + ">\n    } UNION {\n" +
+                "        ?grant obo:IAO_0000136 [ obo:BFO_0000137*/rdf:type <" + uri + ">] \n    } UNION {\n" +
+                "        ?grant obo:IAO_0000136 [ \n" +
+                "            ro:has_participant/obo:BFO_0000137*/ro:located_in/obo:BFO_0000137*/^ro:located_in/^obo:BFO_0000137* <" + uri + "> ] .\n    }";
+            } else {
+                filter += "    {\n        ?grant obo:IAO_0000136 <" + uri + "> \n    } UNION {\n" +
+                "        ?grant obo:IAO_0000136 [ rdf:type/rdfs:subClassOf* <" + uri + ">] \n    } UNION {\n" +
+                "        ?grant obo:IAO_0000136 [ \n" +
+                "            ro:has_participant*/obo:BFO_0000137*/ro:located_in* <" + uri + "> ] .\n    }";
+            }
+
+
+
+            filters = filters + "\n" + filter;
+        }
+        return filters;
+    };
     
     this.lookupTypeURI = function(artifactType) {
         var types = 

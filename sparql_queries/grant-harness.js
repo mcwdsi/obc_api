@@ -14,7 +14,7 @@ function grantHarness() {
 
         fs.readFile(__dirname + '/grants_queries/all_grants.rq', function (err, allGrantQueryFile) {
 
-            var filters = utils.buildFilters(terms);
+            var filters = utils.buildGrantFilters(terms);
             con.query({
                 database: config.stardogDB,
                 query: allGrantQueryFile.toString().replace("##ABOUT##", filters),
