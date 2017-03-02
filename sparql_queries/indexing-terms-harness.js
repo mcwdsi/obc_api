@@ -186,7 +186,7 @@ function convertToTree(resultList) {
         tree[parentTermURI].children[termURI] = tree[termURI];
         }
 
-        console.log(termLabel + "," + parentLabel);
+        //console.log(termLabel + "," + parentLabel);
         }
 
     }
