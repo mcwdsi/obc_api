@@ -7,6 +7,7 @@ var softwareHarness = require('./software-harness');
 var artifactsHarness = require('./artifacts-harness');
 var grantHarness = require('./grant-harness');
 var pubsPageHarness = require('./pubs-page-harness')
+var openQueryHarness = require('./open_queries-harness')
 var utils = require('./utils');
 
 
@@ -116,6 +117,11 @@ function Harness() {
 
     this.pubsPageQuery = function (terms, callback) {
         pubsPageHarness.queryString(terms, callback);
+    };
+
+    //OPEN_Query
+    this.openQuery = function (terms, callback) {
+        openQueryHarness.query(terms, callback);
     };
 
     //GENERAL
