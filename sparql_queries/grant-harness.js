@@ -36,21 +36,16 @@ function grantHarness() {
     };
 
     this.update = function (grantData, callback) {
-        console.log("UPDATING")
-        
-        
-
         fs.readFile(__dirname + '/grants_queries/update_grant.rq', function (err, updategrantQueryFile) {
-
             var aboutsUpdate = '';
             for (var i in grantData.abouts) {
                 aboutsUpdate += '<' + grantData.uri + '> obo:IAO_0000136 <' + grantData.abouts[i].uri + '> .\n        ';
             }
+            grantData.abouts = aboutsUpdate
             if(grantData.grantid == undefined){
                 utils.getNewURI().then(function (uri) {
                       var prefix = 'http://www.pitt.edu/obc/IDE_ARTICLE_';
                       var completeURI = prefix + (++uri)
-                      console.log(completeURI)
                       grantData.grantid = completeURI 
                       executeQuery(grantData , updategrantQueryFile);
                        callback();
@@ -66,6 +61,7 @@ function grantHarness() {
 }
 
     function executeQuery(grantData , updategrantQueryFile){
+
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
@@ -83,8 +79,7 @@ function grantHarness() {
                 .replace(/##DATEINDEXED##/g, grantData.dateIndexed !== undefined ? grantData.dateIndexed : new Date().toISOString())
                 .replace(/##GRANTID##/g,  grantData.grantid)
                 .replace(/##GRANTIDLABEL##/g, grantData.grantidlabel !== undefined ? grantData.grantidlabel : "")
-                .replace(/##ABOUTS##/g, aboutsUpdate);
-
+                .replace(/##ABOUTS##/g, grantData.abouts);
             con.query({
                 database: config.stardogDB,
                 query: queryString,
