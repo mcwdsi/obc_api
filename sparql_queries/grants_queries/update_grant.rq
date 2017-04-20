@@ -27,14 +27,16 @@ INSERT {
         <##GRANTS##> dc:title "##TITLE##" .
         <##GRANTS##> rdf:type  <##TYPE##> .
         <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> "##LINKOUT##" .
+        <##GRANTS##> obo:IDE_0000000171 "##PI##" .
+        <##GRANTS##> obo:IDE_0000000174 "##AWARDEE##" .
+        <##GRANTS##> obo:IDE_0000000172 "##FOA##" .
+        <##GRANTS##> obo:IDE_0000000173 "##AGENCY##" .
         <##GRANTS##> obo:IDE_0000000169 "##START##"  .
         <##GRANTS##> obo:IDE_0000000170 "##END##" .
-        <##GRANTS##> obo:IDE_0000000171 "##PI##" .
-        <##GRANTS##> obo:IDE_0000000173 "##AGENCY##" .
-        <##GRANTS##> obo:IDE_0000000172 "##FOA##" .
-        <##GRANTS##> obo:IDE_0000000174 "##AWARDEE##" .
         <##GRANTID##> obo:IAO_0000219 <##GRANTS##> .
-        <##GRANTID##> rdfs:label "##GRANTIDLABEL##"
+        <##GRANTID##> rdfs:label "##GRANTIDLABEL##" .
+        <##GRANTS##> <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> "##DATEINDEXED##" .
+        ##ABOUTS##
     }
 }
 

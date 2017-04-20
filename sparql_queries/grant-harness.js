@@ -82,7 +82,8 @@ function grantHarness() {
                 .replace(/##AWARDEE##/g, grantData.awardee !== undefined ? grantData.awardee : "")
                 .replace(/##DATEINDEXED##/g, grantData.dateIndexed !== undefined ? grantData.dateIndexed : new Date().toISOString())
                 .replace(/##GRANTID##/g,  grantData.grantid)
-                .replace(/##GRANTIDLABEL##/g, grantData.grantidlabel !== undefined ? grantData.grantidlabel : "");
+                .replace(/##GRANTIDLABEL##/g, grantData.grantidlabel !== undefined ? grantData.grantidlabel : "")
+                .replace(/##ABOUTS##/g, aboutsUpdate);
 
             con.query({
                 database: config.stardogDB,
