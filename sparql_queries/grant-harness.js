@@ -68,7 +68,7 @@ function grantHarness() {
         var queryString = updategrantQueryFile.toString()
                 .replace(/##GRANTS##/g, grantData.uri)
                 .replace(/##TITLE##/g, grantData.title !== undefined ? grantData.title : "")
-                .replace(/##LINKOUT##/g, grantData.linkout !== undefined ? grantData.linkout : "")
+                .replace(/##LINKOUT##/g, grantData.grantLinkout !== undefined ? grantData.grantLinkout : "")
                 .replace(/##PI##/g, grantData.authors !== undefined ? grantData.authors : "")
                 .replace(/##TYPE##/g, utils.lookupTypeURI(grantData.artifactType))
                 .replace(/##START##/g, grantData.start !== undefined ? grantData.start : "")
