@@ -22,7 +22,6 @@ WHERE {
     ?grant obo:IDE_0000000171 ?pi .
     ?grant obo:IDE_0000000169 ?start .
     ?grant obo:IDE_0000000170 ?end .
-    ?grant <http://purl.obolibrary.org/obo/ERO_0000480> ?grantLinkout
     ?grantid obo:IAO_0000219 ?grant .
     ?grantid rdfs:label ?grantidlabel .
 
@@ -33,6 +32,7 @@ WHERE {
 
 
     OPTIONAL {  ?grant <http://purl.obolibrary.org/obo/APOLLO_SV_00000325> ?dateIndexed } .
+    OPTIONAL {  ?grant <http://purl.obolibrary.org/obo/ERO_0000480> ?grantLinkout } .
     OPTIONAL {  ?grant obo:BFO_0000051 ?os .
                 ?pp obo:OBI_0000417 ?os  .
                 ?pub obo:IAO_0000136 ?pp } .
@@ -83,4 +83,4 @@ WHERE {
     #used for string interpolation to filter based on search terms
     ##ABOUT##
 
-} GROUP BY ?grant ?title ?awardee ?foa ?agency ?pi ?grantid ?grantidlabel ?start ?end ?pub ?pubName ?linkout ?date ?sourceOrganization ?authors ?journal ?typeLabel ?dateIndexed ?pmid
+} GROUP BY ?grant ?title ?awardee ?foa ?agency ?pi ?grantid ?grantidlabel ?start ?end ?grantLinkout ?pub ?pubName ?linkout ?date ?sourceOrganization ?authors ?journal ?typeLabel ?dateIndexed ?pmid
