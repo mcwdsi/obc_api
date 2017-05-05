@@ -7,7 +7,7 @@ PREFIX dc: <http://purl.org/dc/elements/1.1/>
  
  
 DELETE {
-    GRAPH <http://www.pitt.edu/obc/ide/classes-and-indexing-instances> {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> {
         <##GRANTS##> dc:title ?title .
         <##GRANTS##> rdf:type ?types .
         <##GRANTS##> <http://purl.obolibrary.org/obo/ERO_0000480> ?linkout .
