@@ -14,7 +14,6 @@ function Utils() {
     ];
     
     this.getNewURI = function(){
-      console.log("CALLED")
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
@@ -54,6 +53,24 @@ function Utils() {
             }
         }
         return transformed_results;
+    };
+
+    this.transformPubsToJSON = function(sparql_results){
+        var returned_results = sparql_results.results.bindings;
+        var transformed_results = [];
+        for(var i in returned_results) {
+            var result_row = {};
+            for(var key in returned_results[i]) {
+                if (returned_results[i][key] !== undefined && returned_results[i][key].value !== '') {
+                    result_row[key] = returned_results[i][key].value;
+                }
+            }
+            if(Object.keys(result_row).length !== 0){
+                transformed_results.push(result_row);
+            }
+        }
+        
+        return eliminateDuplicatesPubsByGrant(transformed_results);
     };
 
     this.transformGrantsToJSON = function(sparql_results){
@@ -200,6 +217,44 @@ function eliminateDuplicatesByPub(data){
       }
      return result;
   }
+
+  function eliminateDuplicatesPubsByGrant(data){
+    var titleList = {};
+    var result = []
+    var grants = []
+    var foa = []
+     for (var i in data) {
+      var title = data[i].title
+      //eliminate any duplicated grants
+        if (!(title in titleList)){
+          titleList[title] = data[i]
+          grants.push(data[i].grantTitle);
+          foa.push(data[i].foa);
+          titleList[title].grantTitle = grants;
+          titleList[title].foa = foa;
+        }
+        else {
+            var found = false;
+            for (var x in titleList[title].grantTitle){
+                var grantTitleSaved = titleList[title].grantTitle[x]
+                if ((data[i].grantTitle) === grantTitleSaved){
+                    found = true
+                }
+            }
+            if (found != true){
+                titleList[title].grantTitle.push(data[i].grantTitle)
+                titleList[title].foa.push(data[i].foa)
+            }
+        }
+        foa = []
+        grants = []
+      }
+      for (var key in titleList){
+        result.push(titleList[key]);
+      }
+     return result;
+  }
+
 
   function eliminateDuplicatesByGrant(data){
     var titleList = {};
