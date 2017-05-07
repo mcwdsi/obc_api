@@ -1,0 +1,20 @@
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+ 
+insert {
+    GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
+		<##OS##> rdf:type obo:IAO_0000005 .
+		<##GRANTS##> obo:BFO_0000051 <##OS##>  .
+		<##PP##> rdf:type obo:OBI_0000011 .
+		<##PP##> obo:OBI_0000417 <##OS##> .
+		<##PUBLICATION##> obo:IAO_0000136 <##PP##> .
+	}
+}
+
+USING <http://www.pitt.edu/obc/ide/apollo-sv>
+USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+USING <http://www.pitt.edu/obc/ide/article-instances>

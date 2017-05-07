@@ -93,7 +93,7 @@ function Harness() {
         softwareHarness.queryString(terms, callback);
     };
 
-    //GRANT
+    // GRANT
     this.grant = function (terms, callback) {
         grantHarness.query(terms, callback);
     };
@@ -104,6 +104,11 @@ function Harness() {
 
     this.grantQuery = function (terms, callback) {
         grantHarness.queryString(terms, callback);
+    };
+
+    // Linking Grants to Pubs
+    this.grantLink = function (terms, callback){
+        linkageHarness.queryString(terms, callback);
     };
 
     // Pubs Page
