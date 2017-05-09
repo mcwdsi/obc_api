@@ -144,7 +144,8 @@ function convertToTree(queryAnswer) {
         //     uniqueSoftwaresubs.push(rootName); 
         // }
     }
-    return(tree)
+    var sofwareTree = {"Software": tree}
+    return(sofwareTree)
     // console.log(tree)
 
 }
