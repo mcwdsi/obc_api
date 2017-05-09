@@ -20,10 +20,10 @@ router.put('/:uri', function (req, res, next) {
     var token = req.body.token;
     var artifact = req.body.artifact;
 
-    if (!auth.isValidToken(token)) {
-        res.sendStatus(401);
-        return;
-    }
+    // if (!auth.isValidToken(token)) {
+    //     res.sendStatus(401);
+    //     return;
+    // }
 
     if (uri !== artifact.uri) {
         res.sendStatus(406, 'URI of payload does not match PUT URL');
@@ -39,10 +39,10 @@ router.post('/', function (req, res, next) {
     var token = req.body.token;
     var artifact = req.body.artifact;
 
-    if (!auth.isValidToken(token)) {
-        res.sendStatus(401);
-        return;
-    }
+    // if (!auth.isValidToken(token)) {
+    //     res.sendStatus(401);
+    //     return;
+    // }
 
     harness.saveNew(artifact, function (data) {
         res.sendStatus(200);
