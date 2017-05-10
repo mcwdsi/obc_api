@@ -25,7 +25,7 @@ function IndexingMDCHarness() {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
-
+        console.log("WENT HERE")
         fs.readFile(__dirname + '/indexing_terms_queries/retrieval/mdc_software_tree_mdc.rq', function (err, partOf_query_file) {
             console.log(partOf_query_file)
             con.query({

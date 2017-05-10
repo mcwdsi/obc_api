@@ -4,7 +4,7 @@ var harness = require('../sparql_queries/query-harness')
 
 /* GET tree of indexing terms. */
 router.get('/', function(req, res, next) {
-    harness.retrievalTerms(function(data) {
+    harness.retrievalMDCTerms(function(data) {
         res.json(data);
     });
 });

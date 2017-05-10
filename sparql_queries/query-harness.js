@@ -26,7 +26,7 @@ function Harness() {
 
     //INDEXING MDC
 
-    this.retrievalTerms = function (terms, callback) {
+    this.retrievalMDCTerms = function (terms, callback) {
         indexingMDCHarness.indexingQuery(terms, callback);
     };
     

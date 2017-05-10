@@ -54,7 +54,7 @@ app.use('/artifacts', artifacts);
 app.use('/contacts', contacts);
 app.use('/grants', grants);
 app.use('/pubs_page', pubs_page);
-app.use('/open_query', mdc_tree);
+app.use('/open_query', open_query);
 app.use('/mdc_tree',mdc_tree);
 
 
