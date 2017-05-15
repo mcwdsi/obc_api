@@ -27,14 +27,14 @@ function IndexingMDCHarness() {
         con.setCredentials(config.stardogUser, config.stardogPass);
         fs.readFile(__dirname + '/indexing_terms_queries/retrieval/mdc_software_tree.rq', function (err, software_query_file) {
             con.query({
-                database: config.stardogDB,
+                database: config.stardogMdcDB,
                 query: software_query_file.toString(),
                 agent: agent
             },
                 function (software_results) {
                     fs.readFile(__dirname + '/indexing_terms_queries/retrieval/mdc_datasets_tree.rq', function (err, datasets_query_file) {
                     con.query({
-                        database: config.stardogDB,
+                        database: config.stardogMdcDB,
                         query: datasets_query_file.toString(),
                         agent: agent
                     },

@@ -1,7 +1,8 @@
 {
 	"stardogURL": "http://stardog.onbc.io:5820/",
-	"stardogDB": "MDC",
+	"stardogDB": "DEV",
 	"stardogUser": "admin",
 	"stardogPass": "admin",
-	"contactEmail": "tonamendoza@ufl.edu"
+	"contactEmail": "tonamendoza@ufl.edu",
+	"stardogMdcDB": "MDC"
 }
