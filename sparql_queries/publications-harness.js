@@ -23,7 +23,7 @@ function PublicationsHarness() {
                 agent: agent
             },
                 function (publications_results) {
-                    callback(utils.transformToJSON(publications_results));
+                    callback(utils.transformPubsToJSON(publications_results));
                 }
                 );
         });
