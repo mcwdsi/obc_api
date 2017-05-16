@@ -1,4 +1,5 @@
 var indexingTermsHarness = require('./indexing-terms-harness');
+var indexingMDCHarness = require('./indexing-mdc-harness');
 var publicationsHarness = require('./publications-harness');
 var datasetsHarness = require('./datasets-harness');
 var modelsHarness = require('./models-harness');
@@ -22,6 +23,12 @@ function Harness() {
 
     this.indexingTerms = function (terms, callback) {
         indexingTermsHarness.indexingQuery(terms, callback);
+    };
+
+    //INDEXING MDC
+
+    this.retrievalMDCTerms = function (terms, callback) {
+        indexingMDCHarness.indexingQuery(terms, callback);
     };
     
     //PUBLICATIONS
