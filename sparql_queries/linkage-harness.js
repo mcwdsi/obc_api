@@ -7,9 +7,10 @@ var http = require('http');
 function linkageHarness() {
     var agent = new http.Agent({ maxSockets: 15 });
 
-    this.update = function (grantData, callback) {
+    this.update = function (linkData, callback) {
+        console.log(linkData)
         fs.readFile(__dirname + '/linking_queries/link_pub_to_grant.rq', function (err, updateLinkageFile) {
-            executeQuery(linkData, updategrantQueryFile);
+            executeQuery(linkData, updateLinkageFile);
             callback();   
     });
 }
@@ -19,27 +20,41 @@ function linkageHarness() {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
-        var queryString = updategrantQueryFile.toString()
+        var os = ''
+        var pp = ''
 
-                utils.getNewURI().then(functin (uri)){
-                    var prefix = 'http://www.pitt.edu/obc/IDE_ARTICLE_';
-                    var completeURI = prefix + (++uri)
-                    var os = completeURI
-                    var pp = prefix + (uri+2)
-                    callback();
-                }
-                .replace(/##GRANTS##/g, linkData.grant)
-                .replace(/##PP##/g, pp)
-                .replace(/##OS##/g, os)
-                .replace(/##PUBLICATION##/g, linkData.publication)
-            con.query({
-                database: config.stardogDB,
-                query: queryString,
-                agent: agent
-            },
-                function (results) {
-                    console.log(results)
-                });
+        utils.getNewURI().then(function (uri) {
+            console.log("newURI")
+            var prefix = 'http://www.pitt.edu/obc/IDE_ARTICLE_';
+            var completeURI = prefix + (++uri)
+            os = completeURI;
+            console.log(os)
+            pp = prefix + (uri+2);
+            console.log(pp)
+
+            var queryString = updateLinkageFile.toString()
+
+            .replace(/##GRANTS##/g, linkData.grantURI)
+            .replace(/##PP##/g, pp)
+            .replace(/##OS##/g, os)
+            .replace(/##PUBLICATION##/g, linkData.uri);
+
+
+            console.log(queryString)
+
+            //  con.query({
+            //     database: config.stardogDB,
+            //     query: queryString,
+            //     agent: agent
+            // },
+            //     function (results) {
+            //         console.log(results)
+            //     });
+
+            callback();
+        });
+
+           
         };
 
 
@@ -47,9 +62,4 @@ function linkageHarness() {
 
 
 
-
-
-
-
-
-module.exports = new grantHarness;
+module.exports = new linkageHarness;

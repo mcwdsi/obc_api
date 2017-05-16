@@ -5,7 +5,7 @@ PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
 PREFIX obo: <http://purl.obolibrary.org/obo/>
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
  
-insert {
+insert DATA {
     GRAPH <http://www.pitt.edu/obc/ide/article-instances> { 
 		<##OS##> rdf:type obo:IAO_0000005 .
 		<##GRANTS##> obo:BFO_0000051 <##OS##>  .
@@ -14,7 +14,3 @@ insert {
 		<##PUBLICATION##> obo:IAO_0000136 <##PP##> .
 	}
 }
-
-USING <http://www.pitt.edu/obc/ide/apollo-sv>
-USING <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
-USING <http://www.pitt.edu/obc/ide/article-instances>

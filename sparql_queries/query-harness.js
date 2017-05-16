@@ -8,6 +8,7 @@ var artifactsHarness = require('./artifacts-harness');
 var grantHarness = require('./grant-harness');
 var pubsPageHarness = require('./pubs-page-harness')
 var openQueryHarness = require('./open_queries-harness')
+var linkageHarness = require('./linkage-harness')
 var utils = require('./utils');
 
 
@@ -108,7 +109,7 @@ function Harness() {
 
     // Linking Grants to Pubs
     this.grantLink = function (terms, callback){
-        linkageHarness.queryString(terms, callback);
+        linkageHarness.update(terms, callback);
     };
 
     // Pubs Page
@@ -148,7 +149,11 @@ function Harness() {
             this.updateSoftware(data, callback);
         } else if (data.artifactType === 'grant') {
             this.updateGrant(data, callback);
+        } else if (data.artifactType === 'linkage') {
+            console.log("linkage found")
+            this.grantLink(data, callback);
         }
+
     };
     
     this.delete = function (data, callback) {
