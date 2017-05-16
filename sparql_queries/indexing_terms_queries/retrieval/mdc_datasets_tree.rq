@@ -1,0 +1,97 @@
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+
+select distinct ?datasetOrSubclass ?datasetOrSubclassLabel ?x ?datasetPrefTerm ?title ?formatSpecLabel ?accessPage ?version ?doi ?doiURL ?synopsis ?licenseName ?licenseUrl ?documentationDescription ?documentationUrl ?websiteUrl ?developerName ?pubAbout ?pubThatUsedRelease ?olympus
+from <http://www.pitt.edu/obc/ide/apollo-sv>
+from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+from <http://www.pitt.edu/obc/ide/article-instances>
+from <http://www.pitt.edu/obc/ide/article-deleted-instances>
+from <http://ide.obc.io/auth>
+from <http://www.pitt.edu/obc/mdc/content>
+where {
+  ?x rdf:type ?datasetOrSubclass .
+  ?datasetOrSubclass rdfs:subClassOf* obo:IAO_0000100 .
+  ?datasetOrSubclass rdfs:label ?datasetOrSubclassLabel .
+  ?x obo:IAO_0000111 ?datasetPrefTerm .
+  #if there is a title annotation, get the title
+  OPTIONAL { ?x dc:title ?title } .
+  #get URL to source code for this version if present
+    OPTIONAL { ?x obo:ERO_0000480 ?accessPage } .
+  #get version if present
+    OPTIONAL { ?y rdf:type obo:APOLLO_SV_00000108 .
+               ?y obo:IAO_0000219 ?x .
+               ?y rdfs:label ?version } .
+  #get DOI if present
+    OPTIONAL { ?z rdf:type obo:OBI_0002110 .
+               ?z obo:IAO_0000219 ?x .
+               ?z rdfs:label ?doi } .
+  #get DOI URL if present
+  OPTIONAL { ?z rdf:type obo:OBI_0002110 .
+               ?z obo:IAO_0000219 ?x .
+               ?z obo:ERO_0000480 ?doiURL } .
+  #get human readable synopsis if present
+    OPTIONAL { ?x obo:APOLLO_SV_00000523 ?synopsis } .
+  #get license name if present
+    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 . 
+           ?t obo:BFO_0000050 ?x . 
+           ?t rdfs:label ?licenseName } .
+  #get license URL if present
+    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 . 
+           ?t obo:BFO_0000050 ?x . 
+           ?t obo:ERO_0000480 ?licenseUrl } .
+  #get documentation description if present
+    OPTIONAL { ?s rdf:type obo:IAO_0000310 .
+           ?s obo:IAO_0000136 ?x .
+           ?s rdfs:label ?documentationDescription } .
+  #get documentation URL if present
+    OPTIONAL { ?s rdf:type obo:IAO_0000310 .
+           ?s obo:IAO_0000136 ?x .
+           ?s obo:ERO_0000480 ?documentationUrl } .
+  #get website URL if present
+    OPTIONAL { ?o rdf:type obo:FBcv_0000667 . 
+           ?o obo:IAO_0000136 ?x . 
+           ?o obo:ERO_0000480 ?websiteUrl } .
+  #get developer(s) if any
+    OPTIONAL { ?r rdf:type obo:BFO_0000040 . #r is a material entity
+           ?r obo:RO_0000053 ?q .  #r is the bearer of q
+           ?q rdf:type obo:OMRSE_00000038 .  #q is a legal person role
+           ?p rdf:type obo:APOLLO_SV_00000796 . #p is an instance of creating dataset
+           ?p obo:RO_0002218 ?r . #p has active participant r
+           ?p obo:OBI_0000299 ?x .  #p has specified output the dataset
+           ?r rdfs:label ?developerName } . #r has a label/name
+  #get publication(s) about if any
+    OPTIONAL { ?n obo:IAO_0000136 ?x .
+               ?n rdf:type obo:IAO_0000311 .
+               ?n rdfs:label ?pubAbout } .
+  #get publication(s) that used release if any
+    OPTIONAL { ?m obo:IAO_0000136 ?k .               #m is about k
+           ?k rdf:type obo:OBI_0000471 .     #k is instance of study
+           ?m rdf:type obo:IAO_0000311 .     #m is instance of pub
+           ?m dc:title ?pubThatUsedRelease .   #m has label pubThatUsedRelease
+           ?i obo:BFO_0000054 ?j .        #i realized by j
+           ?j rdf:type obo:OBIws_0000050 .    #j is instance of code execution
+           ?j obo:BFO_0000050 ?k .        #j (execution) part of k (study)
+           ?i rdf:type obo:APOLLO_SV_00000525 . #i instance of executable
+           ?h obo:OBI_0000299 ?i .        #i specified output of h
+           ?h rdf:type obo:APOLLO_SV_00000524 . #h instance of compiling
+           ?h obo:OBI_0000293 ?x        #h has input the dtm 
+             } .
+  #get data formats if any
+    OPTIONAL { ?datasetCreation obo:OBI_0000299 ?x . #creation of dataset has specified output the dataset
+           ?datasetCreation obo:OBI_0000417 ?formatSpec .  #creation of dataset achieves format spec objective
+           ?datasetCreation rdf:type obo:APOLLO_SV_00000796 . #creation is instance of dataset creating
+           ?formatSpec rdf:type obo:IAO_0000098 . #format spec is instance of data format spec
+           ?formatSpec rdfs:label ?formatSpecLabel #format spec label
+        } .
+  #get RROO info if any
+    OPTIONAL { 
+           ?datasetConc rdf:type obo:IAO_0000015 .  #the dataset concretization is an instance of information carrier
+           ?x obo:RO_0000058 ?datasetConc .     #and the dataset is concretized by dataset concretization
+           obo:IDE_0000000270 obo:RO_0000053 ?datasetConc . #and Olympus is the bearer of the dataset concretization
+           obo:IDE_0000000270 rdfs:label ?olympus #get label of Olympus individual
+        } .
+  #filter out punned individuals
+     FILTER ( ?x != obo:IAO_0000100 )
+     FILTER ( ?x != ?datasetOrSubclass )
+     FILTER ( ?datasetOrSubclass != obo:APOLLO_SV_00000522)
+     }
