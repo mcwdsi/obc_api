@@ -42,14 +42,14 @@ function linkageHarness() {
 
             console.log(queryString)
 
-            //  con.query({
-            //     database: config.stardogDB,
-            //     query: queryString,
-            //     agent: agent
-            // },
-            //     function (results) {
-            //         console.log(results)
-            //     });
+             con.query({
+                database: config.stardogDB,
+                query: queryString,
+                agent: agent
+            },
+                function (results) {
+                    console.log(results)
+                });
 
             callback();
         });
