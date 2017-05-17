@@ -81,7 +81,7 @@ function convertDataSetsTree(queryAnswer) {
                     for (var key in results[j]) {
                         if (key !== "x" && key !== "prefTerm"){
                             tree[rootName][i][termURI][key].push(results[j][key].value)
-                            tree[rootName][i][termURI][key] = Array.from(new Set(tree[rootName][i][termURI][key]))
+                            tree[rootName][i][termURI][key] = tree[rootName][i][termURI][key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
                         }
                     }
                 }
