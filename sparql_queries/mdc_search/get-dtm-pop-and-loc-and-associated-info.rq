@@ -1,0 +1,223 @@
+
+PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+select ?dtm ?prefTerm ?title ?sourceCodeRelease ?version ?doi ?doiURL ?synopsis ?sourceCodeRepositoryUrl ?webAppUrl ?licenseName ?licenseUrl ?documentationDescription ?documentationUrl ?websiteUrl ?developerName ?pubAbout ?pubThatUsedRelease ?inputSpecLabel ?outputSpecLabel ?olympus ?uidsConc ?measureLabel ?hostPopulation ?hostPopulationLabel ?hostType ?hostTypeLabel ?pathogenPopulation ?pathogenPopulationLabel ?pathogenType ?pathogenTypeLabel ?geoLocation ?geoLocationLabel
+
+#select distinct *  
+
+from <http://www.pitt.edu/obc/ide/apollo-sv>
+from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+from <http://www.pitt.edu/obc/ide/article-instances>
+from <http://www.pitt.edu/obc/ide/article-deleted-instances>
+from <http://ide.obc.io/auth>
+from <http://www.pitt.edu/obc/mdc/content>
+from <http://www.pitt.edu/obc/simulates-instances>
+
+
+where {
+?dtm rdf:type <http://purl.obolibrary.org/obo/APOLLO_SV_00000561> . #dtm is dtm software
+?dtm rdfs:label ?prefTerm .
+
+#get compiledSoftware that corresponds to dtm via a compiling process
+?compilingProcess obo:OBI_0000293 ?dtm .
+?compilingProcess obo:OBI_0000299 ?executable .
+
+
+#get compiled software that achieves planned objective simulating of process type x
+  ?simulatingOfProcessTypeX obo:OBI_0000417 ?executable . #achieves planned objective obo:OBI_0000417
+  ?executable rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000525 . 
+  ?simulatingOfProcessTypeX rdf:type obo:APOLLO_SV_00000005 .
+
+#get simulation of populations
+  ?simulatingOfProcessTypeX obo:OBI_0000299 ?simulationOfPopulation .   #has specified output - obo:OBI_0000299
+  ?simulationOfPopulation rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000031  .
+  ?simulationOfPopulation obo:APOLLO_SV_00000067 ?population .
+  ?population rdf:type/rdfs:subClassOf* obo:PCO_0000001  #PCO_0000001 population  
+  
+#If available, get (1) the pathogen populations that are simulated, (2) their labels, (3) the type of pathogens, and (4) the label for the pathogen type.
+OPTIONAL {
+    ?population rdf:type/rdfs:subClassOf* <##PATHOGEN##> .  #default  http://www.pitt.edu/obc/IDE_0000000007
+    ?population rdfs:label ?pathogenPopulationLabel .
+  ?population a ?pathogenType .
+  ?pathogenType rdfs:label ?pathogenTypeLabel .
+}
+
+ #If available, get (1) the host populations that are simulated, (2) their labels, (3) the type of host, and (4) the label for the host type.
+OPTIONAL {
+  ?population rdf:type/rdfs:subClassOf* <##HOST##> .  #default http://purl.obolibrary.org/obo/APOLLO_SV_00000516
+  ?population rdfs:label ?hostPopulationLabel .
+  ?population a ?hostType .
+  ?hostType rdfs:label ?hostTypeLabel .
+}
+#If available, get the location.
+OPTIONAL {
+ #get the biotic ecosystem of the population
+ ?population obo:BFO_0000137 ?bioticEcosystem . #BFO_0000137 proper part of continuant at all times
+ ?bioticEcosystem rdf:type obo:APOLLO_SV_00000104 .
+ #get the ecosystm that contains the biotic ecosystem
+  #obo:ecosystem APOLLO_SV_00000097
+ ?bioticEcosystem obo:BFO_0000137 ?ecosystem . #BFO_0000137 proper part of continuant at all times
+ ?ecosystem rdf:type obo:APOLLO_SV_00000097 .
+ #get the geographic region/location of the ecosystem.
+ ?ecosystem <http://www.obofoundry.org/ro/ro.owl#located_in> ?geoLocation .
+ ?geoLocation obo:BFO_0000137*  <##LOCATION##> . #default http://purl.obolibrary.org/obo/GEO_000000345 
+ ?geoLocation rdfs:label ?geoLocationLabel
+}
+
+  #get the title if present
+  OPTIONAL { ?dtm dc:title ?title } .
+  #get URL to source code for this version if present
+    OPTIONAL { ?dtm obo:ERO_0000480 ?sourceCodeRelease } .
+  #get version if present
+    OPTIONAL { ?y rdf:type obo:APOLLO_SV_00000108 .
+               ?y obo:IAO_0000219 ?dtm .
+               ?y rdfs:label ?version } .
+  #get DOI if present
+    OPTIONAL { ?z rdf:type obo:OBI_0002110 .
+               ?z obo:IAO_0000219 ?dtm .
+               ?z rdfs:label ?doi } .
+  #get DOI URL if present
+  OPTIONAL { ?z rdf:type obo:OBI_0002110 .
+               ?z obo:IAO_0000219 ?dtm .
+               ?z obo:ERO_0000480 ?doiURL } .
+  #get human readable synopsis if present
+    OPTIONAL { ?dtm obo:APOLLO_SV_00000523 ?synopsis } .
+  #get source code repository information if present
+    OPTIONAL { ?w rdf:type obo:APOLLO_SV_00000522 .
+               ?dtm obo:BFO_0000050 ?w .
+               ?w obo:ERO_0000480 ?sourceCodeRepositoryUrl } .
+  #get executable(s) name if present
+    OPTIONAL { ?v rdf:type obo:APOLLO_SV_00000525 .
+           ?u rdf:type obo:APOLLO_SV_00000524 . 
+           ?u obo:OBI_0000293 ?dtm . 
+           ?u obo:OBI_0000299 ?v . 
+           ?v rdfs:label ?executableName } .
+  #get executable(s) url if present
+    OPTIONAL { ?v rdf:type obo:APOLLO_SV_00000525 .
+           ?u rdf:type obo:APOLLO_SV_00000524 . 
+           ?u obo:OBI_0000293 ?dtm . 
+           ?u obo:OBI_0000299 ?v . 
+           ?v obo:ERO_0000480 ?executableUrl } .
+  #get web application url if present
+    OPTIONAL { ?v rdf:type obo:APOLLO_SV_00000525 . 
+           ?u rdf:type obo:APOLLO_SV_00000524 . 
+           ?u obo:OBI_0000293 ?dtm .
+           ?u obo:OBI_0000299 ?v . 
+           ?g obo:OBI_0000417 ?v . 
+           ?g rdf:type obo:OBIws_0000050 .
+           ?g obo:ERO_0000480 ?webAppUrl } .
+  #get license name if present
+    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 . 
+           ?t obo:BFO_0000050 ?dtm . 
+           ?t rdfs:label ?licenseName } .
+  #get license URL if present
+    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 . 
+           ?t obo:BFO_0000050 ?dtm . 
+           ?t obo:ERO_0000480 ?licenseUrl } .
+  #get documentation description if present
+    OPTIONAL { ?s rdf:type obo:IAO_0000310 .
+           ?s obo:IAO_0000136 ?dtm .
+           ?s rdfs:label ?documentationDescription } .
+  #get documentation URL if present
+    OPTIONAL { ?s rdf:type obo:IAO_0000310 .
+           ?s obo:IAO_0000136 ?dtm .
+           ?s obo:ERO_0000480 ?documentationUrl } .
+  #get website URL if present
+    OPTIONAL { ?o rdf:type obo:FBcv_0000667 . 
+           ?o obo:IAO_0000136 ?dtm . 
+           ?o obo:ERO_0000480 ?websiteUrl } .
+  #get developer(s) if any
+    OPTIONAL { ?r rdf:type obo:BFO_0000040 . 
+           ?r obo:RO_0000053 ?q . 
+           ?q rdf:type obo:OMRSE_00000038 . 
+           ?p rdf:type obo:APOLLO_SV_00000008 . 
+           ?p obo:RO_0002218 ?r . 
+           ?p obo:OBI_0000299 ?dtm . 
+           ?r rdfs:label ?developerName } .
+  #get publication(s) about if any
+    OPTIONAL { ?n obo:IAO_0000136 ?dtm .
+               ?n rdf:type obo:IAO_0000311 .
+               ?n dc:title ?pubAbout 
+             } .
+  #get publication(s) that used release if any
+    OPTIONAL { ?m obo:IAO_0000136 ?k .               #m is about k
+           ?k rdf:type obo:OBI_0000471 .     #k is instance of study
+           ?m rdf:type obo:IAO_0000311 .     #m is instance of pub
+           ?m dc:title ?pubThatUsedRelease .   #m has label pubThatUsedRelease
+           ?j obo:OBI_0000417 ?i .        #j achieves planned objective of i
+           ?j rdf:type obo:OBIws_0000050 .    #j is instance of code execution
+           ?j obo:BFO_0000050 ?k .        #j (execution) part of k (study)
+           ?i rdf:type obo:APOLLO_SV_00000525 . #i instance of executable
+           ?h obo:OBI_0000299 ?i .        #i specified output of h
+           ?h rdf:type obo:APOLLO_SV_00000524 . #h instance of compiling
+           ?h obo:OBI_0000293 ?dtm        #h has input the dtm 
+             } .
+  #get data input formats if any
+    OPTIONAL { ?v rdf:type obo:APOLLO_SV_00000525 .  #v is executable
+           ?u rdf:type obo:APOLLO_SV_00000524 .  #u is compiling
+           ?u obo:OBI_0000293 ?dtm .               #compiling has source code as input
+           ?u obo:OBI_0000299 ?v .               #compiling has executable as output
+           ?parsingPlan obo:BFO_0000050 ?v .     #data parsing plan spec part of executable
+           ?dataParsing obo:OBI_0000417 ?parsingPlan . #parsing achieves parsing plan objective
+           ?dataParsing obo:OBI_0000417 ?inputSpec .  #parsing achieves spec objective
+           ?dataParsing rdf:type obo:APOLLO_SV_00000566 . #parsing individual is instance of parsing
+           ?inputSpec rdf:type obo:IAO_0000098 . #input spec is data format spec
+           ?inputSpec rdfs:label ?inputSpecLabel #input spec label
+        } .
+  #get data output formats if any
+  OPTIONAL { ?v rdf:type obo:APOLLO_SV_00000525 .  #v is executable
+           ?u rdf:type obo:APOLLO_SV_00000524 .  #u is compiling
+           ?u obo:OBI_0000293 ?dtm .               #compiling has source code as input
+           ?u obo:OBI_0000299 ?v .               #compiling has executable as output
+           ?encodingPlan obo:BFO_0000050 ?v .    #data encoding plan spec part of executable
+           ?dataEncoding obo:OBI_0000417 ?encodingPlan . #encoding achieves encoding plan objective
+           ?dataEncoding obo:OBI_0000417 ?outputSpec .  #encoding achieves spec objective
+           ?dataEncoding rdf:type obo:OBI_0000227 .  #encoding individusal is instance of encoding
+           ?outputSpec rdf:type obo:IAO_0000098 . #output spec is data format spec
+           ?outputSpec rdfs:label ?outputSpecLabel #output spec label
+         } .
+  #get RROO info if any
+    OPTIONAL { ?v rdf:type obo:APOLLO_SV_00000525 .  #v is executable
+           ?u rdf:type obo:APOLLO_SV_00000524 .  #u is compiling
+           ?u obo:OBI_0000293 ?dtm .               #compiling has source code as input
+           ?u obo:OBI_0000299 ?v .               #compiling has executable as output
+           ?execConc rdf:type obo:IAO_0000015 . #the executable concretization is an instance of information carrier
+           ?v obo:RO_0000058 ?execConc .      #and the executable is concretized by executable concretization
+           obo:IDE_0000000270 obo:RO_0000053 ?execConc . #and Olympus is the bearer of the executable concretization
+           obo:IDE_0000000270 rdfs:label ?olympus #get label of Olympus individual
+        } .
+  #get UIDS info if any
+    OPTIONAL { ?v1 rdf:type obo:APOLLO_SV_00000525 .  #v1 is executable
+           ?u1 rdf:type obo:APOLLO_SV_00000524 .  #u1 is compiling
+           ?u1 obo:OBI_0000293 ?dtm .               #compiling has source code as input
+           ?u1 obo:OBI_0000299 ?v1 .               #compiling has executable as output
+           ?execConc1 rdf:type obo:IAO_0000015 .  #the executable concretization is an instance of information carrier
+           ?v1 obo:RO_0000058 ?execConc1 .      #and the executable is concretized by executable concretization
+           ?execDisp obo:APOLLO_SV_00000543 ?execConc1 .  #the disposition to execute the software has its basis in the concretization
+           ?invokeDisp obo:BFO_0000169  ?execDisp .  #the UIDS disp to invoke the software specifically depends on the execute disposition
+           ?invokeDisp obo:APOLLO_SV_00000543 ?uidsConc .  #the concretization of UIDS software is the basis for the invoke disposition
+           } .
+  #get control measures if any
+    OPTIONAL { ?v3 rdf:type obo:APOLLO_SV_00000525 .  #v3 is executable
+           ?u3 rdf:type obo:APOLLO_SV_00000524 .  #u3 is compiling
+           ?u3 obo:OBI_0000293 ?dtm .               #compiling has source code as input
+           ?u3 obo:OBI_0000299 ?v3 .               #compiling has executable as output
+           ?simulatingx obo:OBI_0000417 ?v3 . #simulatingx achieves objective of executable
+           ?simulatingx rdf:type obo:APOLLO_SV_00000005  .  #simulatingx is instance of process of simulating process of type X
+           ?simulatingx obo:OBI_0000299 ?measure .  #simulatingx has output an infectious disease control measure
+           ?measure rdf:type ?measureType . #control measure is an instance of a particular type
+           ?measureType rdfs:label ?measureLabel . #get the label on the measure type
+           ?measureType rdfs:subClassOf* obo:APOLLO_SV_00000086 #control measure type must be a type of control measure (otherwise we get other ICE/PIE output by simulation)
+        } .
+  #get hostPopulation if any
+  OPTIONAL {
+
+  }.
+  #filter out punned individuals
+     FILTER ( ?dtm != obo:APOLLO_SV_00000561 )
+     }

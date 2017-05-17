@@ -18,6 +18,7 @@ var grants = require('./routes/grants');
 var pubs_page = require('./routes/pubs_page')
 var open_query = require('./routes/open_query')
 var mdc_tree = require('./routes/mdc_tree')
+var mdc_search_retrieval = require('./routes/mdc_search')
 
 var tokens = require('./routes/tokens');
 var users = require('./routes/users');
@@ -56,6 +57,7 @@ app.use('/grants', grants);
 app.use('/pubs_page', pubs_page);
 app.use('/open_query', open_query);
 app.use('/mdc_tree',mdc_tree);
+app.use('/mdc_retrieval',mdc_search_retrieval);
 
 
 // catch 404 and forward to error handler
