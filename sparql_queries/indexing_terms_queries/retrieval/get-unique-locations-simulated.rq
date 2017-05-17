@@ -29,7 +29,7 @@ where {
   ?simulatingOfProcessTypeX obo:OBI_0000299 ?simulationOfPopulation .   #has specified output - obo:OBI_0000299
   ?simulationOfPopulation rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000031  .
   ?simulationOfPopulation obo:APOLLO_SV_00000067 ?population .
-  ?population rdf:type/rdfs:subClassOf* obo:PCO_0000001  #PCO_0000001 population  
+  ?population rdf:type/rdfs:subClassOf* obo:PCO_0000001 . #PCO_0000001 population  
   
 
  #get the biotic ecosystem of the population
