@@ -17,7 +17,7 @@ var artifacts = require('./routes/artifacts');
 var grants = require('./routes/grants');
 var pubs_page = require('./routes/pubs_page')
 var open_query = require('./routes/open_query')
-var mdc_tree = require('./routes/mdc-tree')
+var mdc_tree = require('./routes/mdc_tree')
 
 var tokens = require('./routes/tokens');
 var users = require('./routes/users');
