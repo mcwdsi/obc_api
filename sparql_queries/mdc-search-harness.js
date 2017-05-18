@@ -38,7 +38,6 @@ function retrievalMDCQuery() {
         var results = mdcSearch_results.results.bindings;
         for (var j in results) {
             var title = results[j].title.value;
-            var uri = results[j].dtm.value
             var currentItem = {}
             newURI = true;
             if(tree[title] == undefined){
@@ -53,9 +52,6 @@ function retrievalMDCQuery() {
                                     tree[key].push(results[j][key].value)
                                     tree[key] = tree[key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
                                 }
-                                else {
-                                    tree[key] = [results[j][key].value]
-                                }
                         }
                     }
                 
@@ -67,7 +63,6 @@ function retrievalMDCQuery() {
                 }
             tree[title].push(currentItem)
             }
-
     }
         return tree;
     }

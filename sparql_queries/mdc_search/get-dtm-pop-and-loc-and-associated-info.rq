@@ -1,10 +1,7 @@
 
-PREFIX geo: <http://purl.obolibrary.org/obo/geo.owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX ro: <http://www.obofoundry.org/ro/ro.owl#>
-PREFIX obo: <http://purl.obolibrary.org/obo/>
-PREFIX dc: <http://purl.org/dc/elements/1.1/>
+prefix obo: <http://purl.obolibrary.org/obo/>
+PREFIX obc: <http://www.pitt.edu/obc/>
+prefix dc: <http://purl.org/dc/elements/1.1/>
 
 select ?dtm ?prefTerm ?title ?sourceCodeRelease ?version ?doi ?doiURL ?synopsis ?sourceCodeRepositoryUrl ?webAppUrl ?licenseName ?licenseUrl ?documentationDescription ?documentationUrl ?websiteUrl ?developerName ?pubAbout ?pubThatUsedRelease ?inputSpecLabel ?outputSpecLabel ?olympus ?uidsConc ?measureLabel ?hostPopulation ?hostPopulationLabel ?hostType ?hostTypeLabel ?pathogenPopulation ?pathogenPopulationLabel ?pathogenType ?pathogenTypeLabel ?geoLocation ?geoLocationLabel
 
@@ -20,13 +17,12 @@ from <http://www.pitt.edu/obc/simulates-instances>
 
 
 where {
-?dtm rdf:type <http://purl.obolibrary.org/obo/APOLLO_SV_00000561> . #dtm is dtm software
+?dtm rdf:type <http://purl.obolibrary.org/obo/APOLLO_SV_00000561> . #x is dtm software
 ?dtm rdfs:label ?prefTerm .
 
 #get compiledSoftware that corresponds to dtm via a compiling process
 ?compilingProcess obo:OBI_0000293 ?dtm .
 ?compilingProcess obo:OBI_0000299 ?executable .
-
 
 #get compiled software that achieves planned objective simulating of process type x
   ?simulatingOfProcessTypeX obo:OBI_0000417 ?executable . #achieves planned objective obo:OBI_0000417
@@ -34,30 +30,29 @@ where {
   ?simulatingOfProcessTypeX rdf:type obo:APOLLO_SV_00000005 .
 
 #get simulation of populations
-  ?simulatingOfProcessTypeX obo:OBI_0000299 ?simulationOfPopulation .   #has specified output - obo:OBI_0000299
-  ?simulationOfPopulation rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000031  .
-  ?simulationOfPopulation obo:APOLLO_SV_00000067 ?population .
-  ?population rdf:type/rdfs:subClassOf* obo:PCO_0000001  #PCO_0000001 population  
-  
-#If available, get (1) the pathogen populations that are simulated, (2) their labels, (3) the type of pathogens, and (4) the label for the pathogen type.
-OPTIONAL {
-    ?population rdf:type/rdfs:subClassOf* <##PATHOGEN##> .  #default  http://www.pitt.edu/obc/IDE_0000000007
-    ?population rdfs:label ?pathogenPopulationLabel .
-  ?population a ?pathogenType .
-  ?pathogenType rdfs:label ?pathogenTypeLabel .
-}
+  ?simulatingOfProcessTypeX obo:OBI_0000299 ?simulationOfHostPopulation .   #has specified output - obo:OBI_0000299
+  ?simulationOfHostPopulation rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000031  .
+  ?simulationOfHostPopulation obo:APOLLO_SV_00000067 ?hostPopulation .
+ 
+  ?simulatingOfProcessTypeX obo:OBI_0000299 ?simulationOfPathogenPopulation .
+  ?simulationOfPathogenPopulation rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000031  .
+  ?simulationOfPathogenPopulation obo:APOLLO_SV_00000067 ?pathogenPopulation .
 
- #If available, get (1) the host populations that are simulated, (2) their labels, (3) the type of host, and (4) the label for the host type.
-OPTIONAL {
-  ?population rdf:type/rdfs:subClassOf* <##HOST##> .  #default http://purl.obolibrary.org/obo/APOLLO_SV_00000516
-  ?population rdfs:label ?hostPopulationLabel .
-  ?population a ?hostType .
+  ?pathogenPopulation rdf:type/rdfs:subClassOf* <##PATHOGEN##> .  #default  
+  ?pathogenPopulation rdfs:label ?pathogenPopulationLabel .
+  ?pathogenPopulation a ?pathogenType .
+  ?pathogenType rdfs:label ?pathogenTypeLabel .
+
+  ?hostPopulation rdf:type/rdfs:subClassOf* <##HOST##> .  #default 
+  ?hostPopulation rdfs:label ?hostPopulationLabel .
+  ?hostPopulation a ?hostType .
   ?hostType rdfs:label ?hostTypeLabel .
-}
-#If available, get the location.
-OPTIONAL {
- #get the biotic ecosystem of the population
- ?population obo:BFO_0000137 ?bioticEcosystem . #BFO_0000137 proper part of continuant at all times
+
+
+ #get the biotic ecosystem of the populations
+ #BFO_0000137 proper part of continuant at all times
+ ?hostPopulation obo:BFO_0000137 ?bioticEcosystem . 
+ ?pathogenPopulation obo:BFO_0000137 ?bioticEcosystem . 
  ?bioticEcosystem rdf:type obo:APOLLO_SV_00000104 .
  #get the ecosystm that contains the biotic ecosystem
   #obo:ecosystem APOLLO_SV_00000097
@@ -65,9 +60,9 @@ OPTIONAL {
  ?ecosystem rdf:type obo:APOLLO_SV_00000097 .
  #get the geographic region/location of the ecosystem.
  ?ecosystem <http://www.obofoundry.org/ro/ro.owl#located_in> ?geoLocation .
- ?geoLocation obo:BFO_0000137*  <##LOCATION##> . #default http://purl.obolibrary.org/obo/GEO_000000345 
+ ?geoLocation obo:BFO_0000137*  <##LOCATION##> . #default  
  ?geoLocation rdfs:label ?geoLocationLabel
-}
+
 
   #get the title if present
   OPTIONAL { ?dtm dc:title ?title } .
