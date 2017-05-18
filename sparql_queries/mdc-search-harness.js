@@ -19,16 +19,14 @@ function retrievalMDCQuery() {
                     .replace("##PATHOGEN##", terms.pathogen !== undefined ? terms.pathogen : "http://www.pitt.edu/obc/IDE_0000000007")
                     .replace("##HOST##", terms.host !== undefined ? terms.host : "http://purl.obolibrary.org/obo/APOLLO_SV_00000516")
                     .replace("##LOCATION##", terms.location !== undefined ? terms.location : "http://purl.obolibrary.org/obo/GEO_000000345")
-                    console.log(queryString)
             con.query({
                 database: config.stardogMdcDB,
                 query: queryString,
                 agent: agent
             },
                 function (mdcSearch_results) {
-                    eliminateSearchDuplicates(mdcSearch_results)
-                    //callback(utils.transformPubsToJSON(publications_results));
-                    callback({"Something": "meaningful at Query"})
+                    var results = eliminateSearchDuplicates(mdcSearch_results)
+                    callback(results)
                 }
                 );
            
@@ -41,9 +39,36 @@ function retrievalMDCQuery() {
         for (var j in results) {
             var title = results[j].title.value;
             var uri = results[j].dtm.value
-            tree[title] = uri
-        }
-        console.log(tree);
+            var currentItem = {}
+            newURI = true;
+            if(tree[title] == undefined){
+                tree[title] = []
+            }
+            else {
+               for (var i in tree){
+                    if(tree[i] !== undefined){
+                        var newURI = false;
+                        for (var key in results[j]) {
+                                if (tree[key] !== undefined) {
+                                    tree[key].push(results[j][key].value)
+                                    tree[key] = tree[key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
+                                }
+                                else {
+                                    tree[key] = [results[j][key].value]
+                                }
+                        }
+                    }
+                
+               }
+            }
+            if (newURI){
+                for (var key in results[j]) {
+                        currentItem[key] = [results[j][key].value]
+                }
+            tree[title].push(currentItem)
+            }
+
+    }
         return tree;
     }
 
