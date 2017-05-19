@@ -10,10 +10,19 @@ var grantHarness = require('./grant-harness');
 var pubsPageHarness = require('./pubs-page-harness')
 var openQueryHarness = require('./open_queries-harness')
 var linkageHarness = require('./linkage-harness')
+var mdcSearchHarness = require('./mdc-search-harness')
 var utils = require('./utils');
 
 
 function Harness() {
+    //MDC Search retrieval of elements
+    this.retrievalMDCElements = function (terms, callback) {
+        mdcSearchHarness.retrievalMDCQuery(terms, callback);
+    };
+
+    this.MDCSearch = function (terms, callback) {
+        mdcSearchHarness.MDCSearch(terms, callback);
+    };
     
     //INDEXING TERMS
 
