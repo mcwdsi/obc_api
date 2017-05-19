@@ -68,7 +68,7 @@ function convertDataSetsTree(queryAnswer) {
         currentItem[termURI] = {}
         currentItem[termURI].isRoot = false
         currentItem[termURI].children = {}
-        currentItem[termURI].label = results[j].datasetPrefTerm.value
+        currentItem[termURI].label = results[j].title.value
         //First we need to create the parent if it does not exist.
         if(tree[rootName] == undefined){
            tree[rootName] = []
@@ -79,7 +79,7 @@ function convertDataSetsTree(queryAnswer) {
                 if(tree[rootName][i][termURI] !== undefined){
                     var newURI = false;
                     for (var key in results[j]) {
-                        if (key !== "x" && key !== "prefTerm"){
+                        if (key !== "x" && key !== "title"){
                             tree[rootName][i][termURI][key].push(results[j][key].value)
                             tree[rootName][i][termURI][key] = tree[rootName][i][termURI][key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
                         }
@@ -91,7 +91,7 @@ function convertDataSetsTree(queryAnswer) {
         //if we checked everything and the URI is still new then insert it as new.
         if (newURI){
             for (var key in results[j]) {
-                if (key !== "x" && key !== "prefTerm"){
+                if (key !== "x" && key !== "title"){
                     currentItem[termURI][key] = [results[j][key].value]
                 }
             }
@@ -126,7 +126,7 @@ function convertSoftwareTree(queryAnswer) {
         var parentTermURI = results[j].softwareOrSubclass.value
         var termURI = results[j].x.value
         currentItem[termURI] = {}
-        currentItem[termURI].label = results[j].prefTerm.value
+        currentItem[termURI].label = results[j].title.value
         currentItem[termURI].isRoot = false
         currentItem[termURI].children = {}
         var newURI = true;
@@ -138,7 +138,7 @@ function convertSoftwareTree(queryAnswer) {
                 if(tree[rootName][i][termURI] !== undefined){
                     var newURI = false;
                     for (var key in results[j]) {
-                        if (key !== "x" && key !== "prefTerm"){
+                        if (key !== "x" && key !== "title"){
                             tree[rootName][i][termURI][key].push(results[j][key].value)
                             tree[rootName][i][termURI][key] = tree[rootName][i][termURI][key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
                         }
@@ -149,7 +149,7 @@ function convertSoftwareTree(queryAnswer) {
          //if we checked everything and the URI is still new then insert it as new.
         if (newURI){
             for (var key in results[j]) {
-                if (key !== "x" && key !== "prefTerm"){
+                if (key !== "x" && key !== "title"){
                     currentItem[termURI][key] = [results[j][key].value]
                 }
             }
