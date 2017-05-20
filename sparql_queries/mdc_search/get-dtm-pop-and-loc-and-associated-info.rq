@@ -198,7 +198,8 @@ where {
            ?invokeDisp obo:APOLLO_SV_00000543 ?uidsConc .  #the concretization of UIDS software is the basis for the invoke disposition
            } .
   #get control measures if any
-    OPTIONAL { ?v3 rdf:type obo:APOLLO_SV_00000525 .  #v3 is executable
+  ##TOGGLE##  OPTIONAL { 
+         ?v3 rdf:type obo:APOLLO_SV_00000525 .  #v3 is executable
            ?u3 rdf:type obo:APOLLO_SV_00000524 .  #u3 is compiling
            ?u3 obo:OBI_0000293 ?dtm .               #compiling has source code as input
            ?u3 obo:OBI_0000299 ?v3 .               #compiling has executable as output
@@ -207,12 +208,10 @@ where {
            ?simulatingx obo:OBI_0000299 ?measure .  #simulatingx has output an infectious disease control measure
            ?measure rdf:type ?measureType . #control measure is an instance of a particular type
            ?measureType rdfs:label ?measureLabel . #get the label on the measure type
-           ?measureType rdfs:subClassOf* obo:APOLLO_SV_00000086 #control measure type must be a type of control measure (otherwise we get other ICE/PIE output by simulation)
-        } .
-  #get hostPopulation if any
-  OPTIONAL {
-
-  }.
+           ?measureType rdfs:subClassOf* <##CONTROL_MEASURE_IRI##>  #control measure type must be a type of control measure (otherwise we get other ICE/PIE output by simulation)
+  ##TOGGLE##       } 
+        .
+ 
   #filter out punned individuals
      FILTER ( ?dtm != obo:APOLLO_SV_00000561 )
      }

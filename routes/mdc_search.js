@@ -15,7 +15,8 @@ router.get('/query', function(req, res, next){
         var terms = {
         	pathogen: req.query.pathogen,
         	host: req.query.host,
-        	location: req.query.location
+        	location: req.query.location,
+            measure: req.query.measure
         }
         //send to harness
         harness.MDCSearch(terms, function(data) {

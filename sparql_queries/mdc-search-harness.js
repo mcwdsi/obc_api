@@ -14,11 +14,13 @@ function retrievalMDCQuery() {
         con.setCredentials(config.stardogUser, config.stardogPass);
        
         fs.readFile(__dirname + '/mdc_search/get-dtm-pop-and-loc-and-associated-info.rq', function (err, allMdcSearchQueryFile) {
-            console.log("Running query")
             var queryString = allMdcSearchQueryFile.toString()
                     .replace("##PATHOGEN##", terms.pathogen !== undefined ? terms.pathogen : "http://www.pitt.edu/obc/IDE_0000000007")
                     .replace("##HOST##", terms.host !== undefined ? terms.host : "http://purl.obolibrary.org/obo/APOLLO_SV_00000516")
                     .replace("##LOCATION##", terms.location !== undefined ? terms.location : "http://purl.obolibrary.org/obo/GEO_000000345")
+                    .replace("##CONTROL_MEASURE_IRI##",terms.measure !== undefined ? terms.measure : "http://purl.obolibrary.org/obo/APOLLO_SV_00000086")
+                    .replace("##TOGGLE##",terms.measure === undefined ? "" : "##TOGGLE##")
+                    .replace("##TOGGLE##",terms.measure === undefined ? "" : "##TOGGLE##")
             con.query({
                 database: config.stardogMdcDB,
                 query: queryString,
@@ -29,7 +31,6 @@ function retrievalMDCQuery() {
                     callback(results)
                 }
                 );
-           
         });
     }
 
@@ -95,11 +96,22 @@ function retrievalMDCQuery() {
                                         agent: agent
                                     },
                                     function (pathogens_results) {
-                                        var location = parseLocation(location_results);
-                                        var hosts = parseHosts(hosts_results);
-                                        var pathogens = parsePathogens(pathogens_results);
-                                        var consolidated_tree = {"location": location, "hosts":hosts, "pathogens":pathogens }
-                                        callback(consolidated_tree);
+                                       fs.readFile(__dirname + '/indexing_terms_queries/retrieval/get-unique-control-measures-simulated.rq',
+                                        function (err, measures_query_file) {
+                                        con.query({
+                                            database: config.stardogMdcDB,
+                                            query: measures_query_file.toString(),
+                                            agent: agent
+                                        },
+                                        function (measures_results) {
+                                            var location = parseLocation(location_results);
+                                            var hosts = parseHosts(hosts_results);
+                                            var pathogens = parsePathogens(pathogens_results);
+                                            var measures = parseMeasures(measures_results);
+                                            var consolidated_tree = {"location": location, "hosts":hosts, "pathogens":pathogens, "measures":measures }
+                                            callback(consolidated_tree);
+                                        });
+                                     });
                                     });
                                 });
                             });
@@ -140,11 +152,16 @@ function retrievalMDCQuery() {
         }
         return tree;
     }  
-
-
-
-
-
+    function parseMeasures(queryResults){
+        var tree = {};
+        var results = queryResults.results.bindings;
+        for (var j in results) {
+            var label = results[j].measureLabel.value
+            var uri = results[j].measureType.value
+            tree[label] = uri
+        }
+        return tree;
+    }  
    };
 
 

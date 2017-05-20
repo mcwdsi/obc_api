@@ -1,0 +1,36 @@
+
+prefix obo: <http://purl.obolibrary.org/obo/>
+PREFIX obc: <http://www.pitt.edu/obc/>
+
+select distinct ?measureType (replace(?controlMeasure, " control strategy", "") as ?measureLabel)
+
+from <http://www.pitt.edu/obc/ide/apollo-sv>
+from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+from <http://www.pitt.edu/obc/ide/article-instances>
+from <http://www.pitt.edu/obc/ide/article-deleted-instances>
+from <http://ide.obc.io/auth>
+from <http://www.pitt.edu/obc/mdc/content>
+from <http://www.pitt.edu/obc/simulates-instances>
+
+
+where {
+?dtm rdf:type <http://purl.obolibrary.org/obo/APOLLO_SV_00000561> . #x is dtm software
+
+#get compiledSoftware that corresponds to dtm via a compiling process
+?compilingProcess obo:OBI_0000293 ?dtm .
+?compilingProcess obo:OBI_0000299 ?executable .
+
+#get compiled software that achieves planned objective simulating of process type x
+  ?simulatingOfProcessTypeX obo:OBI_0000417 ?executable . #achieves planned objective obo:OBI_0000417
+  ?executable rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000525 . 
+  ?simulatingOfProcessTypeX rdf:type obo:APOLLO_SV_00000005 .
+
+#get simulation of populations
+  ?simulatingOfProcessTypeX obo:OBI_0000299 ?measure .   #has specified output - obo:OBI_0000299
+  ?measure rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000086  .  #output of simulating is an instance of control measure
+  
+  ?measure rdf:type ?measureType .
+ ?measureType rdfs:label ?controlMeasure .
+ FILTER (?measure != obo:APOLLO_SV_00000086)
+}
+order by ?geoLocationLabel
