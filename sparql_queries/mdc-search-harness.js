@@ -27,6 +27,7 @@ function retrievalMDCQuery() {
                 agent: agent
             },
                 function (mdcSearch_results) {
+                    // console.log(queryString)
                     var results = eliminateSearchDuplicates(mdcSearch_results)
                     callback(results)
                 }
@@ -38,31 +39,24 @@ function retrievalMDCQuery() {
         var tree = {};
         var results = mdcSearch_results.results.bindings;
         for (var j in results) {
-            var title = results[j].title.value;
+            var prefTerm = results[j].prefTerm.value;
             var currentItem = {}
             newURI = true;
-            if(tree[title] == undefined){
-                tree[title] = []
+            if(tree[prefTerm] == undefined){
+                tree[prefTerm] = []
             }
             else {
-               for (var i in tree){
-                    if(tree[i] !== undefined){
-                        var newURI = false;
-                        for (var key in results[j]) {
-                                if (tree[key] !== undefined) {
-                                    tree[key].push(results[j][key].value)
-                                    tree[key] = tree[key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
-                                }
-                        }
-                    }
-                
-               }
+                var newURI = false;
+                for (var key in results[j]) {
+                    tree[prefTerm][0][key].push(results[j][key].value)
+                    tree[prefTerm][0][key] = tree[prefTerm][0][key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
+                }
             }
             if (newURI){
                 for (var key in results[j]) {
                         currentItem[key] = [results[j][key].value]
                 }
-            tree[title].push(currentItem)
+            tree[prefTerm].push(currentItem)
             }
     }
         return tree;
