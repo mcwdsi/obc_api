@@ -2,7 +2,7 @@
 prefix obo: <http://purl.obolibrary.org/obo/>
 PREFIX obc: <http://www.pitt.edu/obc/>
 
-select distinct ?geoLocationLabel
+select distinct ?geoLocationLabel ?geoLocation
 
 from <http://www.pitt.edu/obc/ide/apollo-sv>
 from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
