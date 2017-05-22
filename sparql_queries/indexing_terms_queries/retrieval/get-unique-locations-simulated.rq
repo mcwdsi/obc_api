@@ -43,5 +43,7 @@ where {
  ?ecosystem <http://www.obofoundry.org/ro/ro.owl#located_in> ?geoLocation .
  ?geoLocation rdfs:label ?geoLocationLabel .
  FILTER (?geoLocation != obo:GEO_000000345)
+
+ 
 }
 order by ?geoLocationLabel
