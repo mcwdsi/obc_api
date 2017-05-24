@@ -67,7 +67,6 @@ function retrievalMDCQuery() {
     }
 
     function getCombinationSearch(terms,con, callback){
-        
         if(terms.type === "option1")
         {
             fs.readFile(__dirname + '/mdc_search/dataset-software-matching-by-input-and-output-formats.rq', function (err, allMdcSearchQueryFile) {
@@ -78,7 +77,6 @@ function retrievalMDCQuery() {
                     agent: agent
                 },
                     function (mdcSearch_results) {
-                        // console.log(queryString)
                         var results = eliminateSearchDuplicates(mdcSearch_results)
                         callback (results) 
                     }
@@ -95,7 +93,6 @@ function retrievalMDCQuery() {
                     agent: agent
                 },
                     function (mdcSearch_results) {
-                        // console.log(queryString)
                         var results = eliminateSearchDuplicates(mdcSearch_results)
                         callback (results) 
                     }
@@ -225,9 +222,10 @@ function retrievalMDCQuery() {
     function parseHosts(queryResults){
         var tree = {};
         var results = queryResults.results.bindings;
+        console.log(results)
         for (var j in results) {
-            var label = results[j].pathogenTypeLabel.value
-            var uri = results[j].pathogenType.value
+            var label = results[j].hostTypeLabel.value
+            var uri = results[j].hostType.value
             tree[label] = uri
         }
         return tree;
