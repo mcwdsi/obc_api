@@ -77,7 +77,7 @@ function retrievalMDCQuery() {
                     agent: agent
                 },
                     function (mdcSearch_results) {
-                        var results = eliminateSearchDuplicates(mdcSearch_results)
+                        var results = transformToJSON(mdcSearch_results)
                         callback (results) 
                     }
                     );
@@ -101,6 +101,23 @@ function retrievalMDCQuery() {
         }
     }
 
+    function transformToJSON(mdcSearch_results){
+        var tree = {};
+        var results = mdcSearch_results.results.bindings;
+        for (var j in results) {
+            var prefTerm = results[j].prefTerm.value + j;
+            var currentItem = {}
+            if(tree[prefTerm] == undefined){
+                tree[prefTerm] = []
+            }
+            for (var key in results[j]) {
+                currentItem[key] = [results[j][key].value]
+            }
+            tree[prefTerm].push(currentItem)
+    }
+        return tree;
+    }
+
     function eliminateSearchDuplicates(mdcSearch_results){
         var tree = {};
         var results = mdcSearch_results.results.bindings;
@@ -120,7 +137,7 @@ function retrievalMDCQuery() {
             }
             if (newURI){
                 for (var key in results[j]) {
-                        currentItem[key] = [results[j][key].value]
+                    currentItem[key] = [results[j][key].value]
                 }
             tree[prefTerm].push(currentItem)
             }
