@@ -1,0 +1,40 @@
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+
+select ?x1 ?prefTerm1 (?specLabel as ?outputSpec) ?x ?prefTerm (?specLabel as ?inputSpec)
+from <http://www.pitt.edu/obc/ide/apollo-sv>
+from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+from <http://www.pitt.edu/obc/ide/article-instances>
+from <http://www.pitt.edu/obc/ide/article-deleted-instances>
+from <http://ide.obc.io/auth>
+from <http://www.pitt.edu/obc/mdc/content>
+where {
+  ?x rdf:type ?y .
+  ?y rdfs:subClassOf* obo:IAO_0000010 .    #?x is an instance of software
+  ?x obo:IAO_0000111 ?prefTerm .   #?x has a preferred term
+  ?v rdf:type obo:APOLLO_SV_00000525 .  #v is executable form of x
+  ?u rdf:type obo:APOLLO_SV_00000524 .  #u is compiling of x to v
+  ?u obo:OBI_0000293 ?x .               #compiling has source code as input
+  ?u obo:OBI_0000299 ?v .               #compiling has executable as output
+  ?parsingPlan obo:BFO_0000050 ?v .		 #data parsing plan spec part of executable
+  ?dataParsing obo:OBI_0000417 ?parsingPlan . #parsing achieves parsing plan objective
+  ?dataParsing obo:OBI_0000417 ?spec .  #parsing achieves spec objective
+  ?dataParsing rdf:type obo:APOLLO_SV_00000566 . #parsing individual is instance of parsing
+  ?spec rdf:type obo:IAO_0000098 . #input spec is data format spec
+  ?spec rdfs:label ?specLabel #input spec label
+  .
+  ?x1 rdf:type ?y1 .
+  ?y1 rdfs:subClassOf* obo:IAO_0000010 .    #?x1 is some other instance of software
+  ?x1 obo:IAO_0000111 ?prefTerm1 .   #?x1 has a preferred term
+  ?v1 rdf:type obo:APOLLO_SV_00000525 .  #v1 is executable form x1
+  ?u1 rdf:type obo:APOLLO_SV_00000524 .  #u1 is compiling of x1 to v1
+  ?u1 obo:OBI_0000293 ?x1 .               #compiling has source code as input
+  ?u1 obo:OBI_0000299 ?v1 .               #compiling has executable as output
+  ?encodingPlan obo:BFO_0000050 ?v1 .		 #data encoding plan spec part of executable
+  ?dataEncoding obo:OBI_0000417 ?encodingPlan . #encoding achieves encoding plan objective
+  ?dataEncoding obo:OBI_0000417 ?spec .  #encoding achieves spec objective
+  ?dataEncoding rdf:type obo:OBI_0000227 .  #encoding individusal is instance of encoding
+
+  #filter cases where one software has the same input / output
+  FILTER ( ?x1 != ?x ) 
+}

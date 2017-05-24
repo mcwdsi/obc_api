@@ -1,8 +1,7 @@
-
 prefix obo: <http://purl.obolibrary.org/obo/>
 PREFIX obc: <http://www.pitt.edu/obc/>
 
-select distinct ?geoLocationLabel ?geoLocation
+select distinct (replace(?geoLocationFullLabel, "region of ", "") as ?geoLocationLabel) ?geoLocation
 
 from <http://www.pitt.edu/obc/ide/apollo-sv>
 from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
@@ -14,36 +13,53 @@ from <http://www.pitt.edu/obc/simulates-instances>
 
 
 where {
-?dtm rdf:type <http://purl.obolibrary.org/obo/APOLLO_SV_00000561> . #x is dtm software
+ {
+   ?dtm rdf:type <http://purl.obolibrary.org/obo/APOLLO_SV_00000561> . #x is dtm software
 
-#get compiledSoftware that corresponds to dtm via a compiling process
-?compilingProcess obo:OBI_0000293 ?dtm .
-?compilingProcess obo:OBI_0000299 ?executable .
+   #get compiledSoftware that corresponds to dtm via a compiling process
+   ?compilingProcess obo:OBI_0000293 ?dtm .
+   ?compilingProcess obo:OBI_0000299 ?executable .
 
-#get compiled software that achieves planned objective simulating of process type x
-  ?simulatingOfProcessTypeX obo:OBI_0000417 ?executable . #achieves planned objective obo:OBI_0000417
-  ?executable rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000525 . 
-  ?simulatingOfProcessTypeX rdf:type obo:APOLLO_SV_00000005 .
+   #get compiled software that achieves planned objective simulating of process type x
+     ?simulatingOfProcessTypeX obo:OBI_0000417 ?executable . #achieves planned objective obo:OBI_0000417
+     ?executable rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000525 . 
+     ?simulatingOfProcessTypeX rdf:type obo:APOLLO_SV_00000005 .
 
-#get simulation of populations
-  ?simulatingOfProcessTypeX obo:OBI_0000299 ?simulationOfPopulation .   #has specified output - obo:OBI_0000299
-  ?simulationOfPopulation rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000031  .
-  ?simulationOfPopulation obo:APOLLO_SV_00000067 ?population .
-  ?population rdf:type/rdfs:subClassOf* obo:PCO_0000001 .  #PCO_0000001 population  
+   #get simulation of populations
+     ?simulatingOfProcessTypeX obo:OBI_0000299 ?simulationOfPopulation .   #has specified output - obo:OBI_0000299
+     ?simulationOfPopulation rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000031  .
+     ?simulationOfPopulation obo:APOLLO_SV_00000067 ?population .
+     ?population rdf:type/rdfs:subClassOf* obo:PCO_0000001 .  #PCO_0000001 population  
   
 
- #get the biotic ecosystem of the population
- ?population obo:BFO_0000137 ?bioticEcosystem . #BFO_0000137 proper part of continuant at all times
- ?bioticEcosystem rdf:type obo:APOLLO_SV_00000104 .
- #get the ecosystm that contains the biotic ecosystem
-  #obo:ecosystem APOLLO_SV_00000097
- ?bioticEcosystem obo:BFO_0000137 ?ecosystem . #BFO_0000137 proper part of continuant at all times
- ?ecosystem rdf:type obo:APOLLO_SV_00000097 .
- #get the geographic region/location of the ecosystem.
- ?ecosystem <http://www.obofoundry.org/ro/ro.owl#located_in> ?geoLocation .
- ?geoLocation rdfs:label ?geoLocationLabel .
- FILTER (?geoLocation != obo:GEO_000000345)
+  #get the biotic ecosystem of the population
+    ?population obo:BFO_0000137 ?bioticEcosystem . #BFO_0000137 proper part of continuant at all times
+    ?bioticEcosystem rdf:type obo:APOLLO_SV_00000104 .
+  #get the ecosystm that contains the biotic ecosystem
+     #obo:ecosystem APOLLO_SV_00000097
+    ?bioticEcosystem obo:BFO_0000137 ?ecosystem . #BFO_0000137 proper part of continuant at all times
+    ?ecosystem rdf:type obo:APOLLO_SV_00000097 .
+  #get the geographic region/location of the ecosystem.
+    ?ecosystem <http://www.obofoundry.org/ro/ro.owl#located_in> ?geoLocation .
+    ?geoLocation rdfs:label ?geoLocationFullLabel 
+  }
+UNION
+{
+	?dataset rdf:type/rdfs:subClassOf* obo:IAO_0000100 . #dataset is instance of data set
+    ?dataset obo:IAO_0000136/obo:RO_0000057* ?population1 . #and it's either about population or something that has population as participant
+    ?population1 rdf:type/rdfs:subClassOf* obo:PCO_0000001 .
 
- 
+  #get the biotic ecosystem of the population
+     ?population1 obo:BFO_0000137 ?bioticEcosystem1 . #BFO_0000137 proper part of continuant at all times
+     ?bioticEcosystem1 rdf:type obo:APOLLO_SV_00000104 .
+  #get the ecosystm that contains the biotic ecosystem
+     #obo:ecosystem APOLLO_SV_00000097
+     ?bioticEcosystem1 obo:BFO_0000137 ?ecosystem1 . #BFO_0000137 proper part of continuant at all times
+     ?ecosystem1 rdf:type obo:APOLLO_SV_00000097 .
+  #get the geographic region/location of the ecosystem.
+     ?ecosystem1 <http://www.obofoundry.org/ro/ro.owl#located_in> ?geoLocation .
+     ?geoLocation rdfs:label ?geoLocationFullLabel 
+} 
+ FILTER (?geoLocation != obo:GEO_000000345)
 }
-order by ?geoLocationLabel
+order by ?geoLocationFullLabel

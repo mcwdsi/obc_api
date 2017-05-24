@@ -1,0 +1,64 @@
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+
+select ?dataset ?prefTerm ?datasetTitle ?datasetLabel ?inputDataFormat ?x1 ?softwareOne (?specLabel as ?intermediateFormat) ?x ?softwareTwo  
+#select distinct ?dataset
+
+from <http://www.pitt.edu/obc/ide/apollo-sv>
+from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+from <http://www.pitt.edu/obc/ide/article-instances>
+from <http://www.pitt.edu/obc/ide/article-deleted-instances>
+from <http://ide.obc.io/auth>
+from <http://www.pitt.edu/obc/mdc/content>
+where {
+#Overall goal: dataset has a format that matches input spec of one software, and output spec
+#  of that software matches input spec of another software
+
+  ?dataset rdf:type ?ds .
+  ?ds rdfs:subClassOf* obo:IAO_0000100 .  #?ds is an instance of dataset
+  ?p obo:OBI_0000299 ?dataset . #the dataset is the specificied output of p
+  ?p obo:OBI_0000299 ?dataset . #the dataset is the specificied output of p
+  ?p obo:OBI_0000417 ?inputSpec . #p achieves planned objective ?inputSpec
+  ?dataset obo:IAO_0000111 ?prefTerm .   #?dataset has a preferred term
+  OPTIONAL {?dataset rdfs:label ?datasetLabel} .
+  OPTIONAL {?dataset dc:title ?datasetTitle } .
+
+
+#This software has as its input spec the output spec of the other software
+  ?x rdf:type ?y .
+  ?y rdfs:subClassOf* obo:IAO_0000010 .    #?x is an instance of software
+  ?x obo:IAO_0000111 ?softwareTwo .   #?x has a preferred term
+  ?v rdf:type obo:APOLLO_SV_00000525 .  #v is executable form of x
+  ?u rdf:type obo:APOLLO_SV_00000524 .  #u is compiling of x to v
+  ?u obo:OBI_0000293 ?x .               #compiling has source code as input
+  ?u obo:OBI_0000299 ?v .               #compiling has executable as output
+  ?parsingPlan obo:BFO_0000050 ?v .    #data parsing plan spec part of executable
+  ?dataParsing obo:OBI_0000417 ?parsingPlan . #parsing achieves parsing plan objective
+  ?dataParsing obo:OBI_0000417 ?spec .  #parsing achieves spec objective
+  ?dataParsing rdf:type obo:APOLLO_SV_00000566 . #parsing individual is instance of parsing
+  ?spec rdf:type obo:IAO_0000098 . #input spec is data format spec that is output spec of other software
+  ?spec rdfs:label ?specLabel .#input spec label
+
+#This software has an output spec that matches input spec of ?x
+#And we want this software to have the dataset spec as its inputSpec  
+  ?x1 rdf:type ?y1 .
+  ?y1 rdfs:subClassOf* obo:IAO_0000010 .    #?x1 is some other instance of software
+  ?x1 obo:IAO_0000111 ?softwareOne .   #?x1 has a preferred term
+  ?v1 rdf:type obo:APOLLO_SV_00000525 .  #v1 is executable form x1
+  ?u1 rdf:type obo:APOLLO_SV_00000524 .  #u1 is compiling of x1 to v1
+  ?u1 obo:OBI_0000293 ?x1 .               #compiling has source code as input
+  ?u1 obo:OBI_0000299 ?v1 .               #compiling has executable as output
+  ?encodingPlan obo:BFO_0000050 ?v1 .    #data encoding plan spec part of executable
+  ?dataEncoding obo:OBI_0000417 ?encodingPlan . #encoding achieves encoding plan objective
+  ?dataEncoding obo:OBI_0000417 ?spec .  #encoding achieves spec objective, this is spec output by other software
+  ?dataEncoding rdf:type obo:OBI_0000227 .  #encoding individusal is instance of encoding
+
+  ?parsingPlan1 obo:BFO_0000050 ?v1 . #the data parsing plan is part of the same executable that the encoding plan is part of
+  ?dataParsing1 obo:OBI_0000417 ?parsingPlan1 . #data parsing 1 achieves objective of plan 1
+  ?dataParsing1 obo:OBI_0000417 ?inputSpec . #it also achieves the spec of the dataset
+  ?dataParsing1 rdf:type obo:APOLLO_SV_00000566 . #and it's an instance of parsing
+  ?inputSpec rdfs:label ?inputDataFormat . #and the input spec has a label hopefully
+
+  #filter cases where one software has the same input / output
+  FILTER ( ?x1 != ?x ) 
+}
