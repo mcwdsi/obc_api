@@ -222,7 +222,6 @@ function retrievalMDCQuery() {
     function parseHosts(queryResults){
         var tree = {};
         var results = queryResults.results.bindings;
-        console.log(results)
         for (var j in results) {
             var label = results[j].hostTypeLabel.value
             var uri = results[j].hostType.value
