@@ -12,7 +12,15 @@ function retrievalMDCQuery() {
         var con = new stardog.Connection();
         con.setEndpoint(config.stardogURL);
         con.setCredentials(config.stardogUser, config.stardogPass);
-       
+        if(terms.type === "dtm"){
+             getDTM(terms,con,callback);
+        }
+        else if (terms.type === "dataset"){
+            getDatasets(terms,con,callback)
+        }
+        
+    }
+    function getDTM(terms,con, callback){
         fs.readFile(__dirname + '/mdc_search/get-dtm-pop-and-loc-and-associated-info.rq', function (err, allMdcSearchQueryFile) {
             var queryString = allMdcSearchQueryFile.toString()
                     .replace("##PATHOGEN##", terms.pathogen !== undefined ? terms.pathogen : "http://www.pitt.edu/obc/IDE_0000000007")
@@ -29,15 +37,61 @@ function retrievalMDCQuery() {
                 function (mdcSearch_results) {
                     // console.log(queryString)
                     var results = eliminateSearchDuplicates(mdcSearch_results)
-                    callback(results)
+                    callback (results) 
                 }
                 );
+        });
+    }
+
+    function getDatasets(terms,con, callback){
+        console.log("Running Datasets")
+        fs.readFile(__dirname + '/mdc_search/dataset_query_by_host_path_location.rq', function (err, datasetQueryFile) {
+            var datasetString = datasetQueryFile.toString()
+                     .replace("##PATHOGEN##", terms.pathogen !== undefined ? terms.pathogen : "http://purl.obolibrary.org/obo/PCO_0000001")
+                     .replace("##HOST##", terms.host !== undefined ? terms.host : "http://purl.obolibrary.org/obo/PCO_0000001")
+                     .replace("##LOCATION##", terms.location !== undefined ? terms.location : "http://purl.obolibrary.org/obo/GEO_000000345")
+            con.query({
+                database: config.stardogMdcDB,
+                query: datasetString,
+                agent: agent
+            },function (mdcSearch_results) {
+                    var results = eliminateSearchDatasetsDuplicates(mdcSearch_results)
+                    callback (results) 
+                });
+
         });
     }
 
     function eliminateSearchDuplicates(mdcSearch_results){
         var tree = {};
         var results = mdcSearch_results.results.bindings;
+        for (var j in results) {
+            var prefTerm = results[j].prefTerm.value;
+            var currentItem = {}
+            newURI = true;
+            if(tree[prefTerm] == undefined){
+                tree[prefTerm] = []
+            }
+            else {
+                var newURI = false;
+                for (var key in results[j]) {
+                    tree[prefTerm][0][key].push(results[j][key].value)
+                    tree[prefTerm][0][key] = tree[prefTerm][0][key].filter(function(item, i, ar){ return ar.indexOf(item) === i; })
+                }
+            }
+            if (newURI){
+                for (var key in results[j]) {
+                        currentItem[key] = [results[j][key].value]
+                }
+            tree[prefTerm].push(currentItem)
+            }
+    }
+        return tree;
+    }
+
+    function eliminateSearchDatasetsDuplicates(dataset_results){
+        var tree = {};
+        var results = dataset_results.results.bindings;
         for (var j in results) {
             var prefTerm = results[j].prefTerm.value;
             var currentItem = {}

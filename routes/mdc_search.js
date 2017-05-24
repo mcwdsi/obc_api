@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/query', function(req, res, next){
         var terms = {
+            type: req.query.type,
         	pathogen: req.query.pathogen,
         	host: req.query.host,
         	location: req.query.location,
