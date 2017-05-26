@@ -176,7 +176,7 @@ function retrievalMeter() {
                                                                             },
                                                                             function (sw_with_io_result) {
                                                                                 console.log("Getting Software")
-                                                                                var total_sw = total_software_result.results.bindings[0].x.value
+                                                                                var total_sw = total_software_result.results.bindings[0].numSoftware.value
                                                                                 var sw_with_any_identifier = sw_with_any_identifier_result.results.bindings[0].numberSoftwareWithAnyId.value
                                                                                 var sw_with_common_format = sw_with_common_format_result.results.bindings[0].numberSoftwareWithLicense.value
                                                                                 var sw_with_reusable_lic = sw_with_reusable_lic_result.results.bindings[0].numberSoftwareWithLicense.value

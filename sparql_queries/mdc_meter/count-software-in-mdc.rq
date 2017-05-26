@@ -1,7 +1,7 @@
 prefix obo: <http://purl.obolibrary.org/obo/>
 prefix dc: <http://purl.org/dc/elements/1.1/>
 
-select distinct ?x 
+select (count (distinct ?x) as ?numSoftware)
 from <http://www.pitt.edu/obc/ide/apollo-sv>
 from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 from <http://www.pitt.edu/obc/ide/article-instances>
