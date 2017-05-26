@@ -1,0 +1,23 @@
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+
+select (count (distinct ?x ) as ?numberDatasetsWithCommonFormat)
+from <http://www.pitt.edu/obc/ide/apollo-sv>
+from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+from <http://www.pitt.edu/obc/ide/article-instances>
+from <http://www.pitt.edu/obc/ide/article-deleted-instances>
+from <http://ide.obc.io/auth>
+from <http://www.pitt.edu/obc/mdc/content>
+where {
+  ?x rdf:type ?datasetOrSubclass .
+  ?datasetOrSubclass rdfs:subClassOf+ obo:IAO_0000100 .
+  ?datasetCreation obo:OBI_0000299 ?x . #creation of dataset has specified output the dataset
+  ?datasetCreation obo:OBI_0000417 ?formatSpec .  #creation of dataset achieves format spec objective
+  ?datasetCreation rdf:type obo:APOLLO_SV_00000796 . #creation is instance of dataset creating
+  ?formatSpec rdf:type obo:IAO_0000098 . #format spec is instance of data format spec
+
+  #filter out punned individuals
+     FILTER ( ?x != obo:IAO_0000100 )
+     FILTER ( ?x != ?datasetOrSubclass )
+     FILTER ( ?datasetOrSubclass != obo:APOLLO_SV_00000522)
+     }

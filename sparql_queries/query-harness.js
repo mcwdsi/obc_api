@@ -11,10 +11,16 @@ var pubsPageHarness = require('./pubs-page-harness')
 var openQueryHarness = require('./open_queries-harness')
 var linkageHarness = require('./linkage-harness')
 var mdcSearchHarness = require('./mdc-search-harness')
+var mdcMeterHarness = require('./meter-harness')
 var utils = require('./utils');
 
 
 function Harness() {
+    //MDC METER
+    this.retrievalMeter = function (terms, callback) {
+        mdcMeterHarness.getData(terms, callback);
+    };
+
     //MDC Search retrieval of elements
     this.retrievalMDCElements = function (terms, callback) {
         mdcSearchHarness.retrievalMDCQuery(terms, callback);

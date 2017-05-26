@@ -1,0 +1,19 @@
+prefix obo: <http://purl.obolibrary.org/obo/>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+
+select (count (distinct ?x ) as ?numberDatasets)
+from <http://www.pitt.edu/obc/ide/apollo-sv>
+from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
+from <http://www.pitt.edu/obc/ide/article-instances>
+from <http://www.pitt.edu/obc/ide/article-deleted-instances>
+from <http://ide.obc.io/auth>
+from <http://www.pitt.edu/obc/mdc/content>
+where {
+  ?x rdf:type ?datasetOrSubclass .
+  ?datasetOrSubclass rdfs:subClassOf+ obo:IAO_0000100 .
+  
+  #filter out punned individuals
+     FILTER ( ?x != obo:IAO_0000100 )
+     FILTER ( ?x != ?datasetOrSubclass )
+     FILTER ( ?datasetOrSubclass != obo:APOLLO_SV_00000522)
+     }
