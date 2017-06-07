@@ -16,8 +16,8 @@ where {
   ?datasetCreation rdf:type obo:APOLLO_SV_00000796 . #creation is instance of dataset creating
   ?formatSpec rdf:type obo:IAO_0000098 . #format spec is instance of data format spec
 
-  ?t rdf:type obo:APOLLO_SV_00000535 . 
-  ?t obo:BFO_0000050 ?x . 
+  ?t rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000798 . #there is also an instance of creative work license
+  ?t obo:BFO_0000050 ?x .  #that is part of the dataset
 
   #filter out punned individuals
      FILTER ( ?x != obo:IAO_0000100 )

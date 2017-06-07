@@ -12,7 +12,7 @@ where {
   ?x rdf:type ?datasetOrSubclass .
   ?datasetOrSubclass rdfs:subClassOf+ obo:IAO_0000100 .
   
-  ?t rdf:type obo:APOLLO_SV_00000535 . 
+  ?t rdf:type/rdfs:subClassOf* obo:APOLLO_SV_00000798 . 
   ?t obo:BFO_0000050 ?x . 
   #filter out punned individuals
      FILTER ( ?x != obo:IAO_0000100 )

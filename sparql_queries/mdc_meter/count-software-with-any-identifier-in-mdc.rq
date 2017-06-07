@@ -12,10 +12,12 @@ where {
   ?x rdf:type ?softwareOrSubclass .
   ?softwareOrSubclass rdfs:subClassOf* obo:IAO_0000010 .
 
-  ?z rdf:type/rdfs:subClassOf obo:IAO_0020000 .
+  ?z rdf:type ?identifierType .
+  ?identifierType rdfs:subClassOf* obo:IAO_0020000 .
   ?z obo:IAO_0000219 ?x .
   #filter out punned individuals
      FILTER ( ?x != obo:IAO_0000010 )
      FILTER ( ?x != ?softwareOrSubclass )
      FILTER ( ?softwareOrSubclass != obo:APOLLO_SV_00000525 )
+     FILTER ( ?identifierType != obo:APOLLO_SV_00000108)
      }

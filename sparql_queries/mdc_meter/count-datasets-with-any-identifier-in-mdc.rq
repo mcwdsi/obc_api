@@ -11,10 +11,13 @@ from <http://www.pitt.edu/obc/mdc/content>
 where {
   ?x rdf:type ?datasetOrSubclass .
   ?datasetOrSubclass rdfs:subClassOf+ obo:IAO_0000100 .
-  ?z rdf:type/rdfs:subClassOf* obo:IAO_0020000  .
+
+  ?z rdf:type ?identifierType .
+  ?identifierType rdfs:subClassOf* obo:IAO_0020000 .
   ?z obo:IAO_0000219 ?x .
   #filter out punned individuals
      FILTER ( ?x != obo:IAO_0000100 )
      FILTER ( ?x != ?datasetOrSubclass )
      FILTER ( ?datasetOrSubclass != obo:APOLLO_SV_00000522)
+     FILTER ( ?identifierType != obo:APOLLO_SV_00000108)
      }

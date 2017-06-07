@@ -6,7 +6,7 @@ var auth = require('../auth');
 
 /* GET tree of indexing terms. */
 router.get('/', function(req, res, next) {
-    harness.retrievalMDCTerms(terms,function(data) {
+    harness.retrievalMDCTerms(function(data) {
         res.json(data);
     });
 });
