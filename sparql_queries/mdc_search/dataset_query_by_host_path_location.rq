@@ -1,7 +1,7 @@
 prefix obo: <http://purl.obolibrary.org/obo/>
 prefix dc: <http://purl.org/dc/elements/1.1/>
 
-select distinct ?datasetOrSubclass ?datasetOrSubclassLabel ?x ?prefTerm ?title ?geoLocation ?geoLocationLabel ?formatSpecLabel ?accessPage ?version ?doi ?doiURL ?identifier ?synopsis ?licenseName ?licenseUrl ?documentationDescription ?documentationUrl ?landingPage ?developerName ?pubAbout ?pubThatUsedRelease ?olympus
+select distinct ?datasetOrSubclass ?datasetOrSubclassLabel ?x ?datasetPrefTerm ?title ?geoLocation ?geoLocationLabel ?formatSpecLabel ?accessPage ?version ?doi ?doiURL ?identifier ?synopsis ?licenseName ?licenseUrl ?documentationDescription ?documentationUrl ?landingPage ?developerName ?pubAbout ?pubThatUsedRelease ?olympus
 from <http://www.pitt.edu/obc/ide/apollo-sv>
 from <http://www.pitt.edu/obc/ide/classes-and-indexing-instances>
 from <http://www.pitt.edu/obc/ide/article-instances>
@@ -12,7 +12,7 @@ where {
   ?x rdf:type ?datasetOrSubclass .
   ?datasetOrSubclass rdfs:subClassOf* obo:IAO_0000100 .
   ?datasetOrSubclass rdfs:label ?datasetOrSubclassLabel .
-  ?x obo:IAO_0000111 ?prefTerm .
+  ?x obo:IAO_0000111 ?datasetPrefTerm .
   ?x obo:IAO_0000136/obo:RO_0000057* ?population .
   ?population rdf:type/rdfs:subClassOf* <##HOST##> .
   ?population rdf:type ?populationType .
@@ -20,7 +20,7 @@ where {
   ?population obo:BFO_0000137* ?ecosystem .
   ?ecosystem rdf:type obo:APOLLO_SV_00000097 .
   ?ecosystem <http://www.obofoundry.org/ro/ro.owl#located_in> ?geoLocation .
-  ?geoLocation obo:BFO_0000137*  <##LOCATION##> .
+  ?geoLocation obo:BFO_0000137*  <##LOCATION##> . #default  
   ?geoLocation rdfs:label ?geoLocationLabel .
    ?x obo:IAO_0000136/obo:RO_0000057* ?population2 .
   ?population2 rdf:type/rdfs:subClassOf* <##PATHOGEN##> .
@@ -42,18 +42,18 @@ where {
                ?z obo:IAO_0000219 ?x .
                ?z obo:ERO_0000480 ?doiURL } .
   #get other identifier if present
-  OPTIONAL { ?identifierInd rdf:type obo:IAO_0020000 .
-         ?identifierInd obo:IAO_0000219 ?x .
+  OPTIONAL { ?identifierInd rdf:type obo:IAO_0020000 . 
+         ?identifierInd obo:IAO_0000219 ?x . 
          ?identifierInd rdfs:label ?identifier } .
   #get human readable synopsis if present
     OPTIONAL { ?x obo:APOLLO_SV_00000523 ?synopsis } .
   #get license name if present
-    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 .
-           ?t obo:BFO_0000050 ?x .
+    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 . 
+           ?t obo:BFO_0000050 ?x . 
            ?t rdfs:label ?licenseName } .
   #get license URL if present
-    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 .
-           ?t obo:BFO_0000050 ?x .
+    OPTIONAL { ?t rdf:type obo:APOLLO_SV_00000535 . 
+           ?t obo:BFO_0000050 ?x . 
            ?t obo:ERO_0000480 ?licenseUrl } .
   #get documentation description if present
     OPTIONAL { ?s rdf:type obo:IAO_0000310 .
@@ -64,9 +64,9 @@ where {
            ?s obo:IAO_0000136 ?x .
            ?s obo:ERO_0000480 ?documentationUrl } .
   #get website URL if present
-    OPTIONAL { ?o rdf:type obo:FBcv_0000667 .
-           ?o obo:IAO_0000136 ?x .
-           ?o obo:ERO_0000480 ?websiteUrl } .
+    OPTIONAL { ?o rdf:type obo:FBcv_0000667 . 
+           ?o obo:IAO_0000136 ?x . 
+           ?o obo:ERO_0000480 ?landingPage } .
   #get developer(s) if any
     OPTIONAL { ?r rdf:type obo:BFO_0000040 . #r is a material entity
            ?r obo:RO_0000053 ?q .  #r is the bearer of q
@@ -90,7 +90,7 @@ where {
            ?i rdf:type obo:APOLLO_SV_00000525 . #i instance of executable
            ?h obo:OBI_0000299 ?i .        #i specified output of h
            ?h rdf:type obo:APOLLO_SV_00000524 . #h instance of compiling
-           ?h obo:OBI_0000293 ?x        #h has input the dtm
+           ?h obo:OBI_0000293 ?x        #h has input the dtm 
              } .
   #get data formats if any
     OPTIONAL { ?datasetCreation obo:OBI_0000299 ?x . #creation of dataset has specified output the dataset
@@ -100,7 +100,7 @@ where {
            ?formatSpec rdfs:label ?formatSpecLabel #format spec label
         } .
   #get RROO info if any
-    OPTIONAL {
+    OPTIONAL { 
            ?datasetConc rdf:type obo:IAO_0000015 .  #the dataset concretization is an instance of information carrier
            ?x obo:RO_0000058 ?datasetConc .     #and the dataset is concretized by dataset concretization
            obo:IDE_0000000270 obo:RO_0000053 ?datasetConc . #and Olympus is the bearer of the dataset concretization
